@@ -1,161 +1,157 @@
-# RDK S100 蓝色装甲板识别
+# 电脑直连海康摄像头：蓝色装甲板识别
 
-> 当前为 `pc-direct-hikrobot` 分支：增加海康相机 USB 直接连接电脑并自动打开浏览器的运行方式。
+这是 `pc-direct-hikrobot` 分支。海康 MV-CS016-10UC 通过 USB3 直接连接 Ubuntu 电脑，MVS SDK、C++ 检测算法和浏览器服务全部运行在电脑上。
 
-面向 RoboMaster 机甲竞赛视觉开发的蓝色装甲灯条检测项目。支持地平线 RDK S100 和 Ubuntu ROS 2 电脑，输出检测可视化、二维装甲框及四个像素角点，不包含射击、云台或运动控制。
-
-核心算法来自 `rmcs_auto_aim_v2` 的电脑端实现，并已适配海康 MV-CS016-10UC 与 MVS SDK。实机在 RDK S100 上以 960×720 处理时可达到约 30 FPS。
-
-## 功能
-
-- HSV 蓝色分割与灰度亮度联合筛选
-- 竖向闭运算，连接灯条中过曝发白造成的断裂区域
-- 面积、尺寸、长宽比及蓝红通道比例过滤
-- 灯条高度、纵向偏差、间距和装甲比例配对
-- 输出装甲二维包围框
-- 输出四角点，顺序为左上、右上、右下、左下
-- 浏览器实时画面、识别状态、角点坐标和 FPS
+本分支不需要 ROS 2，也没有远程采集或 SSH 转发。程序只输出检测可视化、二维装甲框和四个像素角点，不包含射击、云台或运动控制。
 
 ```mermaid
 flowchart LR
-  A[海康 USB3 相机] --> B[MVS SDK]
-  B --> C[C++ 蓝色灯条与装甲配对]
+  A[海康 MV-CS016-10UC] -->|USB3| B[电脑 MVS SDK]
+  B --> C[电脑 C++ 蓝色装甲检测]
   C --> D[二维框与四角点]
-  C --> E[JPEG 可视化]
+  C --> E[本机 MJPEG 服务]
   E --> F[电脑浏览器]
 ```
 
-## 目录
+## 检测算法
+
+- HSV 蓝色分割与灰度亮度联合筛选
+- 竖向闭运算，连接灯条中过曝发白造成的断裂区域
+- 面积、尺寸、长宽比和蓝红通道比例过滤
+- 灯条高度、纵向偏差、间距及装甲比例配对
+- 装甲角点顺序为左上、右上、右下、左下
+- 浏览器显示识别状态、角点坐标、检测 FPS 和显示 FPS
+
+## 文件结构
 
 ```text
-src/blue_armor_mvs_detector.cpp   MVS 直连相机的高帧率 C++ 程序
-src/blue_armor_detector_node.cpp  ROS 2 图像订阅检测节点
-config/blue_armor_detector.yaml   ROS 2 检测参数
-scripts/rdk_mjpeg_browser.py      直连模式浏览器服务
-scripts/mjpeg_ros_bridge.py       电脑 ROS 2 模式浏览器桥接
-scripts/mvs_raw_mjpeg.py          RDK 相机原始画面输出
-scripts/deploy-to-rdk.sh          从电脑部署到 RDK
-scripts/run-rdk-browser.sh        启动 RDK 检测并转发到电脑浏览器
-scripts/run-rdk-local.sh          在 RDK 本机启动 MVS 检测与网页服务
-scripts/run-pc-via-rdk.sh         RDK 采集、电脑 ROS 2 检测
-scripts/run-pc-direct-hikrobot.sh 海康相机 USB 直连电脑并打开浏览器
+src/blue_armor_mvs_detector.cpp   MVS 取流和 C++ 蓝色装甲检测
+scripts/mjpeg_browser.py          本机 MJPEG 浏览器服务
+scripts/check-pc-environment.sh   编译前环境和相机检查
+scripts/run-pc-direct-hikrobot.sh 检测、网页服务和浏览器启动入口
 ```
 
-## 依赖
+## 电脑要求
 
-- Ubuntu 22.04
-- ROS 2 Humble（ROS 节点模式）
-- OpenCV 4
-- CMake 3.22 或更高版本
-- 海康机器人 MVS SDK；默认安装目录为 `/opt/MVS`
-- Python 3
+- x86_64 Ubuntu 22.04
+- 海康机器人 Linux x86_64 MVS SDK，默认安装到 `/opt/MVS`
+- 海康相机通过 USB3 直接连接电脑
+- OpenCV 4 开发包
+- GCC/G++、CMake、Python 3、curl 和 xdg-utils
 
-MVS SDK 是海康提供的软件，不包含在本仓库中。相机为 MVS USB3 设备，通常不会出现为 `/dev/video0`。
-
-## 分支说明
-
-- `main`：相机连接 RDK，包含“算法运行在 RDK”和“算法运行在电脑”两种浏览器测试方式。
-- `pc-direct-hikrobot`：海康相机 USB 直接连接电脑，在电脑运行 MVS+C++ 算法并打开浏览器。
-
-## 海康相机 USB 直接连接电脑
-
-将 MV-CS016-10UC 的 USB3 线直接连接 Ubuntu 电脑，在电脑安装 x86_64 版海康 MVS SDK。默认 SDK 路径为 `/opt/MVS`。
+安装开源依赖：
 
 ```bash
-git clone --branch pc-direct-hikrobot \
-  https://github.com/zhuge-Tom/RDK.git
+sudo apt update
+sudo apt install -y build-essential cmake pkg-config libopencv-dev \
+  python3 curl xdg-utils usbutils
+```
+
+MVS SDK 由海康提供，不包含在本仓库中。安装时请选择 Linux x86_64 版本。程序需要以下文件：
+
+```text
+/opt/MVS/include/MvCameraControl.h
+/opt/MVS/lib/64/libMvCameraControl.so
+```
+
+该相机属于工业相机，通常不会显示为 `/dev/video0`；程序通过 MVS SDK 打开设备。
+
+## 下载与检查
+
+```bash
+git clone --branch pc-direct-hikrobot https://github.com/zhuge-Tom/RDK.git
 cd RDK
 
-source /opt/ros/humble/setup.bash
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build --target blue_armor_mvs_detector --parallel
+bash scripts/check-pc-environment.sh
+```
 
+检查脚本会确认电脑架构、编译工具、OpenCV、MVS 头文件、MVS 动态库和 USB 相机。全部显示 `OK` 后再编译。
+
+如果 MVS 安装在其他目录：
+
+```bash
+MVS_ROOT=/path/to/MVS bash scripts/check-pc-environment.sh
+```
+
+## 编译
+
+默认 MVS 路径：
+
+```bash
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --parallel
+```
+
+自定义 MVS 路径：
+
+```bash
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release \
+  -DMVS_ROOT=/path/to/MVS
+cmake --build build --parallel
+```
+
+编译完成后应生成：
+
+```text
+build/blue_armor_mvs_detector
+```
+
+## 启动识别和浏览器
+
+确认海康 MVS 客户端及其他相机程序已经关闭，然后执行：
+
+```bash
 bash scripts/run-pc-direct-hikrobot.sh
 ```
 
-脚本检测到服务启动后会自动打开：
+脚本会依次完成：
+
+1. 通过电脑上的 MVS SDK 独占打开 USB 相机。
+2. 在电脑运行 C++ 蓝色灯条与装甲配对。
+3. 在 `127.0.0.1:8876` 启动 MJPEG 服务。
+4. 等待服务就绪并自动打开电脑浏览器。
+
+浏览器地址：
 
 ```text
 http://127.0.0.1:8876/
 ```
 
-可通过环境变量调整相机和显示参数：
+按 `Ctrl+C` 停止程序并释放相机。
+
+## 调整相机和显示参数
 
 ```bash
-EXPOSURE_US=3000 CAMERA_GAIN=2 CAMERA_FPS=30 \
-PROCESSING_WIDTH=960 JPEG_QUALITY=75 BROWSER_PORT=8876 \
+EXPOSURE_US=3000 \
+CAMERA_GAIN=2 \
+CAMERA_FPS=30 \
+PROCESSING_WIDTH=960 \
+JPEG_QUALITY=75 \
+BROWSER_PORT=8876 \
 bash scripts/run-pc-direct-hikrobot.sh
 ```
 
-如果 MVS SDK 安装在其他目录，设置 `MVS_ROOT`：
+默认值：
 
-```bash
-MVS_ROOT=/path/to/MVS bash scripts/run-pc-direct-hikrobot.sh
-```
+| 参数 | 默认值 | 含义 |
+|---|---:|---|
+| `EXPOSURE_US` | `3500` | 相机曝光时间，微秒 |
+| `CAMERA_GAIN` | `2` | 相机增益 |
+| `CAMERA_FPS` | `30` | 采集帧率 |
+| `PROCESSING_WIDTH` | `960` | 检测图像宽度 |
+| `JPEG_QUALITY` | `75` | 浏览器 JPEG 质量 |
+| `BROWSER_PORT` | `8876` | 本机浏览器端口 |
+| `MVS_ROOT` | `/opt/MVS` | MVS SDK 安装目录 |
 
-## 模式一：算法运行在 RDK，电脑浏览器查看
+灯条中心大面积发白时先降低曝光。每次只调整一类参数，并在移动、倾斜、远近距离和连续多帧条件下检查稳定性。
 
-相机连接 RDK 的 USB3 接口。电脑通过网线连接 RDK，默认地址为 `192.168.1.50`。
-
-首次部署：
-
-```bash
-RDK_HOST=sunrise@192.168.1.50 bash scripts/deploy-to-rdk.sh
-```
-
-启动检测并建立浏览器转发：
-
-```bash
-RDK_HOST=sunrise@192.168.1.50 bash scripts/run-rdk-browser.sh
-```
-
-该模式只通过网线传输已经画好检测框的 JPEG，图像处理保留在 RDK，延迟和带宽占用较低。
-
-## 模式二：RDK 相机采集，电脑运行 ROS 2 C++ 算法
-
-这个模式用于对比和调试电脑端 ROS 2 节点。先把仓库放到 ROS 2 工作区并构建：
-
-```bash
-mkdir -p ~/blue_armor_ws/src
-cd ~/blue_armor_ws/src
-git clone https://github.com/zhuge-Tom/RDK.git
-cd ..
-source /opt/ros/humble/setup.bash
-colcon build --packages-select rdk_s100_blue_armor_detector \
-  --cmake-args -DBUILD_MVS_DIRECT=OFF
-source install/setup.bash
-```
-
-然后运行：
-
-```bash
-cd ~/blue_armor_ws/src/RDK
-RDK_HOST=sunrise@192.168.1.50 bash scripts/run-pc-via-rdk.sh
-```
-
-该方式会把 RDK 的原始 JPEG 画面通过 SSH 传到电脑，在电脑发布 `/image_raw` 并调用 C++ ROS 2 检测节点。
-
-## ROS 2 接口
-
-输入：
-
-- `/image_raw`：`sensor_msgs/msg/Image`，BGR8
-
-输出：
-
-- `/blue_armor_detector/visualization`：带灯条、装甲框和角点的图像
-- `/blue_armor_detector/mask`：蓝色亮区二值掩膜
-- `/blue_armor_detector/armors`：`sensor_msgs/msg/PointCloud`
-
-`armors` 每四个点表示一个装甲板，顺序为 TL、TR、BR、BL。三个 channel 分别为 `armor_id`、`corner_id` 和 `geometry_score`。
-
-## 检查运行状态
+## 验证输出
 
 ```bash
 curl --noproxy '*' http://127.0.0.1:8876/status
 ```
 
-示例：
+识别到一个装甲板时会返回类似：
 
 ```json
 {
@@ -167,15 +163,15 @@ curl --noproxy '*' http://127.0.0.1:8876/status
 }
 ```
 
-## 参数调整
+画面中的绿色四边形为装甲区域，红点为四角点，紫色矩形为二维包围框。移动相机或装甲板时，画面、角点坐标和 FPS 应持续更新。
 
-ROS 2 节点参数在 `config/blue_armor_detector.yaml`。主要参数包括 HSV 范围、最低亮度、灯条面积和尺寸、灯条高度差、纵向偏差及灯条间距比例。
+## 常见问题
 
-曝光过高时灯条中心可能完全发白，应先降低 `EXPOSURE_US`。每次只调整一类参数，并在移动、倾斜、远近距离和连续多帧条件下检查稳定性。
-
-## 说明
-
-本项目只用于 RoboMaster 视觉检测和算法调试。MVS SDK 及相机驱动的许可由其提供方决定。
+- `MVS SDK not found`：确认安装的是 x86_64 Linux MVS，并检查 `MVS_ROOT`。
+- `no Hikrobot USB camera found`：检查 USB3 线、相机供电、`lsusb` 输出和 MVS 驱动。
+- `Device busy`：退出 MVS 客户端和其他占用相机的程序后重试。
+- 浏览器没有自动打开：手动访问 `http://127.0.0.1:8876/`。
+- 灯条发白或识别不稳定：降低 `EXPOSURE_US`，再调整增益和颜色阈值。
 
 ## License
 

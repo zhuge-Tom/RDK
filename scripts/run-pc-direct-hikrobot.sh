@@ -39,4 +39,4 @@ fi
   --width "${PROCESSING_WIDTH:-960}" \
   --quality "${JPEG_QUALITY:-75}" \
   2> >(tee "${DETECTOR_LOG:-/tmp/blue-armor-detector.log}" >&2) \
-  | python3 "$repo_root/scripts/rdk_mjpeg_browser.py"
+  | python3 "$repo_root/scripts/mjpeg_browser.py"
