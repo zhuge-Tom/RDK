@@ -1,5 +1,7 @@
 # RDK S100 蓝色装甲板识别
 
+> 当前为 `pc-direct-hikrobot` 分支：增加海康相机 USB 直接连接电脑并自动打开浏览器的运行方式。
+
 面向 RoboMaster 机甲竞赛视觉开发的蓝色装甲灯条检测项目。支持地平线 RDK S100 和 Ubuntu ROS 2 电脑，输出检测可视化、二维装甲框及四个像素角点，不包含射击、云台或运动控制。
 
 核心算法来自 `rmcs_auto_aim_v2` 的电脑端实现，并已适配海康 MV-CS016-10UC 与 MVS SDK。实机在 RDK S100 上以 960×720 处理时可达到约 30 FPS。
@@ -36,6 +38,7 @@ scripts/deploy-to-rdk.sh          从电脑部署到 RDK
 scripts/run-rdk-browser.sh        启动 RDK 检测并转发到电脑浏览器
 scripts/run-rdk-local.sh          在 RDK 本机启动 MVS 检测与网页服务
 scripts/run-pc-via-rdk.sh         RDK 采集、电脑 ROS 2 检测
+scripts/run-pc-direct-hikrobot.sh 海康相机 USB 直连电脑并打开浏览器
 ```
 
 ## 依赖
@@ -53,6 +56,42 @@ MVS SDK 是海康提供的软件，不包含在本仓库中。相机为 MVS USB3
 
 - `main`：相机连接 RDK，包含“算法运行在 RDK”和“算法运行在电脑”两种浏览器测试方式。
 - `pc-direct-hikrobot`：海康相机 USB 直接连接电脑，在电脑运行 MVS+C++ 算法并打开浏览器。
+
+## 海康相机 USB 直接连接电脑
+
+将 MV-CS016-10UC 的 USB3 线直接连接 Ubuntu 电脑，在电脑安装 x86_64 版海康 MVS SDK。默认 SDK 路径为 `/opt/MVS`。
+
+```bash
+git clone --branch pc-direct-hikrobot \
+  https://github.com/zhuge-Tom/rdk-s100-blue-armor-detector.git
+cd rdk-s100-blue-armor-detector
+
+source /opt/ros/humble/setup.bash
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --target blue_armor_mvs_detector --parallel
+
+bash scripts/run-pc-direct-hikrobot.sh
+```
+
+脚本检测到服务启动后会自动打开：
+
+```text
+http://127.0.0.1:8876/
+```
+
+可通过环境变量调整相机和显示参数：
+
+```bash
+EXPOSURE_US=3000 CAMERA_GAIN=2 CAMERA_FPS=30 \
+PROCESSING_WIDTH=960 JPEG_QUALITY=75 BROWSER_PORT=8876 \
+bash scripts/run-pc-direct-hikrobot.sh
+```
+
+如果 MVS SDK 安装在其他目录，设置 `MVS_ROOT`：
+
+```bash
+MVS_ROOT=/path/to/MVS bash scripts/run-pc-direct-hikrobot.sh
+```
 
 ## 模式一：算法运行在 RDK，电脑浏览器查看
 
