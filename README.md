@@ -63,8 +63,8 @@ MVS SDK 是海康提供的软件，不包含在本仓库中。相机为 MVS USB3
 
 ```bash
 git clone --branch pc-direct-hikrobot \
-  https://github.com/zhuge-Tom/rdk-s100-blue-armor-detector.git
-cd rdk-s100-blue-armor-detector
+  https://github.com/zhuge-Tom/RDK.git
+cd RDK
 
 source /opt/ros/humble/setup.bash
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
@@ -118,7 +118,7 @@ RDK_HOST=sunrise@192.168.1.50 bash scripts/run-rdk-browser.sh
 ```bash
 mkdir -p ~/blue_armor_ws/src
 cd ~/blue_armor_ws/src
-git clone https://github.com/zhuge-Tom/rdk-s100-blue-armor-detector.git
+git clone https://github.com/zhuge-Tom/RDK.git
 cd ..
 source /opt/ros/humble/setup.bash
 colcon build --packages-select rdk_s100_blue_armor_detector \
@@ -129,7 +129,7 @@ source install/setup.bash
 然后运行：
 
 ```bash
-cd ~/blue_armor_ws/src/rdk-s100-blue-armor-detector
+cd ~/blue_armor_ws/src/RDK
 RDK_HOST=sunrise@192.168.1.50 bash scripts/run-pc-via-rdk.sh
 ```
 
