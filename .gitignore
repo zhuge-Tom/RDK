@@ -1,0 +1,15 @@
+build/
+install/
+log/
+.colcon/
+.cache/
+.vscode/
+.idea/
+__pycache__/
+*.py[cod]
+*.log
+*.jpg
+*.jpeg
+*.png
+*.mjpeg
+core
