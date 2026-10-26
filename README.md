@@ -1,27 +1,32 @@
-# RDK S100 蓝色装甲板识别
+# RDK S100 红蓝装甲板识别
 
-面向 RoboMaster 视觉开发的蓝色装甲灯条检测项目。`main` 分支要求海康相机连接在 RDK S100 上，提供两条可复现流程：
+面向 RoboMaster 视觉开发的装甲灯条检测项目。`main` 分支要求海康相机连接在 RDK S100 上，提供两条流程：
 
 1. 相机采集和 C++ 检测都在 RDK 上运行，电脑只显示浏览器画面。
 2. RDK 采集相机并通过 SSH 发送画面，电脑运行 ROS 2 C++ 检测节点和浏览器。
+
+RDK 本机的 MVS 直连程序支持蓝色、红色或同时检测两种颜色，默认仍为蓝色。流程二的电脑 ROS 2 节点继续使用原来的蓝色检测。本次红色适配只修改 `main` 的 RDK 本机流程。
 
 程序只输出检测可视化、二维装甲框和四个像素角点，不包含射击、云台或运动控制。海康相机直接连接电脑的独立流程位于 [`pc-direct-hikrobot`](https://github.com/zhuge-Tom/RDK/tree/pc-direct-hikrobot) 分支。
 
 ## 检测算法
 
-- HSV 蓝色分割与灰度亮度联合筛选
+- HSV 颜色分割与灰度亮度联合筛选；红色覆盖 H=0–10 和 H=170–179
+- 红色使用独立的灰度阈值 60 和红/蓝通道比阈值 1.05，蓝色阈值保持原样
 - 竖向闭运算，连接灯条中过曝发白造成的断裂区域
 - 面积、尺寸、长宽比和蓝红通道比例过滤
 - 灯条高度、纵向偏差、间距及装甲比例配对
+- 两种颜色分别配对，红灯条与蓝灯条不能组成一个装甲板
 - 输出二维框和四角点，顺序为左上、右上、右下、左下
 - 浏览器显示识别状态、角点坐标、检测 FPS 和显示 FPS
 
-实机环境中，RDK 直连模式以 960×720 处理时约为 30 FPS。
+此前蓝色实机环境中，RDK 直连模式以 960×720 处理时约为 30 FPS。红色及同时检测两种颜色的功能已通过编译和离线回归测试，尚待 RDK 连接真实红色装甲灯条验证，不能据此保证相同帧率和现场检出率。
 
 ## 文件结构
 
 ```text
 src/blue_armor_mvs_detector.cpp   RDK 直接调用 MVS 的 C++ 检测程序
+src/armor_detector.hpp           RDK 红蓝分割、同色灯条配对和角点算法
 src/blue_armor_detector_node.cpp  电脑端 ROS 2 图像检测节点
 config/blue_armor_detector.yaml   ROS 2 检测参数
 scripts/deploy-to-rdk.sh          从电脑上传源码并在 RDK 编译
@@ -30,6 +35,7 @@ scripts/run-rdk-browser.sh        电脑启动 RDK 检测、SSH 转发并打开�
 scripts/mvs_raw_mjpeg.py          RDK 相机原始画面输出
 scripts/mjpeg_ros_bridge.py       电脑 ROS 2 图像发布和浏览器服务
 scripts/run-pc-via-rdk.sh         RDK 采集、电脑检测的完整启动脚本
+test/                           颜色、配对、角点和实际程序输出的离线回归测试
 ```
 
 ## 已验证环境
@@ -81,11 +87,26 @@ RDK_HOST=sunrise@192.168.1.50 bash scripts/run-rdk-browser.sh
 http://127.0.0.1:8876/
 ```
 
+在电脑端选择识别颜色：
+
+```bash
+# 只识别红色装甲板
+ARMOR_COLOR=red RDK_HOST=sunrise@192.168.1.50 bash scripts/run-rdk-browser.sh
+
+# 同时识别红色和蓝色装甲板
+ARMOR_COLOR=both RDK_HOST=sunrise@192.168.1.50 bash scripts/run-rdk-browser.sh
+
+# 原有蓝色模式（默认值）
+ARMOR_COLOR=blue RDK_HOST=sunrise@192.168.1.50 bash scripts/run-rdk-browser.sh
+```
+
+每次切换前先在旧启动终端按 `Ctrl+C`，确认释放相机。网页会分别显示红色和蓝色装甲的数量，图像标签为 `RED ARMOR` 或 `BLUE ARMOR`。底层可执行文件保持原名 `blue_armor_mvs_detector`，以兼容原有编译和部署命令。
+
 调整相机参数时，可以先 SSH 到 RDK，再执行：
 
 ```bash
 cd /home/sunrise/rdk-s100-blue-armor-detector
-EXPOSURE_US=3000 CAMERA_GAIN=2 CAMERA_FPS=30 \
+ARMOR_COLOR=red EXPOSURE_US=3000 CAMERA_GAIN=2 CAMERA_FPS=30 \
 PROCESSING_WIDTH=960 JPEG_QUALITY=75 \
 bash scripts/run-rdk-local.sh
 ```
@@ -154,8 +175,12 @@ curl --noproxy '*' http://127.0.0.1:8876/status
 
 ```json
 {
+  "mode": "red",
   "detected": true,
   "armors": 1,
+  "red_armors": 1,
+  "blue_armors": 0,
+  "colors": ["red"],
   "corners": [[131.3, 139.5], [747.8, 213.1], [715.1, 474.5], [101.7, 398.0]],
   "detect_fps": 30.0,
   "web_fps": 30.0
@@ -164,9 +189,37 @@ curl --noproxy '*' http://127.0.0.1:8876/status
 
 绿色框为装甲四边形，红点为四角点，紫色框为二维包围框。连续移动相机或装甲板，确认画面、坐标和 FPS 持续更新。
 
+RDK MVS 模式的 `colors` 与各组四角点一一对应；角点坐标位于缩放后的检测图像坐标系中。超过两秒没有新帧时，状态接口会清空识别结果，避免旧画面继续显示已识别。
+
+## 不连接相机的回归测试
+
+在已安装 OpenCV 和 MVS SDK 的 RDK 环境中：
+
+```bash
+source /opt/ros/humble/setup.bash
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
+cmake --build build --parallel 4
+ctest --test-dir build --output-on-failure
+```
+
+测试覆盖红色 HSV 两端、蓝色回归、红蓝同时出现、禁止跨颜色配对、单灯条和白/绿色负例、四角点顺序、实际程序 JSON/JPEG 输出、浏览器视频和断流清理。合成图用于检查算法与接口逻辑，真实灯条还需要单独上板测试。
+
+也可用一张真实照片检查程序输出：
+
+```bash
+ARMOR_STATUS_FILE=/tmp/red-check.json \
+  ./build/blue_armor_mvs_detector --color red --image /path/to/red-armor.jpg \
+  > /tmp/red-result.jpg
+cat /tmp/red-check.json
+```
+
+`--image` 模式不打开相机，FPS 仅为单张图的处理统计，不能作为实时帧率。
+
 ## 参数调整
 
-电脑 ROS 2 模式使用 `config/blue_armor_detector.yaml`。RDK 直连程序的同名阈值位于 `src/blue_armor_mvs_detector.cpp` 的 `Config`。
+电脑 ROS 2 模式使用 `config/blue_armor_detector.yaml`。RDK 直连程序的阈值位于 `src/armor_detector.hpp` 的 `Config`；两种模式的参数独立。
+
+红色实现参考原电脑仓库 `rmcs_auto_aim_v2/src/module/detector/lightbar.cpp` 中的红/蓝通道优势筛选思路，复用当前浏览器程序的几何配对和四角点实现，并补上红色跨 HSV 色环端点的分割。没有接入原工程的神经网络、跟踪器或控制链路。
 
 灯条中心大面积发白时先降低曝光。每次只调整一类参数，并在移动、倾斜、远近距离及连续多帧条件下检查稳定性。
 

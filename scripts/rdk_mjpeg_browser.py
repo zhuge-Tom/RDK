@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 import select
+import signal
 import sys
 import threading
 import time
@@ -16,15 +17,15 @@ import time
 
 PAGE = """<!doctype html><html lang="zh-CN"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MVS C++ 蓝色装甲检测</title><style>
+<title>MVS C++ 红蓝装甲检测</title><style>
 *{box-sizing:border-box}body{margin:0;background:#0c0f11;color:white;font:16px system-ui,sans-serif}
 header{min-height:64px;display:flex;align-items:center;gap:22px;padding:10px 20px;background:#20252a;border-bottom:1px solid #4b535b;flex-wrap:wrap}
 strong{font-size:20px}#state{padding:8px 18px;border-radius:8px;font-weight:700}.found{background:#087f23}.lost{background:#b42318}
 #details,#corners{color:#d3d9de}#corners{font:13px ui-monospace,monospace}main{height:calc(100vh - 84px);display:grid;place-items:center}
 img{display:block;max-width:100%;max-height:100%;object-fit:contain}</style>
-<header><strong>MVS · C++ 蓝色装甲检测</strong><span id="state" class="lost">等待画面</span><span id="details"></span><span id="corners"></span></header>
+<header><strong>MVS · C++ 红蓝装甲检测</strong><span id="state" class="lost">等待画面</span><span id="details"></span><span id="corners"></span></header>
 <main><img src="/stream" alt="实时检测画面"></main><script>
-async function update(){try{const v=await(await fetch('/status',{cache:'no-store'})).json();const s=document.getElementById('state');s.className=v.detected?'found':'lost';s.textContent=v.detected?`已识别：${v.armors} 个蓝色装甲板`:'未识别到装甲板';document.getElementById('details').textContent=`${v.corners.length} 个角点 · 检测 ${v.detect_fps.toFixed(1)} FPS · 显示 ${v.web_fps.toFixed(1)} FPS`;document.getElementById('corners').textContent=v.corners.map((p,i)=>`P${i+1}(${p[0].toFixed(0)},${p[1].toFixed(0)})`).join(' ')}catch(_){const s=document.getElementById('state');s.className='lost';s.textContent='连接中断'}}update();setInterval(update,250);
+async function update(){try{const v=await(await fetch('/status',{cache:'no-store'})).json();const s=document.getElementById('state');s.className=v.detected?'found':'lost';s.textContent=v.detected?`已识别：红色 ${v.red_armors || 0} 个 · 蓝色 ${v.blue_armors || 0} 个`:'未识别到装甲板';document.getElementById('details').textContent=`${v.mode || "blue"} · ${v.corners.length} 个角点 · 检测 ${v.detect_fps.toFixed(1)} FPS · 显示 ${v.web_fps.toFixed(1)} FPS`;document.getElementById('corners').textContent=v.corners.map((p,i)=>`P${i+1}(${p[0].toFixed(0)},${p[1].toFixed(0)})`).join(' ')}catch(_){const s=document.getElementById('state');s.className='lost';s.textContent='连接中断'}}update();setInterval(update,250);
 </script></html>"""
 
 
@@ -42,7 +43,7 @@ class State:
 
 
 state = State()
-status_path = Path("/tmp/rmcs-blue-armor-status.json")
+status_path = Path(os.environ.get("ARMOR_STATUS_FILE", "/tmp/rmcs-blue-armor-status.json"))
 stopping = threading.Event()
 
 
@@ -67,7 +68,14 @@ class Handler(BaseHTTPRequestHandler):
                 value = json.loads(status_path.read_text())
             except (OSError, json.JSONDecodeError):
                 value = {"detected": False, "armors": 0, "corners": [], "detect_fps": 0.0}
-            value["web_fps"] = state.web_fps()
+            with state.condition:
+                fresh = bool(state.times) and time.monotonic() - state.times[-1] < 2.0
+                fps = state.web_fps() if fresh else 0.0
+            if not fresh:
+                value.update(detected=False, armors=0, corners=[], colors=[],
+                             red_armors=0, blue_armors=0, detect_fps=0.0)
+            value["web_fps"] = fps
+            value["stream_alive"] = fresh
             self.send_bytes(json.dumps(value).encode(), "application/json")
             return
         if self.path != "/stream":
@@ -79,9 +87,13 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         seen = 0
         try:
-            while True:
+            while not stopping.is_set():
                 with state.condition:
-                    state.condition.wait_for(lambda: state.sequence > seen, timeout=5.0)
+                    updated = state.condition.wait_for(
+                        lambda: state.sequence > seen or stopping.is_set(), timeout=1.0
+                    )
+                    if not updated or stopping.is_set():
+                        continue
                     jpeg = state.jpeg
                     seen = state.sequence
                 if jpeg is None:
@@ -100,6 +112,7 @@ def read_stream() -> None:
             continue
         chunk = os.read(descriptor, 65536)
         if not chunk:
+            stopping.set()
             return
         buffer.extend(chunk)
         while True:
@@ -121,15 +134,19 @@ def read_stream() -> None:
 
 
 def main() -> int:
-    reader = threading.Thread(target=read_stream)
-    reader.start()
     bind = os.environ.get("BROWSER_BIND", "127.0.0.1")
     port = int(os.environ.get("BROWSER_PORT", "8876"))
     server = ThreadingHTTPServer((bind, port), Handler)
     server.daemon_threads = True
+    server.timeout = 0.5
+    for signum in (signal.SIGINT, signal.SIGTERM):
+        signal.signal(signum, lambda _signum, _frame: stopping.set())
+    reader = threading.Thread(target=read_stream)
+    reader.start()
     print(f"Browser: http://{bind}:{port}/", flush=True)
     try:
-        server.serve_forever()
+        while not stopping.is_set():
+            server.handle_request()
     except KeyboardInterrupt:
         pass
     finally:

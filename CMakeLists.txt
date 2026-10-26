@@ -56,4 +56,22 @@ install(PROGRAMS
   DESTINATION lib/${PROJECT_NAME}
 )
 
+include(CTest)
+if(BUILD_TESTING)
+  add_executable(armor_color_test test/armor_color_test.cpp)
+  target_include_directories(armor_color_test PRIVATE src ${OpenCV_INCLUDE_DIRS})
+  target_link_libraries(armor_color_test ${OpenCV_LIBS})
+  add_test(NAME armor_color_regression COMMAND armor_color_test)
+  if(TARGET blue_armor_mvs_detector)
+    find_package(Python3 REQUIRED COMPONENTS Interpreter)
+    add_test(NAME armor_cli_regression COMMAND ${Python3_EXECUTABLE}
+      ${CMAKE_CURRENT_SOURCE_DIR}/test/check_detector_cli.py
+      $<TARGET_FILE:blue_armor_mvs_detector>)
+    add_test(NAME armor_browser_regression COMMAND ${Python3_EXECUTABLE}
+      ${CMAKE_CURRENT_SOURCE_DIR}/test/check_browser.py
+      $<TARGET_FILE:blue_armor_mvs_detector>
+      ${CMAKE_CURRENT_SOURCE_DIR}/scripts/rdk_mjpeg_browser.py)
+  endif()
+endif()
+
 ament_package()

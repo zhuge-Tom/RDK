@@ -4,6 +4,11 @@ set -euo pipefail
 rdk_host=${RDK_HOST:-sunrise@192.168.1.50}
 rdk_dir=${RDK_DIR:-/home/sunrise/rdk-s100-blue-armor-detector}
 local_port=${BROWSER_PORT:-8876}
+color=${ARMOR_COLOR:-blue}
+case "$color" in
+  blue|red|both) ;;
+  *) echo 'ARMOR_COLOR must be blue, red or both' >&2; exit 2 ;;
+esac
 rdk_dir_q=$(printf '%q' "$rdk_dir")
 
 echo "Starting RDK detector; browser: http://127.0.0.1:${local_port}/" >&2
@@ -25,4 +30,4 @@ exec ssh -tt \
   -o ServerAliveCountMax=3 \
   -L "${local_port}:127.0.0.1:8876" \
   "$rdk_host" \
-  "cd $rdk_dir_q && DETECTOR_BINARY=./build/blue_armor_mvs_detector exec ./scripts/run-rdk-local.sh"
+  "cd $rdk_dir_q && ARMOR_COLOR=$color DETECTOR_BINARY=./build/blue_armor_mvs_detector exec ./scripts/run-rdk-local.sh"
