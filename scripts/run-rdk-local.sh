@@ -6,7 +6,12 @@ binary=${DETECTOR_BINARY:-"$repo_root/build/blue_armor_mvs_detector"}
 port=${BROWSER_PORT:-8876}
 export BROWSER_PORT="$port"
 export ARMOR_STATUS_FILE="${ARMOR_STATUS_FILE:-/tmp/rmcs-armor-${port}-$$.json}"
+export ARMOR_CAPTURE_DIR="${ARMOR_CAPTURE_DIR:-$repo_root/calibration/captures}"
 color=${ARMOR_COLOR:-blue}
+pose_args=(--prediction-ms "${PREDICTION_MS:-100}")
+if [[ -n "${POSE_CALIBRATION:-}" ]]; then
+  pose_args+=(--calibration "$POSE_CALIBRATION")
+fi
 case "$color" in
   blue|red|both) ;;
   *) echo 'ARMOR_COLOR must be blue, red or both' >&2; exit 2 ;;
@@ -23,6 +28,7 @@ echo "Browser: http://127.0.0.1:${port}/" >&2
 
 "$binary" \
   --color "$color" \
+  "${pose_args[@]}" \
   --exposure "${EXPOSURE_US:-3500}" \
   --gain "${CAMERA_GAIN:-2}" \
   --fps "${CAMERA_FPS:-30}" \

@@ -1,0 +1,12 @@
+std_msgs/Header header
+uint32 image_width
+uint32 image_height
+string mode
+float64 detect_fps
+float64 detection_ms
+string geometry_reason
+float64 prediction_horizon_ms
+Armor[] armors
+ImageTrack[] image_tracks
+ArmorPose[] poses
+SpatialTrack[] tracks

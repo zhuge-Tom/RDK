@@ -1,235 +1,272 @@
-# RDK S100 红蓝装甲板识别
+# RDK：ROS 2 蓝色装甲检测、跟踪与 PnP 初版
 
-面向 RoboMaster 视觉开发的装甲灯条检测项目。`main` 分支要求海康相机连接在 RDK S100 上，提供两条流程：
+海康 MV-CS016-10UC 通过 USB3 接 RDK S100。RDK 完成取图、蓝色灯条配对、角点检测、跟踪与预测，电脑通过 SSH 转发在浏览器查看结果。
 
-1. 相机采集和 C++ 检测都在 RDK 上运行，电脑只显示浏览器画面。
-2. RDK 采集相机并通过 SSH 发送画面，电脑运行 ROS 2 C++ 检测节点和浏览器。
+~~~text
+海康相机 → RDK MVS SDK → ROS 2 相机节点 → C++ 装甲检测
+→ 跟踪 / PnP / 预测 → 可视化 JPEG → ROS 2 浏览器桥接 → SSH → 电脑浏览器
+~~~
 
-RDK 本机的 MVS 直连程序支持蓝色、红色或同时检测两种颜色，默认仍为蓝色。流程二的电脑 ROS 2 节点继续使用原来的蓝色检测。本次红色适配只修改 `main` 的 RDK 本机流程。
+main 对应“相机接 RDK，电脑看浏览器”。电脑直连海康相机的独立流程在 [pc-direct-hikrobot 分支](https://github.com/zhuge-Tom/RDK/tree/pc-direct-hikrobot)。
 
-程序只输出检测可视化、二维装甲框和四个像素角点，不包含射击、云台或运动控制。海康相机直接连接电脑的独立流程位于 [`pc-direct-hikrobot`](https://github.com/zhuge-Tom/RDK/tree/pc-direct-hikrobot) 分支。
+## 1. 当前能做什么
 
-## 检测算法
+| 功能 | 状态 |
+|---|---|
+| 蓝色装甲框、四角点 | 已在实际相机使用 |
+| 二维跟踪、像素速度、100 ms 预测中心 | C++ 实现；无标定时也能运行 |
+| ROS 2 节点、类型化消息、CameraInfo | 已接入，四个 C++ 节点同进程通信 |
+| 浏览器简洁 / 调试模式 | 支持角点、轨迹、帧率和状态显示 |
+| 保存标定照片 | 通过 ROS 服务保存全分辨率、无绘图的 PNG |
+| 照片筛选、隔离、相机内参计算 | 提供脚本；标定默认只使用 accepted 目录 |
+| 装甲 PnP、相机坐标系三维跟踪与预测 | 已实现；需本机标定、实测灯条尺寸后启用 |
 
-- HSV 颜色分割与灰度亮度联合筛选；红色覆盖 H=0–10 和 H=170–179
-- 红色使用独立的灰度阈值 60 和红/蓝通道比阈值 1.05，蓝色阈值保持原样
-- 竖向闭运算，连接灯条中过曝发白造成的断裂区域
-- 面积、尺寸、长宽比和蓝红通道比例过滤
-- 灯条高度、纵向偏差、间距及装甲比例配对
-- 两种颜色分别配对，红灯条与蓝灯条不能组成一个装甲板
-- 输出二维框和四角点，顺序为左上、右上、右下、左下
-- 浏览器显示识别状态、角点坐标、检测 FPS 和显示 FPS
+当前开发机已用 19 张筛选照片计算候选内参，拟合 RMS 约 0.393 px。灯条尺寸和实际距离核验尚未完成，当前实际运行仍以二维检测及像素预测为准。拟合误差不等于实际测距误差。
 
-此前蓝色实机环境中，RDK 直连模式以 960×720 处理时约为 30 FPS。红色及同时检测两种颜色的功能已通过编译和离线回归测试，尚待 RDK 连接真实红色装甲灯条验证，不能据此保证相同帧率和现场检出率。
+核心算法为 C++；Python 负责 ROS / HTTP 桥接与离线标定。坐标采用 OpenCV 相机光学系：X 向右、Y 向下、Z 向前。输出四角点顺序为左上、右上、右下、左下；只提供视觉数据及可视化。
 
-## 文件结构
+## 2. 硬件和软件要求
 
-```text
-src/blue_armor_mvs_detector.cpp   RDK 直接调用 MVS 的 C++ 检测程序
-src/armor_detector.hpp           RDK 红蓝分割、同色灯条配对和角点算法
-src/blue_armor_detector_node.cpp  电脑端 ROS 2 图像检测节点
-config/blue_armor_detector.yaml   ROS 2 检测参数
-scripts/deploy-to-rdk.sh          从电脑上传源码并在 RDK 编译
-scripts/run-rdk-local.sh          RDK 本机检测和网页服务
-scripts/run-rdk-browser.sh        电脑启动 RDK 检测、SSH 转发并打开浏览器
-scripts/mvs_raw_mjpeg.py          RDK 相机原始画面输出
-scripts/mjpeg_ros_bridge.py       电脑 ROS 2 图像发布和浏览器服务
-scripts/run-pc-via-rdk.sh         RDK 采集、电脑检测的完整启动脚本
-test/                           颜色、配对、角点和实际程序输出的离线回归测试
-```
+| 位置 | 要求 |
+|---|---|
+| RDK | S100，Ubuntu 22.04 ARM64，ROS 2 Humble，GCC 11 / CMake 3.22 或更新版本 |
+| 相机 | 实测为海康 MV-CS016-10UC，USB3，当前封装按 BayerBG8 取图 |
+| RDK SDK | 海康 MVS Linux aarch64 SDK，默认安装到 /opt/MVS |
+| RDK 图像库 | C++ OpenCV 4.5.4；Python OpenCV 与 NumPy |
+| 电脑 | Ubuntu、Git、OpenSSH 客户端、curl 和浏览器 |
 
-## 已验证环境
+电脑只看浏览器时不需要安装 ROS 2 或 MVS。相机由 MVS SDK 打开，通常不表现为 /dev/video0；使用本程序时应关闭占用该相机的 MVS 客户端或其他取图程序。
 
-- RDK S100：Ubuntu 22.04、ROS 2 Humble、aarch64
-- 海康相机：MV-CS016-10UC，USB3
-- RDK MVS SDK：安装在 `/opt/MVS`，包含 ARM64 动态库
-- 电脑：Ubuntu、ROS 2 Humble 或 Jazzy、OpenCV 4
-- RDK 默认网口地址：`192.168.1.50`
+若使用其他型号、GigE 或其他像素格式，需要先适配 [MVS 相机封装](src/mvs_camera.hpp)。当前枚举的是 USB 相机，选择枚举到的第一台。
 
-MVS SDK 由海康提供，不包含在本仓库中。RDK 必须先能通过 MVS 打开相机。该工业相机通常不会显示为 `/dev/video0`。
+## 3. 连接 RDK
 
-## 开始前检查
+本文默认：
 
-电脑连接 RDK 网线后执行：
+| 配置 | 默认值 |
+|---|---|
+| RDK SSH 用户及地址 | sunrise@192.168.1.50 |
+| 电脑有线地址 | 192.168.1.100/24 |
+| RDK 部署目录 | /home/sunrise/rdk_blue_vision |
+| 电脑浏览器端口 | 8876 |
 
-```bash
-ping -c 2 192.168.1.50
+先给 RDK 供电，将相机接 RDK USB3，再用网线连接电脑和 RDK。在 RDK 本地确认其有线地址；实际地址不同可通过 RDK_HOST 覆盖。
+
+电脑端查看网卡名称：
+
+~~~bash
+ip -brief link
+~~~
+
+以下以 USB 网卡 enx00e04c0a4d30 为例。只有尚未创建 RDK-direct 连接时才执行创建命令：
+
+~~~bash
+RDK_IFACE=enx00e04c0a4d30
+nmcli connection add type ethernet ifname "$RDK_IFACE" con-name RDK-direct \
+  ipv4.method manual ipv4.addresses 192.168.1.100/24 \
+  ipv4.never-default yes ipv6.method disabled
+~~~
+
+已有该连接时，直接启用并检查：
+
+~~~bash
+RDK_IFACE=enx00e04c0a4d30
+nmcli connection up RDK-direct ifname "$RDK_IFACE"
+cat "/sys/class/net/$RDK_IFACE/carrier"
+ip route get 192.168.1.50
+ping -I "$RDK_IFACE" -c 2 -W 2 192.168.1.50
 ssh sunrise@192.168.1.50
-```
+~~~
 
-在 RDK 上检查相机和 MVS：
+carrier 应为 1，路由应经过上述有线网卡。VPN 可能改变路由，应以绑定网卡的 ping 为准。SSH 使用板端自己的账户和密码。
 
-```bash
-lsusb | grep -i Hikrobot
-test -f /opt/MVS/include/MvCameraControl.h && echo "MVS headers OK"
-test -f /opt/MVS/lib/aarch64/libMvCameraControl.so && echo "MVS library OK"
-```
+## 4. 在 RDK 安装依赖
 
-同一时刻只能有一个程序独占海康相机。启动前请关闭 MVS 客户端或其他相机进程。
+以下命令在 **RDK 的终端**执行。板端已有 ROS 2 Humble 时直接补齐依赖；没有 ROS 2 时先按 [ROS 2 Humble 官方安装说明](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debs.html)配置软件源、安装 Humble。
 
-## 流程一：RDK 运行检测，电脑浏览器查看
+~~~bash
+sudo apt update
+sudo apt install -y \
+  build-essential cmake git pkg-config libopencv-dev python3-opencv python3-numpy \
+  ros-humble-ament-cmake ros-humble-rclcpp ros-humble-rclcpp-components \
+  ros-humble-rclpy ros-humble-sensor-msgs ros-humble-std-msgs \
+  ros-humble-geometry-msgs ros-humble-std-srvs ros-humble-cv-bridge \
+  ros-humble-rosidl-default-generators ros-humble-rosidl-default-runtime
 
-这是延迟更低的推荐流程。电脑只接收已经画好检测框的 JPEG。
-
-在电脑执行：
-
-```bash
-git clone --branch main https://github.com/zhuge-Tom/RDK.git
-cd RDK
-
-RDK_HOST=sunrise@192.168.1.50 bash scripts/deploy-to-rdk.sh
-RDK_HOST=sunrise@192.168.1.50 bash scripts/run-rdk-browser.sh
-```
-
-`deploy-to-rdk.sh` 会把源码上传到 `/home/sunrise/rdk-s100-blue-armor-detector`，使用 RDK 自己的 GCC、OpenCV、ROS 2 和 MVS SDK 编译。`run-rdk-browser.sh` 会启动 RDK 检测、建立 SSH 端口转发并自动打开：
-
-```text
-http://127.0.0.1:8876/
-```
-
-在电脑端选择识别颜色：
-
-```bash
-# 只识别红色装甲板
-ARMOR_COLOR=red RDK_HOST=sunrise@192.168.1.50 bash scripts/run-rdk-browser.sh
-
-# 同时识别红色和蓝色装甲板
-ARMOR_COLOR=both RDK_HOST=sunrise@192.168.1.50 bash scripts/run-rdk-browser.sh
-
-# 原有蓝色模式（默认值）
-ARMOR_COLOR=blue RDK_HOST=sunrise@192.168.1.50 bash scripts/run-rdk-browser.sh
-```
-
-每次切换前先在旧启动终端按 `Ctrl+C`，确认释放相机。网页会分别显示红色和蓝色装甲的数量，图像标签为 `RED ARMOR` 或 `BLUE ARMOR`。底层可执行文件保持原名 `blue_armor_mvs_detector`，以兼容原有编译和部署命令。
-
-调整相机参数时，可以先 SSH 到 RDK，再执行：
-
-```bash
-cd /home/sunrise/rdk-s100-blue-armor-detector
-ARMOR_COLOR=red EXPOSURE_US=3000 CAMERA_GAIN=2 CAMERA_FPS=30 \
-PROCESSING_WIDTH=960 JPEG_QUALITY=75 \
-bash scripts/run-rdk-local.sh
-```
-
-按 `Ctrl+C` 会停止检测并释放相机。
-
-## 流程二：RDK 采集相机，电脑运行 ROS 2 检测
-
-电脑需要安装 ROS 2、`cv_bridge` 和 OpenCV。RDK 需要 Python 3、NumPy、OpenCV Python 和 MVS Python binding。
-
-在电脑建立 ROS 2 工作区：
-
-```bash
-mkdir -p ~/blue_armor_ws/src
-cd ~/blue_armor_ws/src
-git clone --branch main https://github.com/zhuge-Tom/RDK.git
-
-cd ~/blue_armor_ws
 source /opt/ros/humble/setup.bash
-colcon build --packages-select rdk_s100_blue_armor_detector \
-  --cmake-args -DBUILD_MVS_DIRECT=OFF
-source install/setup.bash
-```
+/usr/bin/python3 -c 'import rclpy, cv2, numpy; print("Python OpenCV:", cv2.__version__)'
+~~~
 
-运行完整链路：
+从 [海康官方下载页](https://www.hikrobotics.com/en/machinevision/service/download?module=0)选择适合 ARM64 的 Linux MVS SDK，解压并按包内说明运行安装程序。可参照[厂商 Linux 安装指南](https://www.hikrobotics.com/en2/source/vision/video/2022/12/19/Standard%20Camera_How%20to%20Install%20MVS%20in%20Linux_22.12.17.pdf)；安装包文件名随版本变化，RDK 要选 aarch64。
 
-```bash
-cd ~/blue_armor_ws/src/RDK
-RDK_HOST=sunrise@192.168.1.50 \
-RDK_MVS_PYTHON_PATH=/home/RM_Vision \
-bash scripts/run-pc-via-rdk.sh
-```
+安装后在 RDK 确认：
 
-脚本会执行以下流程：
+~~~bash
+test -f /opt/MVS/include/MvCameraControl.h
+test -f /opt/MVS/lib/aarch64/libMvCameraControl.so
+lsusb
+~~~
 
-```text
-RDK 海康相机 → MVS → JPEG/SSH → 电脑 /image_raw
-→ ROS 2 C++ 检测节点 → 浏览器 http://127.0.0.1:8876/
-```
+本机实测 SDK 动态库为 libMvCameraControl.so.4.7.0.3。若普通用户无法打开 USB 相机，按 MVS 安装说明配置设备权限并重新插拔相机。
 
-如果 RDK 的 `MvImport` 不在 `/home/RM_Vision`，把 `RDK_MVS_PYTHON_PATH` 改为包含 `MvImport` 目录的上一级路径。
+## 5. 在电脑克隆、部署和启动
 
-## ROS 2 接口
+以下命令在 **电脑终端**执行：
 
-输入：
+~~~bash
+git clone --branch main https://github.com/zhuge-Tom/RDK.git "$HOME/RDK"
+cd "$HOME/RDK"
 
-- `/image_raw`：`sensor_msgs/msg/Image`，编码为 BGR8
+bash scripts/deploy-blue-vision.sh
+bash scripts/run-blue-vision-browser.sh
+~~~
 
-输出：
+部署脚本上传源码到 RDK，在板端编译、安装并运行 CTest。启动脚本建立 SSH 转发，启动 ROS 2 流程并尝试打开浏览器：
 
-- `/blue_armor_detector/visualization`：带灯条、装甲框和角点的图像
-- `/blue_armor_detector/mask`：蓝色亮区二值掩膜
-- `/blue_armor_detector/armors`：`sensor_msgs/msg/PointCloud`
+- 普通页面：http://127.0.0.1:8876/
+- 调试页面：http://127.0.0.1:8876/#debug
 
-`armors` 每四个点表示一个装甲板，顺序为 TL、TR、BR、BL。channels 分别为 `armor_id`、`corner_id` 和 `geometry_score`。
+运行终端需要保持打开，Ctrl+C 结束这次相机及浏览器服务。重新启动前先结束旧会话，避免相机或端口被重复占用。
 
-## 验证
+若用户、地址或部署目录不同，部署和启动都使用相同的环境变量：
 
-浏览器打开后检查状态接口：
+~~~bash
+export RDK_HOST=your_user@your_rdk_ip
+export RDK_DIR=/home/your_user/rdk_blue_vision
+bash scripts/deploy-blue-vision.sh
+bash scripts/run-blue-vision-browser.sh
+~~~
 
-```bash
+如果只需要打开交互式 RDK 终端，可直接执行 ssh sunrise@192.168.1.50；仓库也提供 [等待有线连接后打开终端的脚本](scripts/open-rdk-terminal.sh)，其 RDK_INTERFACE 和 RDK_HOST 可覆盖。
+
+## 6. 运行参数与画面检查
+
+参数文件是 [config/blue_vision_ros.yaml](config/blue_vision_ros.yaml)。相机参数、检测阈值在启动时读取，修改后重新启动。
+
+| 环境变量 | 默认值 | 含义 |
+|---|---:|---|
+| EXPOSURE_US | 3500 | 曝光，微秒 |
+| CAMERA_GAIN | 2 | 相机增益 |
+| CAMERA_FPS | 30 | 请求的采集帧率 |
+| PROCESSING_WIDTH | 960 | 检测宽度，保持完整视场比例 |
+| JPEG_QUALITY | 75 | JPEG 质量 |
+| PREDICTION_MS | 100 | 预测时间，毫秒 |
+| POSE_CALIBRATION | 空 | RDK 内的标定配置路径 |
+| BROWSER_PORT | 8876 | 电脑上的转发端口 |
+| ROS_DOMAIN_ID | 42 | 此模块 ROS 域 |
+
+蓝色灯条日常检测使用默认曝光。室内拍棋盘格较暗时，可以在电脑用以下设置启动：
+
+~~~bash
+EXPOSURE_US=60000 CAMERA_GAIN=16 CAMERA_FPS=15 \
+  bash scripts/run-blue-vision-browser.sh
+~~~
+
+这是当前室内标定的临时设置。60 ms 曝光需要相机和棋盘停稳，补光后可缩短曝光。当前相机实际增益上限约 16.98，设置 18 会被 SDK 拒绝；其他相机应读取自己的范围。
+
+电脑检查服务：
+
+~~~bash
 curl --noproxy '*' http://127.0.0.1:8876/status
-```
+~~~
 
-识别到一个装甲板时会返回类似：
+正常应有 stream_alive=true、runtime=ros2。detected 表示当前帧是否检测到装甲；拍棋盘时该值可以为 false。调试模式的“保存标定照片”保存 RDK 原始 PNG，与棋盘是否已经检出无关。
 
-```json
-{
-  "mode": "red",
-  "detected": true,
-  "armors": 1,
-  "red_armors": 1,
-  "blue_armors": 0,
-  "colors": ["red"],
-  "corners": [[131.3, 139.5], [747.8, 213.1], [715.1, 474.5], [101.7, 398.0]],
-  "detect_fps": 30.0,
-  "web_fps": 30.0
-}
-```
+## 7. 标定、筛选和启用 PnP
 
-绿色框为装甲四边形，红点为四角点，紫色框为二维包围框。连续移动相机或装甲板，确认画面、坐标和 FPS 持续更新。
+详细步骤见 [CALIBRATION.md](CALIBRATION.md)，包括打印棋盘、测量实际格子边长、拍摄、隔离照片及实测灯条尺寸。
 
-RDK MVS 模式的 `colors` 与各组四角点一一对应；角点坐标位于缩放后的检测图像坐标系中。超过两秒没有新帧时，状态接口会清空识别结果，避免旧画面继续显示已识别。
+在 RDK 先查看筛选报告，再将选中的照片复制到 accepted、未选中的原图移到 quarantine：
 
-## 不连接相机的回归测试
+~~~bash
+cd /home/sunrise/rdk_blue_vision
 
-在已安装 OpenCV 和 MVS SDK 的 RDK 环境中：
+# 只检查，生成报告
+python3 scripts/review_calibration.py --report calibration/review-preview.json
 
-```bash
+# 检查报告后应用；目标目录应是本批次的新目录
+python3 scripts/review_calibration.py --apply --report calibration/review-applied.json
+
+# 默认只读取 calibration/accepted
+python3 scripts/calibrate_camera.py \
+  --columns 9 --rows 6 --square-mm 19 \
+  --output config/pose_camera.measured.yml
+~~~
+
+本机打印格子实测为 19 mm。模板设计为 20 mm，其他打印板必须实际测量后更改参数。已有 accepted 集或输出配置时脚本会要求使用新目录 / 文件名，避免覆盖旧结果。
+
+PnP 所需物理尺寸是两灯条中心线间距和单根灯条有效发光长度，单位为米。将实测尺寸填入自己的配置，核对内参、分辨率和报告后开启调试，再通过已知距离验证结果：
+
+~~~bash
+# 在 RDK：从自己的标定结果创建运行配置
+cp config/pose_camera.measured.yml config/pose_camera.yml
+# 编辑 pose_camera.yml，填写 armor_width_m、armor_height_m；
+# 核对来源及尺寸后，将 calibration_verified 改为 1。
+
+# 在电脑：结束旧会话后启动
+POSE_CALIBRATION=config/pose_camera.yml bash scripts/run-blue-vision-browser.sh
+~~~
+
+[pose_camera.example.yml](config/pose_camera.example.yml) 是带未验证标记的设备示例，不会自动启用三维结果。距离和速度是相机相对量；目前未接 IMU / 里程计补偿、整车旋转模型或控制输出。
+
+## 8. RDK 本机直接构建与运行
+
+也可直接在已安装依赖的 RDK 克隆 main：
+
+~~~bash
+git clone --branch main https://github.com/zhuge-Tom/RDK.git /home/sunrise/rdk_blue_vision
+cd /home/sunrise/rdk_blue_vision
 source /opt/ros/humble/setup.bash
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release \
+  -DBUILD_TESTING=ON -DCMAKE_INSTALL_PREFIX="$PWD/install"
 cmake --build build --parallel 4
 ctest --test-dir build --output-on-failure
-```
+cmake --install build
+bash scripts/run-rdk-ros2.sh
+~~~
 
-测试覆盖红色 HSV 两端、蓝色回归、红蓝同时出现、禁止跨颜色配对、单灯条和白/绿色负例、四角点顺序、实际程序 JSON/JPEG 输出、浏览器视频和断流清理。合成图用于检查算法与接口逻辑，真实灯条还需要单独上板测试。
+然后在电脑另开终端转发端口，并打开浏览器：
 
-也可用一张真实照片检查程序输出：
+~~~bash
+ssh -N -L 8876:127.0.0.1:8876 sunrise@192.168.1.50
+~~~
 
-```bash
-ARMOR_STATUS_FILE=/tmp/red-check.json \
-  ./build/blue_armor_mvs_detector --color red --image /path/to/red-armor.jpg \
-  > /tmp/red-result.jpg
-cat /tmp/red-check.json
-```
+应有六组 CTest 通过；ROS 测试使用独立域 91 和合成图像，不打开真实相机。类型化消息、话题和诊断命令见 [ROS2.md](ROS2.md)。
 
-`--image` 模式不打开相机，FPS 仅为单张图的处理统计，不能作为实时帧率。
+2026-10-28 在上述 RDK 环境中，从独立源码目录重新构建、安装，并通过全部六组测试；部署脚本和安装后的 ROS 2 启动入口也完成验证。另用 37 张原图的副本复测筛选流程，得到 19 张入选、18 张隔离，重算 RMS 约 0.393 px。合成输入测试与拟合误差不替代真实相机的距离、运动和预测精度核验。
 
-## 参数调整
+## 9. 常见问题
 
-电脑 ROS 2 模式使用 `config/blue_armor_detector.yaml`。RDK 直连程序的阈值位于 `src/armor_detector.hpp` 的 `Config`；两种模式的参数独立。
+| 现象 | 检查 |
+|---|---|
+| 网线连接不上 | 电源、carrier、有线 IP、绑定网卡的 ping；VPN 是否改了路由 |
+| 编译找不到 MVS / 启动缺少 blue_vision_ros | ARM64 SDK 是否安装在 /opt/MVS，依赖是否完整 |
+| 相机打开失败 | 相机是否出现在 lsusb，USB 权限、SDK 返回码、是否被其他程序占用 |
+| Browser / 8876 already in use | 先结束旧会话；不要再次打开同一相机 |
+| 浏览器无法打开 | 使用 HTTP；核对 SSH 转发；curl 加 --noproxy '*'；检查本机代理 |
+| 画面暗 | 拍棋盘时使用补光或较长曝光；蓝灯条检测与棋盘拍摄的曝光需求不同 |
+| 保存照片失败 | 看页面具体错误：服务发现、响应超时、相机断流或写入错误；检查 RDK 磁盘空间 |
+| 只有二维结果 | 尚未配置 verified 标定、真实灯条尺寸，或路径不正确 |
+| CLI 看不到 ROS 节点 | source ROS 环境，匹配 ROS 域与本机设置，使用 --no-daemon --spin-time 5 |
 
-红色实现参考原电脑仓库 `rmcs_auto_aim_v2/src/module/detector/lightbar.cpp` 中的红/蓝通道优势筛选思路，复用当前浏览器程序的几何配对和四角点实现，并补上红色跨 HSV 色环端点的分割。没有接入原工程的神经网络、跟踪器或控制链路。
+MVS 的 XOpenDisplay Fail 在当前无桌面取流测试中未影响视频；仍应以相机是否实际出图为准。
 
-灯条中心大面积发白时先降低曝光。每次只调整一类参数，并在移动、倾斜、远近距离及连续多帧条件下检查稳定性。
+## 10. 源码结构
 
-## 常见问题
+~~~text
+src/armor_detector.hpp           灯条过滤、配对和二维角点
+src/image_tracking.hpp           二维像素跟踪和预测
+src/pose_tracking.hpp            标定、IPPE PnP、三维跟踪和预测
+src/mvs_camera.hpp               MVS USB 相机封装
+src/vision_output.hpp            绘图、状态 JSON、原始照片保存
+src/ros_nodes.cpp                四个 C++ ROS 2 节点
+src/blue_vision_ros.cpp           同进程节点执行器
+msg/                            类型化装甲、姿态和轨迹消息
+scripts/rdk_ros_browser.py       ROS 订阅、采集服务客户端
+scripts/rdk_mjpeg_browser.py     HTTP 与双模式页面
+scripts/review_calibration.py    照片筛选、清单与隔离
+scripts/calibrate_camera.py      相机内参计算
+config/blue_vision_ros.yaml      当前节点配置
+~~~
 
-- 浏览器无法连接：确认启动终端仍在运行，并检查 `curl --noproxy '*' http://127.0.0.1:8876/status`。
-- 相机打开失败：关闭其他相机程序，检查 USB3、MVS 安装和设备权限。
-- SSH 失败：确认电脑和 RDK 位于同一网段，并检查 `RDK_HOST`。
-- ROS 节点找不到：重新执行 `source /opt/ros/humble/setup.bash` 和工作区的 `source install/setup.bash`。
-
-## License
-
-[MIT](LICENSE)
+相机 SDK、实际照片和每台相机生成的标定文件由本机独立安装或生成，Git 维护源码、启动工具和配置模板。原始直采版本保留作对照，停止 ROS 2 会话后可用 VISION_BACKEND=direct 启动同一个蓝色浏览器入口。

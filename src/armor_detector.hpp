@@ -192,7 +192,7 @@ inline auto pair_lightbars(const std::vector<Lightbar>& lightbars, const Config&
 }
 
 inline void draw(cv::Mat& image, const std::vector<Lightbar>& lights,
-    const std::vector<Armor>& armors) {
+    const std::vector<Armor>& armors, bool show_labels = true) {
     for (const auto& light : lights) {
         auto points = std::array<cv::Point2f, 4> {};
         light.rotated_box.points(points.data());
@@ -211,9 +211,11 @@ inline void draw(cv::Mat& image, const std::vector<Lightbar>& lights,
                 cv::LINE_AA);
         }
         cv::rectangle(image, armor.bounding_box, cv::Scalar { 255, 0, 255 }, 1, cv::LINE_AA);
-        cv::putText(image, std::string(color_name(armor.color)) + " ARMOR " + std::to_string(index),
-            cv::Point { armor.bounding_box.x, std::max(15, armor.bounding_box.y - 5) },
-            cv::FONT_HERSHEY_SIMPLEX, 0.45, cv::Scalar { 0, 255, 0 }, 1, cv::LINE_AA);
+        if (show_labels) {
+            cv::putText(image, std::string(color_name(armor.color)) + " ARMOR " + std::to_string(index),
+                cv::Point { armor.bounding_box.x, std::max(15, armor.bounding_box.y - 5) },
+                cv::FONT_HERSHEY_SIMPLEX, 0.45, cv::Scalar { 0, 255, 0 }, 1, cv::LINE_AA);
+        }
     }
 }
 

@@ -1,0 +1,9 @@
+int32 id
+int32 detection_index
+bool observed
+bool confirmed
+float64 observation_age_seconds
+geometry_msgs/Point center_px
+geometry_msgs/Vector3 velocity_px_s
+bool prediction_valid
+geometry_msgs/Point predicted_center_px

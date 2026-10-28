@@ -10,6 +10,18 @@ case "$color" in
   *) echo 'ARMOR_COLOR must be blue, red or both' >&2; exit 2 ;;
 esac
 rdk_dir_q=$(printf '%q' "$rdk_dir")
+case "${VISION_BACKEND:-direct}" in
+  ros2) rdk_script=./scripts/run-rdk-ros2.sh ;;
+  direct) rdk_script=./scripts/run-rdk-local.sh ;;
+  *) echo 'VISION_BACKEND must be ros2 or direct' >&2; exit 2 ;;
+esac
+remote_environment=("ARMOR_COLOR=$color" "POSE_CALIBRATION=${POSE_CALIBRATION:-}"
+  "PREDICTION_MS=${PREDICTION_MS:-100}" "ARMOR_CAPTURE_DIR=${ARMOR_CAPTURE_DIR:-$rdk_dir/calibration/captures}"
+  "EXPOSURE_US=${EXPOSURE_US:-3500}" "CAMERA_GAIN=${CAMERA_GAIN:-2}"
+  "CAMERA_FPS=${CAMERA_FPS:-30}" "PROCESSING_WIDTH=${PROCESSING_WIDTH:-960}"
+  "JPEG_QUALITY=${JPEG_QUALITY:-75}" "ROS_LOCALHOST_ONLY=${ROS_LOCALHOST_ONLY:-1}"
+  "ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-42}" "DETECTOR_BINARY=./build/blue_armor_mvs_detector")
+printf -v remote_env '%q ' "${remote_environment[@]}"
 
 echo "Starting RDK detector; browser: http://127.0.0.1:${local_port}/" >&2
 if command -v xdg-open >/dev/null; then
@@ -30,4 +42,4 @@ exec ssh -tt \
   -o ServerAliveCountMax=3 \
   -L "${local_port}:127.0.0.1:8876" \
   "$rdk_host" \
-  "cd $rdk_dir_q && ARMOR_COLOR=$color DETECTOR_BINARY=./build/blue_armor_mvs_detector exec ./scripts/run-rdk-local.sh"
+  "cd $rdk_dir_q && exec env $remote_env bash $rdk_script"

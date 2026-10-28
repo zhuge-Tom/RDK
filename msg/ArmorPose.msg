@@ -1,0 +1,5 @@
+uint32 detection_index
+geometry_msgs/Point position_m
+geometry_msgs/Vector3 rotation_vector
+float64 distance_m
+float64 reprojection_error_px

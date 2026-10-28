@@ -13,3 +13,9 @@ __pycache__/
 *.png
 *.mjpeg
 core
+
+# Local camera/lens calibration
+config/pose_camera.yml
+config/pose_camera.measured*.yml
+config/pose_camera.measured*.report.json
+calibration/

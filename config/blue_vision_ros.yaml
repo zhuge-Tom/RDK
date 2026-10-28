@@ -1,0 +1,23 @@
+/**:
+  ros__parameters:
+    color: blue
+    exposure_us: 3500.0
+    gain: 2.0
+    fps: 30.0
+    processing_width: 960
+    jpeg_quality: 75
+    prediction_ms: 100.0
+    max_frame_age_ms: 250.0
+    camera_frame: camera_optical
+    calibration_path: ""
+    test_image: ""
+    hue_min: 90
+    hue_max: 135
+    saturation_min: 50
+    value_min: 50
+    gray_min: 110
+    close_kernel_height: 7
+    min_light_area: 150.0
+    min_light_height: 35
+    min_light_width: 5
+    min_blue_red_ratio: 1.05

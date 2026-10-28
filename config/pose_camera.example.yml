@@ -1,0 +1,28 @@
+%YAML:1.0
+---
+# Device-specific, UNVERIFIED example from the 2026-10-27 Hikrobot calibration trial.
+# MV-CS016-10UC, 1440x1080 raw images, 9x6 inner corners, measured square edge 19 mm.
+# 19 reviewed views; training RMS about 0.393 px. Real distance is not yet verified.
+# Other cameras/lenses must calibrate themselves. Do not enable by copying this file.
+# Measure lightbar centerline spacing and endpoint height in meters before PnP use.
+calibration_verified: 0
+image_width: 1440
+image_height: 1080
+camera_matrix: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 2342.0954206774436, 0., 674.45205601471105, 0.,
+       2343.5714474215315, 552.8739113766278, 0., 0., 1. ]
+distortion_coefficients: !!opencv-matrix
+   rows: 1
+   cols: 5
+   dt: d
+   data: [ -0.087833216007462148, 0.842424592728374,
+       0.00094426796812593222, -0.0015279358597071178,
+       -4.8869115424830918 ]
+armor_width_m: 0.
+armor_height_m: 0.
+max_reprojection_error_px: 4.
+calibration_rms_px: 0.39335151440263549
+calibration_views: 19

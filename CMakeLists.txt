@@ -11,6 +11,18 @@ find_package(cv_bridge REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(std_srvs REQUIRED)
+find_package(rclcpp_components REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/Armor.msg" "msg/Armors.msg" "msg/ImageTrack.msg"
+  "msg/ArmorPose.msg" "msg/SpatialTrack.msg" "msg/VisionResult.msg"
+  DEPENDENCIES std_msgs geometry_msgs
+)
+ament_export_dependencies(rosidl_default_runtime)
 
 add_executable(blue_armor_detector_node src/blue_armor_detector_node.cpp)
 target_include_directories(blue_armor_detector_node PRIVATE ${OpenCV_INCLUDE_DIRS})
@@ -42,6 +54,21 @@ if(BUILD_MVS_DIRECT)
       ${MVS_CAMERA_CONTROL_LIBRARY}
     )
     install(TARGETS blue_armor_mvs_detector DESTINATION lib/${PROJECT_NAME})
+
+    add_library(blue_vision_components SHARED src/ros_nodes.cpp)
+    target_include_directories(blue_vision_components PRIVATE ${OpenCV_INCLUDE_DIRS} ${MVS_INCLUDE_DIR})
+    ament_target_dependencies(blue_vision_components rclcpp rclcpp_components sensor_msgs std_msgs geometry_msgs std_srvs)
+    rosidl_get_typesupport_target(vision_typesupport ${PROJECT_NAME} "rosidl_typesupport_cpp")
+    target_link_libraries(blue_vision_components ${OpenCV_LIBS} ${MVS_CAMERA_CONTROL_LIBRARY} "${vision_typesupport}")
+    rclcpp_components_register_nodes(blue_vision_components
+      "rmcs::ros::HikCameraNode" "rmcs::ros::ArmorDetectionNode"
+      "rmcs::ros::ArmorTrackingNode" "rmcs::ros::ArmorVisualizationNode")
+    add_executable(blue_vision_ros src/blue_vision_ros.cpp)
+    target_include_directories(blue_vision_ros PRIVATE ${OpenCV_INCLUDE_DIRS})
+    ament_target_dependencies(blue_vision_ros rclcpp)
+    target_link_libraries(blue_vision_ros blue_vision_components ${OpenCV_LIBS})
+    install(TARGETS blue_vision_components blue_vision_ros
+      ARCHIVE DESTINATION lib LIBRARY DESTINATION lib RUNTIME DESTINATION lib/${PROJECT_NAME})
   else()
     message(WARNING "MVS SDK not found under ${MVS_ROOT}; skipping direct camera executable")
   endif()
@@ -53,6 +80,7 @@ install(PROGRAMS
   scripts/mjpeg_ros_bridge.py
   scripts/mvs_raw_mjpeg.py
   scripts/rdk_mjpeg_browser.py
+  scripts/rdk_ros_browser.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -62,6 +90,14 @@ if(BUILD_TESTING)
   target_include_directories(armor_color_test PRIVATE src ${OpenCV_INCLUDE_DIRS})
   target_link_libraries(armor_color_test ${OpenCV_LIBS})
   add_test(NAME armor_color_regression COMMAND armor_color_test)
+  add_executable(pose_tracking_test test/pose_tracking_test.cpp)
+  target_include_directories(pose_tracking_test PRIVATE src ${OpenCV_INCLUDE_DIRS})
+  target_link_libraries(pose_tracking_test ${OpenCV_LIBS})
+  add_test(NAME blue_pose_tracking_regression COMMAND pose_tracking_test)
+  add_executable(image_tracking_test test/image_tracking_test.cpp)
+  target_include_directories(image_tracking_test PRIVATE src ${OpenCV_INCLUDE_DIRS})
+  target_link_libraries(image_tracking_test ${OpenCV_LIBS})
+  add_test(NAME blue_image_prediction_regression COMMAND image_tracking_test)
   if(TARGET blue_armor_mvs_detector)
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
     add_test(NAME armor_cli_regression COMMAND ${Python3_EXECUTABLE}
@@ -71,6 +107,12 @@ if(BUILD_TESTING)
       ${CMAKE_CURRENT_SOURCE_DIR}/test/check_browser.py
       $<TARGET_FILE:blue_armor_mvs_detector>
       ${CMAKE_CURRENT_SOURCE_DIR}/scripts/rdk_mjpeg_browser.py)
+    add_test(NAME blue_ros_pipeline_regression COMMAND ${Python3_EXECUTABLE}
+      ${CMAKE_CURRENT_SOURCE_DIR}/test/check_ros_pipeline.py
+      $<TARGET_FILE:blue_vision_ros>
+      ${CMAKE_CURRENT_SOURCE_DIR}/scripts/rdk_ros_browser.py)
+    set_tests_properties(blue_ros_pipeline_regression PROPERTIES TIMEOUT 55
+      ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_CURRENT_BINARY_DIR}:$ENV{LD_LIBRARY_PATH}")
   endif()
 endif()
 

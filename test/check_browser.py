@@ -12,25 +12,29 @@ import time
 import urllib.error
 import urllib.request
 
-from check_detector_cli import make_scene
+from check_detector_cli import make_scene, write_test_calibration
 
 
 def run(binary, browser):
     opener = urllib.request.build_opener(urllib.request.ProxyHandler({}))
     with tempfile.TemporaryDirectory(prefix="armor-browser-test-") as directory:
         root = Path(directory)
-        image = root / "red.ppm"
-        status = root / "red.json"
-        make_scene(image, [(80, (255, 0, 0)), (260, (255, 0, 0))])
+        image = root / "blue.ppm"
+        status = root / "blue.json"
+        make_scene(image, [(200, (0, 160, 255)), (440, (0, 160, 255))])
+        config = root / "calibration.yml"
+        write_test_calibration(config)
         env = dict(os.environ, ARMOR_STATUS_FILE=str(status))
         frame = subprocess.run(
-            [binary, "--image", str(image), "--color", "red"],
+            [binary, "--image", str(image), "--color", "blue", "--calibration", str(config)],
             env=env, capture_output=True, check=True, timeout=10,
         ).stdout
         with socket.socket() as probe:
             probe.bind(("127.0.0.1", 0))
             port = probe.getsockname()[1]
         env.update(BROWSER_PORT=str(port), BROWSER_BIND="127.0.0.1")
+        captures = root / "captures"
+        env["ARMOR_CAPTURE_DIR"] = str(captures)
         process = subprocess.Popen(
             [sys.executable, browser], stdin=subprocess.PIPE,
             stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env,
@@ -52,11 +56,33 @@ def run(binary, browser):
                 if time.monotonic() > deadline:
                     raise RuntimeError("browser did not become ready")
                 time.sleep(0.05)
-            assert value["red_armors"] == 1 and value["blue_armors"] == 0, value
-            assert value["mode"] == "red" and value["colors"] == ["red"], value
+            assert value["red_armors"] == 0 and value["blue_armors"] == 1, value
+            assert value["mode"] == "blue" and value["colors"] == ["blue"], value
             assert value["detected"] and len(value["corners"]) == 4, value
+            assert value["geometry"]["reason"] == "ready", value
+            assert len(value["geometry"]["poses"]) == 1, value
+            assert len(value["geometry"]["tracks"]) == 1, value
+            assert value["image_tracking"]["units"] == "pixels", value
+            assert len(value["image_tracking"]["tracks"]) == 1, value
             with opener.open(base, timeout=2) as response:
-                assert "红蓝装甲检测" in response.read().decode()
+                assert "RDK 蓝色装甲" in response.read().decode()
+            request = urllib.request.Request(base + "/capture", method="POST")
+            with opener.open(request, timeout=2) as response:
+                assert json.load(response)["pending"]
+            assert (captures / "capture.request").exists()
+            # The real detector must save the original image before resize/drawing.
+            subprocess.run(
+                [binary, "--image", str(image), "--width", "480"],
+                env=env, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, check=True, timeout=10,
+            )
+            with opener.open(base + "/capture", timeout=2) as response:
+                saved = json.load(response)
+            assert saved["saved"] and not saved["pending"] and saved["count"] == 1, saved
+            assert (saved["width"], saved["height"]) == (960, 480), saved
+            import struct
+            png = (captures / saved["filename"]).read_bytes()
+            assert png.startswith(b"\x89PNG\r\n\x1a\n")
+            assert struct.unpack(">II", png[16:24]) == (960, 480)
             with opener.open(base + "/stream", timeout=2) as response:
                 assert b"\xff\xd8" in response.read(256), "missing MJPEG frame"
             time.sleep(2.1)
@@ -64,13 +90,22 @@ def run(binary, browser):
                 stale = json.load(response)
             assert not stale["stream_alive"] and not stale["detected"], stale
             assert stale["armors"] == 0 and stale["corners"] == [], stale
+            assert stale["geometry"]["reason"] == "stream_stale", stale
+            assert stale["geometry"]["poses"] == [] and stale["geometry"]["tracks"] == [], stale
+            assert stale["image_tracking"]["tracks"] == [], stale
+            try:
+                opener.open(request, timeout=2)
+                raise AssertionError("capture must reject a stale stream")
+            except urllib.error.HTTPError as error:
+                assert error.code == 503
+                assert "相机画面已断开" in json.load(error)["error"]
             process.stdin.close()
             assert process.wait(timeout=3) == 0
         finally:
             if process.poll() is None:
                 process.terminate()
                 process.wait(timeout=3)
-    print("PASS: red counts/corners, HTML, MJPEG, stale-frame clearing, clean EOF shutdown")
+    print("PASS: blue counts/corners, PnP/tracking JSON, HTML, MJPEG, stale geometry clearing, clean EOF shutdown")
 
 
 if __name__ == "__main__":
