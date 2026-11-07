@@ -1,6 +1,6 @@
-# RDK：ROS 2 蓝色装甲检测、跟踪与 PnP 初版
+# RDK：ROS 2 红蓝装甲检测、跟踪与 PnP 初版
 
-海康 MV-CS016-10UC 通过 USB3 接 RDK S100。RDK 完成取图、蓝色灯条配对、角点检测、跟踪与预测，电脑通过 SSH 转发在浏览器查看结果。
+海康 MV-CS016-10UC 通过 USB3 接 RDK S100。RDK 完成取图、红蓝灯条配对、角点检测、跟踪与预测，电脑通过 SSH 转发在浏览器查看结果。
 
 ~~~text
 海康相机 → RDK MVS SDK → ROS 2 相机节点 → C++ 装甲检测
@@ -9,11 +9,15 @@
 
 main 对应“相机接 RDK，电脑看浏览器”。电脑直连海康相机的独立流程在 [pc-direct-hikrobot 分支](https://github.com/zhuge-Tom/RDK/tree/pc-direct-hikrobot)。
 
+**2026-11-07 更新**：红色已接入与蓝色共用的检测、PnP、跟踪和预测管线，支持红/蓝/双颜色启动；同时改进倾斜配对和近距离 LED 断点连接，浏览器新增检测诊断。用户反馈现场初测效果可用，当前不支持整块装甲旋转约90°的姿态。现场反馈不等于测距、动态预测或全角度召回率验收。
+
+启动见[红色识别与切换](docs/red-armor.md)，实现与验证见[灯条几何优化](docs/armor-geometry.md)，测距阶段见[项目进度](docs/blue-armor-progress.md)。
+
 ## 1. 当前能做什么
 
 | 功能 | 状态 |
 |---|---|
-| 蓝色装甲框、四角点 | 已在实际相机使用 |
+| 红蓝装甲框、四角点 | 已在实际相机使用；蓝色默认，支持 red / both |
 | 二维跟踪、像素速度、100 ms 预测中心 | C++ 实现；无标定时也能运行 |
 | ROS 2 节点、类型化消息、CameraInfo | 已接入，四个 C++ 节点同进程通信 |
 | 浏览器简洁 / 调试模式 | 支持角点、轨迹、帧率和状态显示 |
@@ -128,6 +132,18 @@ bash scripts/run-blue-vision-browser.sh
 - 普通页面：http://127.0.0.1:8876/
 - 调试页面：http://127.0.0.1:8876/#debug
 
+红色识别在电脑使用下面的入口（先结束旧会话）：
+
+~~~bash
+cd "$HOME/RDK"
+bash scripts/run-red-vision-browser.sh
+
+# 或同时检测红蓝，二选一启动
+# ARMOR_COLOR=both bash scripts/run-blue-vision-browser.sh
+~~~
+
+上述命令默认仅开启二维检测与预测。需要PnP时，按第7节提供自己的标定；原开发设备也可显式选择仓库内的未核验调试快照。
+
 运行终端需要保持打开，Ctrl+C 结束这次相机及浏览器服务。重新启动前先结束旧会话，避免相机或端口被重复占用。
 
 若用户、地址或部署目录不同，部署和启动都使用相同的环境变量：
@@ -145,10 +161,11 @@ bash scripts/run-blue-vision-browser.sh
 
 参数文件是 [config/blue_vision_ros.yaml](config/blue_vision_ros.yaml)。相机参数、检测阈值在启动时读取，修改后重新启动。
 
-当前蓝色门槛为 `gray_min=110`、`close_kernel_height=15`、灯条面积下限 70、最小高度 20、最小宽度 5。这些值根据当前多 LED 灯条与约 3 米画面调整，其他相机或灯条应结合实际画面检查。
+蓝色分割使用 `gray_min=110`，红色使用 `red_gray_min=60` 与两段红色色相。红蓝共用 `close_kernel_height=15`、灯条面积下限45、旋转框长边下限16px、短边下限3px、长短边比1.8，并约束方向、错位、边界和片段合并。调试区的 `detection_diagnostics` 显示候选及剔除计数，断流时清空。参数针对当前设备，其他相机/灯条需结合画面调整；角度阈值不等于实拍识别角度承诺。
 
 | 环境变量 | 默认值 | 含义 |
 |---|---:|---|
+| ARMOR_COLOR | blue | 目标颜色：blue / red / both；红色入口固定 red |
 | EXPOSURE_US | 3500 | 曝光，微秒 |
 | CAMERA_GAIN | 2 | 相机增益 |
 | CAMERA_FPS | 30 | 请求的采集帧率 |
@@ -260,7 +277,7 @@ cd /home/sunrise/rdk_blue_vision
 source /opt/ros/humble/setup.bash
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_TESTING=ON -DCMAKE_INSTALL_PREFIX="$PWD/install"
-cmake --build build --parallel 4
+cmake --build build --clean-first --parallel 4
 ctest --test-dir build --output-on-failure
 cmake --install build
 bash scripts/run-rdk-ros2.sh
@@ -272,9 +289,13 @@ bash scripts/run-rdk-ros2.sh
 ssh -N -L 8876:127.0.0.1:8876 sunrise@192.168.1.50
 ~~~
 
-应有六组 CTest 通过；ROS 测试使用独立域 91 和合成图像，不打开真实相机。类型化消息、话题和诊断命令见 [ROS2.md](ROS2.md)。
+安装MVS并成功生成真实相机目标时，应有七组 CTest 通过；ROS 测试使用独立域 91 和合成图像，不打开真实相机。类型化消息、话题和诊断命令见 [ROS2.md](ROS2.md)。
 
-2026-11-07 发布检查：核对板端核心源码及检测参数与待发布版本哈希一致，复跑板端现有构建的六组 CTest，全部通过。另在 x86_64 / ROS 2 Jazzy / OpenCV 4.6 容器中以 `BUILD_MVS_DIRECT=OFF` 独立构建，三组 C++ 回归通过；用本次发布的设备配置复算 250 组保存角点，距离与原记录最大差约 4.8e-10 m。浏览器调试提示、R/Z 显示、目标丢失/断流清空和便携采样脚本的 HTTP 记录流程也已检查。容器检查不代替 RDK 的 ARM64 MVS 取流，合成/回放检查不代替动态实测。
+本轮红蓝更新检查：RDK原生完整清理重编译，七组CTest全部通过（ROS覆盖八种红/蓝/双模式阶段）。实机红色启动20次HTTP抽样均在线且检出装甲，约30FPS。合成倾斜/LED间隙回归、五张保存实拍的旧新版回放和浏览器JS诊断检查通过。用户随后反馈现场初测可用；未测出精确的角度/近距极限，三维精度与动态预测仍需独立验证。
+
+**升级已有部署**：本次`Armors`和`VisionResult`新增`diagnostics_json`字段。先结束旧相机会话，再完整重编译并安装全部消息及节点；上面的`--clean-first`也避免电脑/板端时钟不一致造成旧目标被误复用。相机SDK、标定文件及新照片仍在设备本地维护。
+
+前一版蓝色静态测距发布检查（2026-11-07）：核对板端核心源码及检测参数与待发布版本哈希一致，复跑板端现有构建的六组 CTest，全部通过。另在 x86_64 / ROS 2 Jazzy / OpenCV 4.6 容器中以 `BUILD_MVS_DIRECT=OFF` 独立构建，三组 C++ 回归通过；用本次发布的设备配置复算 250 组保存角点，距离与原记录最大差约 4.8e-10 m。浏览器调试提示、R/Z 显示、目标丢失/断流清空和便携采样脚本的 HTTP 记录流程也已检查。容器检查不代替 RDK 的 ARM64 MVS 取流，合成/回放检查不代替动态实测。
 
 2026-10-28 在上述 RDK 环境中，从独立源码目录重新构建、安装，并通过全部六组测试；部署脚本和安装后的 ROS 2 启动入口也完成验证。另用 37 张原图的副本复测筛选流程，得到 19 张入选、18 张隔离，重算 RMS 约 0.393 px。合成输入测试与拟合误差不替代真实相机的距离、运动和预测精度核验。
 

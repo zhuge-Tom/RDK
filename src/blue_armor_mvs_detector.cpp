@@ -114,7 +114,8 @@ auto main(int argc, char** argv) -> int {
             const auto image_tracks = image_tracker.update(armors, frame.size(), timestamp);
             // Numeric diagnostics live in the browser's switchable debug panel.
             draw(frame, result.lights, armors, false);
-            if (geometry.reason == "ready" && !geometry.poses.empty()) {
+            if ((geometry.reason == "ready" || geometry.reason == "debug_unverified")
+                && !geometry.poses.empty()) {
                 draw_geometry(frame, geometry, geometry_pipeline);
             } else {
                 draw_image_tracking(frame, image_tracks);
@@ -130,7 +131,7 @@ auto main(int argc, char** argv) -> int {
             const auto fps = total > 0.0 ? frame_times.size() / total : 0.0;
 
             write_status(armors, fps, color, frame.cols, frame.rows, geometry, timestamp,
-                tracking.prediction_seconds * 1000.0, image_tracks);
+                tracking.prediction_seconds * 1000.0, image_tracks, result.diagnostics.json());
             auto jpeg = std::vector<unsigned char> {};
             if (!cv::imencode(".jpg", frame, jpeg, { cv::IMWRITE_JPEG_QUALITY, jpeg_quality })) {
                 continue;

@@ -1,4 +1,4 @@
-# RDK 蓝色视觉 ROS 2 运行结构
+# RDK 红蓝视觉 ROS 2 运行结构
 
 本模块使用 RDK 上现有 ROS 2 Humble。电脑只通过 SSH 转发查看浏览器，
 不要求电脑安装 ROS 2 或海康 SDK。海康相机仍通过 RDK 的 MVS SDK 打开。
@@ -25,8 +25,8 @@ MVS 取图定时器使用独立的互斥回调组，采集服务使用默认回�
 |---|---|---|
 | `/camera/image_raw` | `sensor_msgs/msg/Image` | 完整视场缩放后的 BGR8、采集时间戳、相机坐标系 |
 | `/camera/camera_info` | `sensor_msgs/msg/CameraInfo` | 对应图像分辨率的内参和畸变；未标定时 K[0]=0 |
-| `/armor/detections` | `rdk_s100_blue_armor_detector/msg/Armors` | 原图时间戳、颜色、四角点、处理耗时和检测帧率 |
-| `/armor/tracks` | `rdk_s100_blue_armor_detector/msg/VisionResult` | 二维轨迹、预测中心、标定状态及可用的三维结果 |
+| `/armor/detections` | `rdk_s100_blue_armor_detector/msg/Armors` | 原图时间戳、颜色、四角点、处理耗时、检测帧率及 diagnostics_json |
+| `/armor/tracks` | `rdk_s100_blue_armor_detector/msg/VisionResult` | 二维轨迹、预测中心、标定状态、可用的三维结果及 diagnostics_json |
 | `/armor/visualization/compressed` | `sensor_msgs/msg/CompressedImage` | 已绘制装甲框和预测点的 JPEG，保留原图时间戳 |
 | `/armor/status` | `std_msgs/msg/String` | 面向浏览器的 JSON，包括 runtime=ros2 和阶段耗时 |
 
@@ -57,14 +57,14 @@ cd /home/sunrise/rdk_blue_vision
 source /opt/ros/humble/setup.bash
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_TESTING=ON -DCMAKE_INSTALL_PREFIX="$PWD/install"
-cmake --build build --parallel 4
+cmake --build build --clean-first --parallel 4
 ctest --test-dir build --output-on-failure
 cmake --install build
 bash scripts/run-rdk-ros2.sh
 ```
 
-第六组回归测试使用独立 ROS 域 91，不打开真实相机。
-它用真实节点验证未标定/合成已标定两条路径、类型化消息、CameraInfo、浏览器视频、
+共七组CTest，最后的ROS管线回归使用独立 ROS 域 91，不打开真实相机。
+它用真实节点验证蓝/红未标定、合成已标定、未核验调试及双颜色等八种阶段，覆盖类型化消息、CameraInfo、浏览器视频、
 标定采集服务、断流清空和正常退出。合成标定通过不等于真实相机已标定。
 
 电脑常用入口不变：
@@ -89,7 +89,10 @@ VISION_BACKEND=direct bash scripts/run-blue-vision-browser.sh
 节点参数集中在 `config/blue_vision_ros.yaml`，在启动时读取并设为只读；
 修改阈值/相机参数后重启。常用环境覆盖仍保留：
 `EXPOSURE_US`、`CAMERA_GAIN`、`CAMERA_FPS`、`PROCESSING_WIDTH`、
-`JPEG_QUALITY`、`PREDICTION_MS`、`POSE_CALIBRATION`、`ARMOR_CAPTURE_DIR`。
+`JPEG_QUALITY`、`PREDICTION_MS`、`POSE_CALIBRATION`、`ARMOR_CAPTURE_DIR`、`ARMOR_COLOR`。
+`ARMOR_COLOR=blue/red/both`选择颜色，默认blue；红色入口为`scripts/run-red-vision-browser.sh`。
+红蓝共用几何与同色轨迹关联，相关参数与实测范围见[几何优化](docs/armor-geometry.md)。
+本次消息新增`diagnostics_json`，已有部署升级需停止旧进程，完整重编译并重新安装消息及节点。
 默认曝光 3500 us、增益 2、采集 30 FPS、检测宽度 960、预测 100 ms。
 真实标定步骤参见 `CALIBRATION.md`。
 
@@ -111,7 +114,7 @@ ros2 param list /armor_detector
 运行进程一致；自定义启动环境时也要同步修改诊断命令。
 
 浏览器调试入口：`http://127.0.0.1:8876/#debug`。
-HTTP 的 `/status`、`/stream`、`/capture` 保持兼容；断流后清空旧预测。
+HTTP 的 `/status`、`/stream`、`/capture` 保持兼容；`detection_diagnostics`显示灯条/片段/配对剔除计数，断流后清空诊断和旧预测。
 如需录制回放，可使用 rosbag，注意录制原始图像会增加磁盘和通信负担。
 
 四个 C++ 类也注册为 rclcpp 组件，后续可以在标准组件容器中加载，

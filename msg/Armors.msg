@@ -4,4 +4,5 @@ uint32 image_height
 string mode
 float64 detect_fps
 float64 detection_ms
+string diagnostics_json
 Armor[] armors

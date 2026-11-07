@@ -57,7 +57,24 @@ void calibration_and_pose_tests() {
         "missing calibration produced a pose");
     auto red = detected;
     red.color = armor::Color::Red;
-    require(!solve_pose(red, 0, config, { 960, 720 }), "red should not enter blue localization");
+    const auto red_pose = solve_pose(red, 0, config, { 960, 720 });
+    require(red_pose && red_pose->color == armor::Color::Red
+        && cv::norm(red_pose->position_m - cv::Vec3d{0.1, -0.05, 2.5}) < .001,
+        "red PnP differs from blue geometry");
+
+    auto colors = Tracker {};
+    auto blue_observation = Pose { 0, {0, 0, 2}, {}, 0.1 };
+    auto red_observation = Pose { 1, {0.01, 0, 2}, {}, 0.1, armor::Color::Red };
+    auto color_tracks = colors.update({blue_observation, red_observation}, 0.0);
+    const auto blue_id = color_tracks[0].id, red_id = color_tracks[1].id;
+    blue_observation.detection_index = 1;
+    blue_observation.position_m[0] = .01;
+    red_observation.detection_index = 0;
+    red_observation.position_m[0] = 0;
+    color_tracks = colors.update({red_observation, blue_observation}, 1.0 / 30.0);
+    require(color_tracks.size() == 2 && color_tracks[0].id == blue_id
+        && color_tracks[0].detection_index == 1 && color_tracks[1].id == red_id
+        && color_tracks[1].detection_index == 0, "red/blue spatial tracks exchanged IDs");
     auto degenerate = detected;
     degenerate.corners.fill({ 0, 0 });
     require(!solve_pose(degenerate, 0, config, { 960, 720 }), "degenerate pose accepted");

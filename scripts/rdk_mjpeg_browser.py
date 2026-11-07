@@ -17,7 +17,7 @@ import time
 
 PAGE = """<!doctype html><html lang="zh-CN"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>RDK 蓝色装甲定位与预测</title><style>
+<title>RDK 装甲定位与预测</title><style>
 *{box-sizing:border-box}body{margin:0;background:#0c0f11;color:white;font:16px system-ui,sans-serif}
 header{min-height:64px;display:flex;align-items:center;gap:22px;padding:10px 20px;background:#20252a;border-bottom:1px solid #4b535b;flex-wrap:wrap}
 strong{font-size:20px}#state{padding:8px 18px;border-radius:8px;font-weight:700}.found{background:#087f23}.lost{background:#b42318}
@@ -27,11 +27,11 @@ body[data-view="simple"] .debug-only{display:none!important}#legend{position:fix
 #geometry{position:fixed;bottom:16px;left:16px;width:min(340px,calc(100vw - 32px));max-height:45vh;overflow:auto;padding:14px 16px;background:#131b24ed;border:1px solid #344253;border-radius:12px;box-shadow:0 6px 24px #0005;font-size:13px}
 .panel-head,.metric{display:flex;align-items:center;justify-content:space-between;gap:12px}.panel-head{margin-bottom:10px}.panel-head b{font-size:14px}.badge{border-radius:20px;padding:3px 9px;font-size:12px;background:#293442;color:#c7d2df}.badge.ok{background:#143d32;color:#8de5bd}.badge.warn{background:#44361e;color:#f4cd84}
 .metric{padding:5px 0}.metric span{color:#9aabbc}.metric b{font:13px ui-monospace,monospace;font-variant-numeric:tabular-nums;color:#e7eef6}.metric .prediction{color:#71dbe8}
-#tracking-note,#pose-note{margin:7px 0 0;color:#9aabbc;font-size:12px;line-height:1.5}#pose-note{border-top:1px solid #344253;padding-top:8px}#geometry details{margin-top:9px;color:#9aabbc}#geometry summary{cursor:pointer;font-size:12px}#geometry pre{white-space:pre-wrap;font:12px/1.7 ui-monospace,monospace;color:#c7d2df;margin:8px 0 0}
+#tracking-note,#pose-note,#detection-note{margin:7px 0 0;color:#9aabbc;font-size:12px;line-height:1.5}#pose-note{border-top:1px solid #344253;padding-top:8px}#geometry details{margin-top:9px;color:#9aabbc}#geometry summary{cursor:pointer;font-size:12px}#geometry pre{white-space:pre-wrap;font:12px/1.7 ui-monospace,monospace;color:#c7d2df;margin:8px 0 0}
 .capture{margin-top:12px;padding-top:10px;border-top:1px solid #344253}.capture button{color:#e7eef6;background:#37516a;border:0;border-radius:6px;padding:8px 10px;cursor:pointer}.capture button:disabled{opacity:.5;cursor:wait}#capture-note{display:block;color:#9aabbc;font-size:12px;line-height:1.5;margin-top:6px}
 img{display:block;max-width:100%;max-height:100%;object-fit:contain}</style>
 <body data-view="simple">
-<header><strong>RDK 蓝色装甲 · 定位与预测</strong><span id="state" class="lost">等待画面</span>
+<header><strong id="page-title">RDK 装甲 · 定位与预测</strong><span id="state" class="lost">等待画面</span>
 <span id="pnp-warning" class="badge warn" hidden>PnP 调试 · 距离未核验</span>
 <div class="view-switch" role="group" aria-label="显示模式"><button id="view-simple" type="button" aria-pressed="true">简洁模式</button><button id="view-debug" type="button" aria-pressed="false">调试模式</button></div>
 <span id="details" class="debug-only"></span><span id="corners" class="debug-only"></span></header>
@@ -42,6 +42,7 @@ img{display:block;max-width:100%;max-height:100%;object-fit:contain}</style>
 <div class="metric"><span>当前中心 · px</span><b id="track-center">—</b></div>
 <div class="metric"><span id="prediction-label">100 ms 后 · px</span><b id="track-prediction" class="prediction">—</b></div>
 <p id="tracking-note">等待目标进入画面</p>
+<p id="detection-note">等待检测诊断</p>
 <p id="pose-note">三维定位：等待数据</p>
 <section id="pose-metrics" hidden>
 <div class="metric"><span>直线距离 R · m</span><b id="pose-distance">—</b></div>
@@ -99,7 +100,7 @@ async function captureCalibration() {
   finally { button.disabled = false; }
 }
 document.getElementById('capture-button').addEventListener('click', captureCalibration);
-function renderGeometry(g, image) {
+function renderGeometry(g, image, mode = 'blue') {
   const put = (id, text) => { document.getElementById(id).textContent = text; };
   const vec = (a, digits = 1) => a.map(v => v.toFixed(digits)).join(', ');
   const stale = g?.reason === 'stream_stale';
@@ -113,7 +114,7 @@ function renderGeometry(g, image) {
   put('prediction-label', `${horizon} ms 后 · px`);
   put('track-center', t ? vec(t.center_px) : '—');
   put('track-prediction', t?.predicted_center_px ? vec(t.predicted_center_px) : '—');
-  put('tracking-note', stale ? '视频已断开，预测已清空' : !t ? '让完整的蓝色装甲进入画面' :
+  put('tracking-note', stale ? '视频已断开，预测已清空' : !t ? `让完整的${mode === 'red' ? '红色' : mode === 'both' ? '红色或蓝色' : '蓝色'}装甲进入画面` :
     `ID ${t.id} · ${tracks.length} 个目标 · ` + (!t.observed ? '目标暂时丢失，短时延续轨迹' :
     t.predicted_center_px ? '青色圆为预测中心' : '正在积累连续观测'));
   const reasons = {
@@ -153,7 +154,20 @@ function renderGeometry(g, image) {
   }
   put('track-details', lines.join('\\n'));
 }
-async function update(){try{const v=await(await fetch('/status',{cache:'no-store'})).json();const s=document.getElementById('state');s.className=v.detected?'found':'lost';s.textContent=v.detected?`已识别：红色 ${v.red_armors || 0} 个 · 蓝色 ${v.blue_armors || 0} 个`:'未识别到装甲板';document.getElementById('details').textContent=`${v.runtime === "ros2" ? "ROS 2 · " : ""}${v.mode || "blue"} · ${v.corners.length} 个角点 · 检测 ${v.detect_fps.toFixed(1)} FPS · 显示 ${v.web_fps.toFixed(1)} FPS${v.capture_to_encode_ms != null ? ` · 采集到编码 ${v.capture_to_encode_ms.toFixed(1)} ms` : ""}`;renderGeometry(v.geometry,v.image_tracking);document.getElementById('corners').textContent=v.corners.map((p,i)=>`P${i+1}(${p[0].toFixed(0)},${p[1].toFixed(0)})`).join(' ')}catch(_){const s=document.getElementById('state');s.className='lost';s.textContent='连接中断';renderGeometry({reason:'stream_stale'})}}update();setInterval(update,250);
+function renderDetection(d) {
+  const note = document.getElementById('detection-note');
+  if (!d || d.contours == null) { note.textContent = '检测诊断：等待数据'; return; }
+  const reasons = [
+    ['rejected_small', '过小'], ['rejected_large', '过大'],
+    ['rejected_shape', '形状'], ['rejected_tilt', '倾角'],
+    ['rejected_border', '出画'], ['rejected_color', '颜色'],
+    ['rejected_pair_angle', '灯条夹角'], ['rejected_pair_alignment', '错位'],
+    ['rejected_pair_geometry', '配对尺寸'], ['fragment_limit_dropped', '候选限额']
+  ].filter(([key]) => d[key] > 0).map(([key, label]) => `${label} ${d[key]}`);
+  note.textContent = `轮廓 ${d.contours} · 合并 ${d.fragment_merges} · 灯条 ${d.lightbars} · 装甲 ${d.armors}` +
+    (reasons.length ? ' · 剔除：' + reasons.join('、') : '');
+}
+async function update(){try{const v=await(await fetch('/status',{cache:'no-store'})).json();const s=document.getElementById('state');s.className=v.detected?'found':'lost';s.textContent=v.detected?`已识别：红色 ${v.red_armors || 0} 个 · 蓝色 ${v.blue_armors || 0} 个`:'未识别到装甲板';document.getElementById('details').textContent=`${v.runtime === "ros2" ? "ROS 2 · " : ""}${v.mode || "blue"} · ${v.corners.length} 个角点 · 检测 ${v.detect_fps.toFixed(1)} FPS · 显示 ${v.web_fps.toFixed(1)} FPS${v.capture_to_encode_ms != null ? ` · 采集到编码 ${v.capture_to_encode_ms.toFixed(1)} ms` : ""}`;document.getElementById('page-title').textContent=`RDK ${v.mode === 'red' ? '红色' : v.mode === 'both' ? '红蓝' : '蓝色'}装甲 · 定位与预测`;renderGeometry(v.geometry,v.image_tracking,v.mode);renderDetection(v.detection_diagnostics);document.getElementById('corners').textContent=v.corners.map((p,i)=>`P${i+1}(${p[0].toFixed(0)},${p[1].toFixed(0)})`).join(' ')}catch(_){const s=document.getElementById('state');s.className='lost';s.textContent='连接中断';renderGeometry({reason:'stream_stale'});renderDetection(null)}}update();setInterval(update,250);
 </script></html>"""
 
 
@@ -214,6 +228,7 @@ class Handler(BaseHTTPRequestHandler):
                              red_armors=0, blue_armors=0, detect_fps=0.0)
                 value["geometry"] = {"reason": "stream_stale", "poses": [], "tracks": []}
                 value["image_tracking"] = {"units": "pixels", "tracks": []}
+                value["detection_diagnostics"] = {}
             value["web_fps"] = fps
             value["stream_alive"] = fresh
             self.send_bytes(json.dumps(value).encode(), "application/json")

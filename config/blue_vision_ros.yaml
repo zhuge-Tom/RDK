@@ -16,8 +16,20 @@
     saturation_min: 50
     value_min: 50
     gray_min: 110
+    red_hue_low_max: 10
+    red_hue_high_min: 170
+    red_gray_min: 60
+    min_red_blue_ratio: 1.05
     close_kernel_height: 15
-    min_light_area: 70.0
-    min_light_height: 20
-    min_light_width: 5
+    min_light_area: 45.0
+    min_light_height: 16
+    min_light_width: 3
+    min_light_aspect_ratio: 1.8
+    max_light_tilt_deg: 75.0
+    max_pair_angle_deg: 20.0
+    max_pair_alignment_deg: 25.0
+    min_pair_x_ratio: 0.5
+    min_armor_aspect_ratio: 0.75
+    fragment_gap_width_ratio: 3.0
+    max_light_fragments: 128
     min_blue_red_ratio: 1.05

@@ -145,7 +145,8 @@ inline void draw_image_tracking(cv::Mat &image,
 inline auto status_json(const std::vector<Armor> &armors, double fps, const std::string &mode,
                         int width, int height, const vision::GeometryResult &geometry,
                         double timestamp, double horizon_ms,
-                        const std::vector<vision::ImageTrackResult> &image_tracks) -> std::string {
+                        const std::vector<vision::ImageTrackResult> &image_tracks,
+                        const std::string &diagnostics = "{}") -> std::string {
     auto output = std::ostringstream{};
     output << std::setprecision(10);
     const auto red_count = std::ranges::count(armors, Color::Red, &Armor::color);
@@ -170,6 +171,7 @@ inline auto status_json(const std::vector<Armor> &armors, double fps, const std:
         output << '\"' << (armors[index].color == Color::Red ? "red" : "blue") << '\"';
     }
     output << "],\"detect_fps\":" << fps;
+    output << ",\"detection_diagnostics\":" << (diagnostics.empty() ? "{}" : diagnostics);
     write_geometry(output, geometry, timestamp, horizon_ms);
     write_image_tracking(output, image_tracks, horizon_ms);
     output << '}';
@@ -179,7 +181,8 @@ inline auto status_json(const std::vector<Armor> &armors, double fps, const std:
 inline void write_status(const std::vector<Armor> &armors, double fps, const std::string &mode,
                          int width, int height, const vision::GeometryResult &geometry,
                          double timestamp, double horizon_ms,
-                         const std::vector<vision::ImageTrackResult> &image_tracks) {
+                         const std::vector<vision::ImageTrackResult> &image_tracks,
+                         const std::string &diagnostics = "{}") {
     const auto *status_env = std::getenv("ARMOR_STATUS_FILE");
     const auto destination =
         std::string(status_env != nullptr ? status_env : "/tmp/rmcs-blue-armor-status.json");
@@ -188,7 +191,7 @@ inline void write_status(const std::vector<Armor> &armors, double fps, const std
     if (!output)
         throw std::runtime_error("cannot write status: " + temporary);
     output << status_json(armors, fps, mode, width, height, geometry, timestamp, horizon_ms,
-                          image_tracks);
+                          image_tracks, diagnostics);
     output.close();
     if (std::rename(temporary.c_str(), destination.c_str()) != 0) {
         throw std::runtime_error("cannot publish status: " + destination);

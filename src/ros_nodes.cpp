@@ -209,6 +209,10 @@ class ArmorDetectionNode final : public rclcpp::Node {
         INT_PARAM(saturation_min);
         INT_PARAM(value_min);
         INT_PARAM(gray_min);
+        INT_PARAM(red_hue_low_max);
+        INT_PARAM(red_hue_high_min);
+        INT_PARAM(red_gray_min);
+        INT_PARAM(max_light_fragments);
         INT_PARAM(close_kernel_height);
         INT_PARAM(min_light_height);
         INT_PARAM(min_light_width);
@@ -218,6 +222,11 @@ class ArmorDetectionNode final : public rclcpp::Node {
         DOUBLE_PARAM(max_light_area);
         DOUBLE_PARAM(min_light_aspect_ratio);
         DOUBLE_PARAM(min_blue_red_ratio);
+        DOUBLE_PARAM(min_red_blue_ratio);
+        DOUBLE_PARAM(max_light_tilt_deg);
+        DOUBLE_PARAM(max_pair_angle_deg);
+        DOUBLE_PARAM(max_pair_alignment_deg);
+        DOUBLE_PARAM(fragment_gap_width_ratio);
         DOUBLE_PARAM(max_pair_height_ratio);
         DOUBLE_PARAM(max_pair_y_ratio);
         DOUBLE_PARAM(min_pair_x_ratio);
@@ -227,7 +236,16 @@ class ArmorDetectionNode final : public rclcpp::Node {
 #undef INT_PARAM
 #undef DOUBLE_PARAM
         if (config_.hue_min < 0 || config_.hue_max > 179 || config_.hue_min > config_.hue_max ||
-            config_.gray_min < 0 || config_.gray_min > 255 || config_.close_kernel_height <= 0) {
+            config_.gray_min < 0 || config_.gray_min > 255 || config_.close_kernel_height <= 0 ||
+            config_.red_hue_low_max < 0 || config_.red_hue_high_min > 179 ||
+            config_.red_hue_low_max >= config_.red_hue_high_min ||
+            config_.red_gray_min < 0 || config_.red_gray_min > 255 ||
+            !std::isfinite(config_.min_red_blue_ratio) || config_.min_red_blue_ratio <= 0 ||
+            config_.max_light_fragments < 2 || config_.max_light_fragments > 512 ||
+            !std::isfinite(config_.max_light_tilt_deg) || config_.max_light_tilt_deg <= 0 || config_.max_light_tilt_deg >= 90 ||
+            !std::isfinite(config_.max_pair_angle_deg) || config_.max_pair_angle_deg <= 0 || config_.max_pair_angle_deg >= 90 ||
+            !std::isfinite(config_.max_pair_alignment_deg) || config_.max_pair_alignment_deg <= 0 || config_.max_pair_alignment_deg >= 90 ||
+            !std::isfinite(config_.fragment_gap_width_ratio) || config_.fragment_gap_width_ratio < 0) {
             throw std::invalid_argument("invalid detector thresholds");
         }
         publisher_ = create_publisher<msg::Armors>("/armor/detections", frame_qos());
@@ -240,6 +258,7 @@ class ArmorDetectionNode final : public rclcpp::Node {
                 output->image_width = image->width;
                 output->image_height = image->height;
                 output->mode = mode_;
+                output->diagnostics_json = result.diagnostics.json();
                 output->detection_ms =
                     std::chrono::duration<double, std::milli>(Steady::now() - start).count();
                 const auto stamp = rclcpp::Time(image->header.stamp).seconds();
@@ -297,6 +316,7 @@ class ArmorTrackingNode final : public rclcpp::Node {
                 result->image_width = detections->image_width;
                 result->image_height = detections->image_height;
                 result->mode = detections->mode;
+                result->diagnostics_json = detections->diagnostics_json;
                 result->detect_fps = detections->detect_fps;
                 result->detection_ms = detections->detection_ms;
                 result->armors = detections->armors;
@@ -381,7 +401,9 @@ class ArmorVisualizationNode final : public rclcpp::Node {
         geometry.reason = result->geometry_reason;
         for (const auto &p : result->poses)
             geometry.poses.push_back({p.detection_index, vector3(p.position_m),
-                                      vector3(p.rotation_vector), p.reprojection_error_px});
+                                      vector3(p.rotation_vector), p.reprojection_error_px,
+                                      p.detection_index < armors.size()
+                                          ? armors[p.detection_index].color : armor::Color::Blue});
         for (const auto &t : result->tracks) {
             vision::TrackResult out{t.id,
                                     t.detection_index,
@@ -423,7 +445,8 @@ class ArmorVisualizationNode final : public rclcpp::Node {
             return;
         auto json = output::status_json(
             armors, result->detect_fps, result->mode, frame.cols, frame.rows, geometry,
-            rclcpp::Time(result->header.stamp).seconds(), result->prediction_horizon_ms, tracks);
+            rclcpp::Time(result->header.stamp).seconds(), result->prediction_horizon_ms, tracks,
+            result->diagnostics_json);
         json.pop_back();
         json += ",\"runtime\":\"ros2\",\"capture_to_encode_ms\":" +
                 std::to_string((now() - rclcpp::Time(result->header.stamp)).seconds() * 1000.0) +

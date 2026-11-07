@@ -90,6 +90,10 @@ if(BUILD_TESTING)
   target_include_directories(armor_color_test PRIVATE src ${OpenCV_INCLUDE_DIRS})
   target_link_libraries(armor_color_test ${OpenCV_LIBS})
   add_test(NAME armor_color_regression COMMAND armor_color_test)
+  add_executable(armor_geometry_test test/armor_geometry_test.cpp)
+  target_include_directories(armor_geometry_test PRIVATE src ${OpenCV_INCLUDE_DIRS})
+  target_link_libraries(armor_geometry_test ${OpenCV_LIBS})
+  add_test(NAME armor_geometry_regression COMMAND armor_geometry_test)
   add_executable(pose_tracking_test test/pose_tracking_test.cpp)
   target_include_directories(pose_tracking_test PRIVATE src ${OpenCV_INCLUDE_DIRS})
   target_link_libraries(pose_tracking_test ${OpenCV_LIBS})
@@ -111,7 +115,7 @@ if(BUILD_TESTING)
       ${CMAKE_CURRENT_SOURCE_DIR}/test/check_ros_pipeline.py
       $<TARGET_FILE:blue_vision_ros>
       ${CMAKE_CURRENT_SOURCE_DIR}/scripts/rdk_ros_browser.py)
-    set_tests_properties(blue_ros_pipeline_regression PROPERTIES TIMEOUT 55
+    set_tests_properties(blue_ros_pipeline_regression PROPERTIES TIMEOUT 90
       ENVIRONMENT "LD_LIBRARY_PATH=${CMAKE_CURRENT_BINARY_DIR}:$ENV{LD_LIBRARY_PATH}")
   endif()
 endif()

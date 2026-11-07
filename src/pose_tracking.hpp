@@ -103,11 +103,11 @@ struct Pose {
     cv::Vec3d position_m;
     cv::Vec3d rotation_vector;
     double reprojection_error_px;
+    armor::Color color = armor::Color::Blue;
 };
 
 inline auto solve_pose(const armor::Armor& detected, std::size_t index,
     const Calibration& calibration, cv::Size image_size) -> std::optional<Pose> {
-    if (detected.color != armor::Color::Blue) return std::nullopt;
     const auto matrix = calibration.scaled_matrix(image_size);
     if (!matrix) return std::nullopt;
     const auto object = calibration.object_points();
@@ -142,7 +142,7 @@ inline auto solve_pose(const armor::Armor& detected, std::size_t index,
                 || (best && error >= best->reprojection_error_px)) continue;
             best = Pose { index,
                 { t.at<double>(0), t.at<double>(1), t.at<double>(2) },
-                { r.at<double>(0), r.at<double>(1), r.at<double>(2) }, error };
+                { r.at<double>(0), r.at<double>(1), r.at<double>(2) }, error, detected.color };
         }
         return best;
     } catch (const cv::Exception&) {
@@ -180,6 +180,7 @@ class Tracker {
         double last_observation;
         State state;
         Matrix covariance;
+        armor::Color color;
     };
     TrackingConfig config_;
     std::vector<Track> tracks_;
@@ -264,6 +265,7 @@ public:
         for (std::size_t i = 0; i < tracks_.size(); ++i) {
             const auto inverse = observation_covariance(tracks_[i]).inv(cv::DECOMP_CHOLESKY);
             for (std::size_t j = 0; j < observations.size(); ++j) {
+                if (tracks_[i].color != observations[j].color) continue;
                 const auto delta = observations[j].position_m - position(tracks_[i]);
                 const auto cost = delta.dot(inverse * delta);
                 if (cv::norm(delta) <= config_.association_distance_m && cost < 16.27) {
@@ -289,7 +291,8 @@ public:
             auto covariance = Matrix::eye();
             for (int axis = 0; axis < 3; ++axis) covariance(axis, axis) = 0.01;
             tracks_.push_back({ next_id_++, static_cast<int>(observations[i].detection_index),
-                1, timestamp, { point[0], point[1], point[2], 0, 0, 0 }, covariance });
+                1, timestamp, { point[0], point[1], point[2], 0, 0, 0 }, covariance,
+                observations[i].color });
         }
         auto results = std::vector<TrackResult> {};
         for (const auto& track : tracks_) {

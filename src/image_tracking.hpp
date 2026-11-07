@@ -28,6 +28,7 @@ class ImageTracker {
         double last_observation;
         cv::Vec4d state;
         Matrix covariance;
+        armor::Color color;
     };
     std::vector<Track> tracks_;
     std::optional<double> previous_time_;
@@ -94,19 +95,19 @@ public:
             track.covariance = transition * track.covariance * transition.t() + noise;
             track.detection_index = -1;
         }
-        struct Observation { std::size_t index; cv::Vec2d point; };
+        struct Observation { std::size_t index; cv::Vec2d point; armor::Color color; };
         auto observations = std::vector<Observation> {};
         for (std::size_t i = 0; i < detections.size(); ++i) {
-            if (detections[i].color != armor::Color::Blue) continue;
             auto point = cv::Vec2d {};
             for (const auto& corner : detections[i].corners) point += cv::Vec2d { corner.x, corner.y };
-            observations.push_back({ i, point * 0.25 });
+            observations.push_back({ i, point * 0.25, detections[i].color });
         }
         struct Edge { double cost; std::size_t track; std::size_t observation; };
         auto edges = std::vector<Edge> {};
         const auto gate = std::max(50.0, size.width * 0.15);
         for (std::size_t i = 0; i < tracks_.size(); ++i) {
             for (std::size_t j = 0; j < observations.size(); ++j) {
+                if (tracks_[i].color != observations[j].color) continue;
                 const auto cost = cv::norm(observations[j].point - center(tracks_[i]));
                 if (cost <= gate) edges.push_back({ cost, i, j });
             }
@@ -130,7 +131,8 @@ public:
             covariance(0, 0) = covariance(1, 1) = 9;
             covariance(2, 2) = covariance(3, 3) = 500;
             tracks_.push_back({ next_id_++, static_cast<int>(observation.index), 1, timestamp,
-                { observation.point[0], observation.point[1], 0, 0 }, covariance });
+                { observation.point[0], observation.point[1], 0, 0 }, covariance,
+                observation.color });
         }
         auto results = std::vector<ImageTrackResult> {};
         for (const auto& track : tracks_) {

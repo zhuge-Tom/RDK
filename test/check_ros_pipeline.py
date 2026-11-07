@@ -29,23 +29,38 @@ def run(binary, browser):
     try:
         with tempfile.TemporaryDirectory(prefix="armor-ros-test-") as directory:
             root = Path(directory)
-            image = root / "blue.ppm"
-            make_scene(image, [(200, (0, 160, 255)), (440, (0, 160, 255))])
             config = root / "synthetic-calibration.yml"
-            for calibrated, debug in ((False, False), (True, False), (True, True)):
+            cases = [(mode, calibrated, debug, False)
+                     for mode in ("blue", "red")
+                     for calibrated, debug in ((False, False), (True, False), (True, True))]
+            cases += [("both", True, True, False), ("red", True, True, True)]
+            for mode, calibrated, debug, custom_red in cases:
+                name = f"{mode}-{'debug' if debug else 'calibrated' if calibrated else 'uncalibrated'}"
+                if custom_red:
+                    name += "-custom-threshold"
+                phase = root / name
+                phase.mkdir()
+                image = phase / "scene.ppm"
+                red = (255, 100, 0) if custom_red else (255, 0, 0)
+                blue = (0, 160, 255)
+                expected = ["blue", "red"] if mode == "both" else [mode]
+                lights = ([(80, red), (260, red), (550, blue), (730, blue)]
+                          if mode == "both" else [(200, red if mode == "red" else blue),
+                                                  (440, red if mode == "red" else blue)])
+                make_scene(image, lights)
                 write_test_calibration(config, verified=0 if debug else 1)
                 if debug:
                     with config.open("a") as output:
                         output.write("allow_unverified_pnp: 1\n")
-                phase = root / ("debug-unverified" if debug else "calibrated" if calibrated else "uncalibrated")
-                phase.mkdir()
                 captures = phase / "captures"
                 with socket.socket() as probe:
                     probe.bind(("127.0.0.1", 0))
                     port = probe.getsockname()[1]
                 env = dict(os.environ, BROWSER_PORT=str(port), BROWSER_BIND="127.0.0.1", ARMOR_CAPTURE_DIR=str(captures))
                 command = [binary, "--ros-args", "-p", f"test_image:={image}", "-p", "processing_width:=480",
-                           "-p", "fps:=20.0", "-p", f"capture_directory:={captures}"]
+                           "-p", "fps:=20.0", "-p", f"color:={mode}", "-p", f"capture_directory:={captures}"]
+                if custom_red:
+                    command += ["-p", "red_hue_low_max:=20"]
                 if calibrated:
                     command += ["-p", f"calibration_path:={config}"]
                 received, infos = [], []
@@ -69,14 +84,19 @@ def run(binary, browser):
                                     status = json.load(response)
                                 tracks = status.get("image_tracking", {}).get("tracks", [])
                                 if (status.get("stream_alive") and tracks and tracks[0]["confirmed"]
-                                        and received and received[-1].image_tracks[0].prediction_valid and infos):
+                                        and status.get("mode") == mode and status.get("colors") == expected
+                                        and received and len(received[-1].image_tracks) == len(expected)
+                                        and received[-1].image_tracks[0].prediction_valid and infos):
                                     break
                             except (OSError, urllib.error.URLError):
                                 pass
                         else:
                             raise AssertionError("ROS topics/browser did not become ready")
-                        assert status["runtime"] == "ros2" and status["blue_armors"] == 1, status
-                        assert status["red_armors"] == 0 and len(status["corners"]) == 4, status
+                        assert status["runtime"] == "ros2" and status["blue_armors"] == expected.count("blue"), status
+                        assert status["red_armors"] == expected.count("red"), status
+                        assert len(status["corners"]) == 4 * len(expected), status
+                        assert status["detection_diagnostics"]["armors"] == len(expected), status
+                        assert json.loads(received[-1].diagnostics_json)["armors"] == len(expected)
                         assert status["width"] == 480 and status["height"] == 240, status
                         assert received[-1].header.frame_id == "camera_optical"
                         assert received[-1].header.stamp.sec > 0
@@ -89,7 +109,9 @@ def run(binary, browser):
                             assert status["geometry"]["reason"] == expected_reason, status
                             assert received[-1].geometry_reason == expected_reason
                             assert status["geometry"]["poses"][0]["distance_m"] > 0
-                            assert received[-1].poses and received[-1].tracks
+                            assert len(received[-1].poses) == len(expected)
+                            assert len(received[-1].tracks) == len(expected)
+                            assert all(t.confirmed and t.prediction_valid for t in received[-1].tracks)
                             assert abs(infos[-1].k[0] - 500) < 1e-6
                         else:
                             assert status["geometry"]["reason"] == "calibration_missing", status
@@ -160,7 +182,7 @@ def run(binary, browser):
                         for subscription in subscriptions:
                             node.destroy_subscription(subscription)
                         node.destroy_node()
-                print("PASS ROS phase:", "calibrated synthetic" if calibrated else "uncalibrated", flush=True)
+                print("PASS ROS phase:", name, flush=True)
     finally:
         rclpy.shutdown()
     print("PASS: composed nodes, typed corners/tracks, CameraInfo, metric gating, browser, ROS capture service, stale clearing and shutdown")

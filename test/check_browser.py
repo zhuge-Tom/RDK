@@ -59,13 +59,15 @@ def run(binary, browser):
             assert value["red_armors"] == 0 and value["blue_armors"] == 1, value
             assert value["mode"] == "blue" and value["colors"] == ["blue"], value
             assert value["detected"] and len(value["corners"]) == 4, value
+            assert value["detection_diagnostics"]["armors"] == 1, value
+            assert value["detection_diagnostics"]["lightbars"] == 2, value
             assert value["geometry"]["reason"] == "ready", value
             assert len(value["geometry"]["poses"]) == 1, value
             assert len(value["geometry"]["tracks"]) == 1, value
             assert value["image_tracking"]["units"] == "pixels", value
             assert len(value["image_tracking"]["tracks"]) == 1, value
             with opener.open(base, timeout=2) as response:
-                assert "RDK 蓝色装甲" in response.read().decode()
+                assert "RDK 装甲" in response.read().decode()
             request = urllib.request.Request(base + "/capture", method="POST")
             with opener.open(request, timeout=2) as response:
                 assert json.load(response)["pending"]
@@ -90,6 +92,7 @@ def run(binary, browser):
                 stale = json.load(response)
             assert not stale["stream_alive"] and not stale["detected"], stale
             assert stale["armors"] == 0 and stale["corners"] == [], stale
+            assert stale["detection_diagnostics"] == {}, stale
             assert stale["geometry"]["reason"] == "stream_stale", stale
             assert stale["geometry"]["poses"] == [] and stale["geometry"]["tracks"] == [], stale
             assert stale["image_tracking"]["tracks"] == [], stale

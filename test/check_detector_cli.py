@@ -82,49 +82,50 @@ def run(binary):
             assert value["geometry"]["poses"] == [], value
             assert value["geometry"]["tracks"] == [], value
             assert value["image_tracking"]["units"] == "pixels", value
-            assert len(value["image_tracking"]["tracks"]) == expected.count("blue"), value
+            assert len(value["image_tracking"]["tracks"]) == len(expected), value
             for track in value["image_tracking"]["tracks"]:
                 assert track["predicted_center_px"] is None, value
             assert result.stdout.startswith(b"\xff\xd8"), "missing JPEG frame"
             assert result.stdout.endswith(b"\xff\xd9"), "truncated JPEG frame"
-        # A known synthetic blue rectangle verifies actual-executable PnP and JSON.
-        image = root / "blue-pose.ppm"
-        make_scene(image, [(200, (0, 160, 255)), (440, (0, 160, 255))])
-        config = root / "calibration.yml"
-        for verified, debug in [(0, False), (1, False), (0, True)]:
-            write_test_calibration(config, verified)
-            if debug:
-                with config.open("a") as output:
-                    output.write("allow_unverified_pnp: 1\n")
-            status = root / "blue-pose.json"
-            env = dict(os.environ, ARMOR_STATUS_FILE=str(status))
-            subprocess.run(
-                [binary, "--image", str(image), "--color", "blue",
-                 "--calibration", str(config), "--prediction-ms", "80"],
-                env=env, capture_output=True, timeout=10, check=True,
-            )
-            value = json.loads(status.read_text())
-            geometry = value["geometry"]
-            assert geometry["frame"] == "camera_optical"
-            assert geometry["prediction_horizon_ms"] == 80
-            if not verified and not debug:
-                assert geometry["reason"] == "calibration_unverified", value
-                assert not geometry["poses"] and not geometry["tracks"], value
-            else:
-                assert geometry["reason"] == ("debug_unverified" if debug else "ready"), value
-                assert len(geometry["poses"]) == 1, value
-                pose = geometry["poses"][0]
-                assert 0.5 < pose["position_m"][2] < 0.7, value
-                assert pose["reprojection_error_px"] < 4, value
-                assert len(geometry["tracks"]) == 1
-                assert geometry["tracks"][0]["predicted_position_m"] is None, value
-                assert not geometry["tracks"][0]["confirmed"], value
+        # Same known geometry must produce PnP for either target color.
+        for mode, rgb in [("blue", (0, 160, 255)), ("red", (255, 0, 0))]:
+            image = root / f"{mode}-pose.ppm"
+            make_scene(image, [(200, rgb), (440, rgb)])
+            config = root / "calibration.yml"
+            for verified, debug in [(0, False), (1, False), (0, True)]:
+                write_test_calibration(config, verified)
+                if debug:
+                    with config.open("a") as output:
+                        output.write("allow_unverified_pnp: 1\n")
+                status = root / f"{mode}-pose.json"
+                env = dict(os.environ, ARMOR_STATUS_FILE=str(status))
+                subprocess.run(
+                    [binary, "--image", str(image), "--color", mode,
+                     "--calibration", str(config), "--prediction-ms", "80"],
+                    env=env, capture_output=True, timeout=10, check=True,
+                )
+                value = json.loads(status.read_text())
+                geometry = value["geometry"]
+                assert geometry["frame"] == "camera_optical"
+                assert geometry["prediction_horizon_ms"] == 80
+                if not verified and not debug:
+                    assert geometry["reason"] == "calibration_unverified", value
+                    assert not geometry["poses"] and not geometry["tracks"], value
+                else:
+                    assert geometry["reason"] == ("debug_unverified" if debug else "ready"), value
+                    assert len(geometry["poses"]) == 1, value
+                    pose = geometry["poses"][0]
+                    assert 0.5 < pose["position_m"][2] < 0.7, value
+                    assert pose["reprojection_error_px"] < 4, value
+                    assert len(geometry["tracks"]) == 1
+                    assert geometry["tracks"][0]["predicted_position_m"] is None, value
+                    assert not geometry["tracks"][0]["confirmed"], value
         invalid = subprocess.run(
             [binary, "--color", "purple"], capture_output=True, timeout=5,
         )
         assert invalid.returncode != 0
         assert b"--color must be" in invalid.stderr
-    print("PASS: image/JSON/JPEG cases, calibrated blue PnP, unverified/absent calibration, tentative tracking, invalid color")
+    print("PASS: image/JSON/JPEG cases, calibrated red/blue PnP, unverified/absent calibration, tentative tracking, invalid color")
 
 
 if __name__ == "__main__":

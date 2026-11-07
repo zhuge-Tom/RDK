@@ -39,9 +39,28 @@ int main() {
         require(results[1].id == right && results[1].detection_index == 0, "image right ID swap");
         auto red = armor_at(300, 300);
         red.color = rmcs::armor::Color::Red;
-        require(tracker.update({ red }, { 720, 540 }, t + 0.7).empty(), "red entered image tracker");
+        results = tracker.update({ red }, { 720, 540 }, t + 0.7);
+        require(results.size() == 1 && results[0].observed, "red image tracking missing");
+        for (int i = 1; i <= 4; ++i)
+            results = tracker.update({ red }, { 720, 540 }, t + 0.7 + i / 30.0);
+        require(results[0].confirmed && results[0].predicted_center_px,
+            "red image prediction missing");
+
+        auto colors = rmcs::vision::ImageTracker { 0.1 };
+        auto blue = armor_at(300, 300);
+        red = armor_at(310, 300);
+        red.color = rmcs::armor::Color::Red;
+        results = colors.update({ blue, red }, size, 0.0);
+        const auto blue_id = results[0].id, red_id = results[1].id;
+        blue = armor_at(310, 300);
+        red = armor_at(300, 300);
+        red.color = rmcs::armor::Color::Red;
+        results = colors.update({ red, blue }, size, 1.0 / 30.0);
+        require(results.size() == 2 && results[0].id == blue_id
+            && results[0].detection_index == 1 && results[1].id == red_id
+            && results[1].detection_index == 0, "red/blue image tracks exchanged IDs");
         std::cout << "PASS: uncalibrated image prediction in pixels, velocity, stable IDs, "
-                     "confirmation, coasting, expiry, resize reset, blue-only filtering\n";
+                     "confirmation, coasting, expiry, resize reset, red prediction and color association\n";
     } catch (const std::exception& e) {
         std::cerr << "FAIL: " << e.what() << '\n';
         return 1;
