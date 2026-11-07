@@ -1,0 +1,26 @@
+{
+  "type": "replay_of_saved_corners_not_new_live_data",
+  "live_parameters_changed": false,
+  "height_range_source": "user measured58-60mm",
+  "width_m": 0.13,
+  "variants": [
+    {
+      "height_m": 0.058,
+      "valid": 50,
+      "mean_distance_m": 2.4787686320622146,
+      "max_abs_difference_from_native_m": null
+    },
+    {
+      "height_m": 0.059,
+      "valid": 50,
+      "mean_distance_m": 2.478794546455563,
+      "max_abs_difference_from_native_m": 6.304592403694187e-10
+    },
+    {
+      "height_m": 0.06,
+      "valid": 50,
+      "mean_distance_m": 2.4788177152111723,
+      "max_abs_difference_from_native_m": null
+    }
+  ]
+}

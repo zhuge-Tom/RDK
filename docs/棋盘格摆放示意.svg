@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="650" viewBox="0 0 1080 650" role="img" aria-labelledby="title desc">
+  <title id="title">棋盘格位置覆盖与倾斜方式</title>
+  <desc id="desc">左图是画面九个摆放区域，中央为一号；右图分别示意左右倾斜、上下倾斜和平面旋转。棋盘须始终完整入画。</desc>
+  <defs>
+    <style>
+      text { font-family: "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #203447; }
+      .heading { font-size: 22px; font-weight: 700; }
+      .label { font-size: 17px; }
+      .small { font-size: 15px; fill: #52667b; }
+      .number { font-size: 22px; font-weight: 700; fill: #fff; text-anchor: middle; dominant-baseline: central; }
+      .panel { fill: #f4f8fc; stroke: #b9cadb; stroke-width: 2; }
+      .board { stroke: #207c66; stroke-width: 7; stroke-linecap: round; }
+      .guide { stroke: #b9cadb; stroke-width: 2; stroke-dasharray: 7 7; }
+    </style>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#467ba2"/></marker>
+  </defs>
+  <rect width="1080" height="650" fill="#fff"/>
+  <text x="28" y="38" class="heading">位置覆盖：把棋盘移到不同区域</text>
+  <text x="28" y="66" class="small">每次只放一块完整棋盘；编号对应拍照清单 01–09</text>
+  <rect x="28" y="88" width="548" height="440" rx="14" class="panel"/>
+  <path d="M210,88 V528 M393,88 V528 M28,235 H576 M28,382 H576" class="guide"/>
+  <g><circle cx="120" cy="147" r="23" fill="#3679aa"/><text x="120" y="147" class="number">6</text><text x="94" y="190" class="label">左上</text></g>
+  <g><circle cx="302" cy="147" r="23" fill="#3679aa"/><text x="302" y="147" class="number">4</text><text x="285" y="190" class="label">上</text></g>
+  <g><circle cx="484" cy="147" r="23" fill="#3679aa"/><text x="484" y="147" class="number">7</text><text x="458" y="190" class="label">右上</text></g>
+  <g><circle cx="120" cy="294" r="23" fill="#3679aa"/><text x="120" y="294" class="number">2</text><text x="103" y="337" class="label">左</text></g>
+  <g><circle cx="302" cy="294" r="23" fill="#207c66"/><text x="302" y="294" class="number">1</text><text x="276" y="337" class="label">中央</text></g>
+  <g><circle cx="484" cy="294" r="23" fill="#3679aa"/><text x="484" y="294" class="number">3</text><text x="467" y="337" class="label">右</text></g>
+  <g><circle cx="120" cy="441" r="23" fill="#3679aa"/><text x="120" y="441" class="number">8</text><text x="94" y="484" class="label">左下</text></g>
+  <g><circle cx="302" cy="441" r="23" fill="#3679aa"/><text x="302" y="441" class="number">5</text><text x="285" y="484" class="label">下</text></g>
+  <g><circle cx="484" cy="441" r="23" fill="#3679aa"/><text x="484" y="441" class="number">9</text><text x="458" y="484" class="label">右下</text></g>
+  <text x="616" y="38" class="heading">倾斜：改变棋盘朝向</text>
+  <rect x="610" y="88" width="442" height="140" rx="12" class="panel"/>
+  <text x="630" y="117" class="label">左右倾斜 · 从上方看</text>
+  <path d="M645,175 L669,161 L669,189 Z" fill="#467ba2"/>
+  <text x="626" y="215" class="small">相机</text>
+  <line x1="703" y1="175" x2="877" y2="175" stroke="#467ba2" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="922" y1="138" x2="922" y2="208" class="guide"/>
+  <line x1="897" y1="143" x2="947" y2="203" class="board"/>
+  <text x="744" y="214" class="small">一边近，一边远</text>
+  <rect x="610" y="245" width="442" height="140" rx="12" class="panel"/>
+  <text x="630" y="274" class="label">上下倾斜 · 从侧面看</text>
+  <path d="M645,332 L669,318 L669,346 Z" fill="#467ba2"/>
+  <text x="626" y="372" class="small">相机</text>
+  <line x1="703" y1="332" x2="877" y2="332" stroke="#467ba2" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="922" y1="295" x2="922" y2="365" class="guide"/>
+  <line x1="897" y1="300" x2="947" y2="360" class="board"/>
+  <text x="739" y="371" class="small">上边近、下边远，或相反</text>
+  <rect x="610" y="402" width="442" height="126" rx="12" class="panel"/>
+  <text x="630" y="432" class="label">平面内旋转 · 像转方向盘</text>
+  <g transform="translate(914 476) rotate(-20)"><rect x="-45" y="-28" width="90" height="56" fill="#e0f0eb" stroke="#207c66" stroke-width="4"/><path d="M-20,-28 V28 M20,-28 V28 M-45,0 H45" stroke="#207c66" stroke-width="2"/></g>
+  <text x="630" y="485" class="small">可补充姿态变化，</text><text x="630" y="510" class="small">不能代替前后倾斜。</text>
+  <text x="28" y="572" class="heading">每张都要：完整入画 → 停稳 → 保存成功 → 再移动</text>
+  <text x="28" y="608" class="label">同一批固定镜头设置；边缘位置不要裁板；示意图不是实际棋盘打印模板。</text>
+</svg>

@@ -32,9 +32,12 @@ def run(binary, browser):
             image = root / "blue.ppm"
             make_scene(image, [(200, (0, 160, 255)), (440, (0, 160, 255))])
             config = root / "synthetic-calibration.yml"
-            write_test_calibration(config)
-            for calibrated in (False, True):
-                phase = root / ("calibrated" if calibrated else "uncalibrated")
+            for calibrated, debug in ((False, False), (True, False), (True, True)):
+                write_test_calibration(config, verified=0 if debug else 1)
+                if debug:
+                    with config.open("a") as output:
+                        output.write("allow_unverified_pnp: 1\n")
+                phase = root / ("debug-unverified" if debug else "calibrated" if calibrated else "uncalibrated")
                 phase.mkdir()
                 captures = phase / "captures"
                 with socket.socket() as probe:
@@ -82,7 +85,9 @@ def run(binary, browser):
                         assert received[-1].image_tracks[0].confirmed
                         assert infos[-1].width == 480 and infos[-1].height == 240
                         if calibrated:
-                            assert status["geometry"]["reason"] == "ready", status
+                            expected_reason = "debug_unverified" if debug else "ready"
+                            assert status["geometry"]["reason"] == expected_reason, status
+                            assert received[-1].geometry_reason == expected_reason
                             assert status["geometry"]["poses"][0]["distance_m"] > 0
                             assert received[-1].poses and received[-1].tracks
                             assert abs(infos[-1].k[0] - 500) < 1e-6

@@ -1,183 +1,114 @@
-# 当前海康相机标定与灯条尺寸测量
+# 相机标定、灯条尺寸和PnP核验
 
-相机始终接 RDK。电脑浏览器只负责查看和点击采集。
-标定需要真实棋盘格照片和实物测量；尚未采集时不能声称已经标定完成。
+适用于相机接RDK、电脑看浏览器的main流程。当前进度和四组数值见[蓝色装甲板进度](docs/blue-armor-progress.md)；摆放、不同距离和角度的拍照清单见[棋盘格标定拍照指南](docs/棋盘格标定拍照指南.md)。
 
-## 1. 准备棋盘格和量具
+## 1. 固定镜头并实测棋盘
 
-本仓库提供 `config/chessboard-9x6-20mm.svg`，A4 横向，按 **100% 原始尺寸** 打印。
-它有 **10 列 × 7 行方格，9 列 × 6 行内角点**，设计方格边长 20 mm。
-也可以使用现有的平整棋盘格，命令填写它的实际内角点数量。
+当前棋盘9×6内角点（10×7方格），打印板横纵格子均实测为19mm。`config/chessboard-9x6-20mm.svg`是设计20mm的A4横向模板，100%打印后仍需实测，计算填实际边长。其他棋盘不能照搬19mm。
 
-**当前这张打印板的横向、纵向方格边长均已实测为 19 mm（2026-10-27）。**
-本次标定采用 **19 mm = 0.019 m**；脚本默认值和下面的命令均已按此设置。
-SVG 文件名中的 20 mm 是原始设计尺寸，计算以实物测量值为准。
+先确定焦距、对焦和光圈，再固定镜头。相机ROI和采样方式一致；不同对焦或变焦状态另分批次。轻微光圈调节不自动等同于内参失效，但应记录时点并检查成像。标定需要不同位置、距离和前后倾角，不要求每张都在2米，也不需要精确测每张拍摄距离。
 
-将纸平整贴在硬板上，保持清晰、无翘曲。用尺子测量实际印出的方格边长；
-建议横纵各跨多个方格测量后除以格数。若打印发生不同比例的横纵缩放，应重新打印。
-准备直尺/游标卡尺，测量目标灯条；另用卷尺做后续距离核验。
+## 2. 单独采集新一批原图
 
-## 2. 保持相机配置，采集 20–30 张原始照片
-
-固定当前镜头焦距、对焦和相机 ROI/采样设置。保持以后检测使用的同一成像配置。
-增加环境照明，让黑白格在浏览器中清楚可见；若必须调曝光，保持无明显拖影和过曝。
-蓝灯条检测默认的 3500 us 曝光未必足以拍清室内棋盘格。
-当前室内使用曝光 **60000 us（60 ms）**、增益 **16**、帧率 **15 FPS**；
-增益从 12 上调以增加亮度。此前在增益 12 的实时预览中抽帧成功找到了
-9×6 共 54 个内角点；这只是角点可检测性检查，
-不代表照片无拖影或已完成标定。此曝光下必须固定相机，棋盘停稳后再保存；
-如果有拖影，应增加照明并缩短曝光。
-
-需要重新启动这个亮度设置时，先结束当前相机会话，再在电脑执行：
+以下命令在电脑执行；需先按[README](README.md)部署：
 
 ```bash
-cd ~/RDK
-EXPOSURE_US=60000 CAMERA_GAIN=16 CAMERA_FPS=15 bash scripts/run-blue-vision-browser.sh
+cd "$HOME/RDK"
+ARMOR_CAPTURE_DIR=calibration/session-new/captures \
+EXPOSURE_US=60000 CAMERA_GAIN=16 CAMERA_FPS=15 \
+  bash scripts/run-blue-vision-browser.sh
 ```
 
-标定照片采集完毕后，普通检测入口恢复默认的 3500 us、增益 2、30 FPS。
+打开`http://127.0.0.1:8876/#debug`，在棋盘和相机停稳后点击“保存标定照片”。这是1440×1080原图PNG，无检测绘图；浏览器960×720截图不代替原图。60ms/增益16是当前室内静态棋盘亮度设置，应根据照明缩短曝光、避免拖影和过曝。日常蓝灯条检测恢复3500us、增益2、30FPS。
 
-1. 打开 `http://127.0.0.1:8876/`，切换到“调试模式”。
-2. 让棋盘格完整进入画面，停稳，再点击“保存标定照片”。
-3. 看到保存成功后移动标定板，再保存下一张。
-4. 覆盖画面中央、四角和边缘，改变距离及左右/上下倾斜角度，保持所有内角点可见。
-   不要只在一个位置连拍，也不要只拍与相机平行的棋盘格。
+Git历史中保留的`calibration/`照片只是开发档案，不能当成本次新拍素材。使用独立`session-new`目录；新的一批换目录名。拍约20–30张、完整清晰、覆盖中央四角与倾角的照片，最终数量以合格筛选和姿态覆盖为准。
 
-按钮保存的是 **原始分辨率、未缩放、无检测绘图的 PNG**，而不是浏览器截图。
-默认目录：`/home/sunrise/rdk_blue_vision/calibration/captures/`。
-实际原始分辨率以成功提示和照片为准；浏览器的 960×720 是检测显示分辨率。
+## 3. 筛选、隔离和计算
 
-每次标定使用独立的图片目录，不要把不同镜头、对焦、ROI、分辨率的照片混用。
-启动时可用 `ARMOR_CAPTURE_DIR` 在 RDK 指定新目录。
-
-点击保存时不要求画面已经检测到棋盘；照片是否能用于标定由后续角点检查决定。
-若出现采集错误，当前网页会具体区分服务尚未发现、保存响应超时、
-无新鲜原始帧或文件写入失败。超时后先检查已保存数量，避免重复点击。
-
-## 3. 在 RDK 筛选照片并计算相机参数
-
-以下命令均在 RDK 执行。新克隆的仓库不包含实拍照片，应先完成上一节采集。
-先运行只生成报告的检查，查看每张照片的清晰度、覆盖率和拒收原因：
+以下在RDK终端执行：
 
 ```bash
 cd /home/sunrise/rdk_blue_vision
 python3 scripts/review_calibration.py \
-  --columns 9 --rows 6 --report calibration/review-preview.json
-```
+  --images calibration/session-new/captures \
+  --report calibration/session-new/review-preview.json
 
-默认扫描 `calibration/captures/*.png`，此时不会移动照片。
-检查报告后应用相同规则，复制合格照片到 accepted，移动不合格原图到 quarantine：
-
-```bash
+# 查看报告后应用；三个图片目录相互独立
 python3 scripts/review_calibration.py --apply \
-  --columns 9 --rows 6 --report calibration/review-applied.json
-```
+  --images calibration/session-new/captures \
+  --accepted calibration/session-new/accepted \
+  --quarantine calibration/session-new/quarantine \
+  --report calibration/session-new/review-applied.json
 
-默认要求完整 54 个内角点、估计的整块棋盘边界在画面内、统一分辨率、
-黑白对比度至少 60、内角点凸包占画面至少 3%，横纵边缘过渡宽度均不超过 6 px。
-6 px 是 PnP 初版的宽松筛选线，优先补拍更清晰的照片；可用 `--max-edge-px 3`
-收紧筛选。自动筛选不判断姿态覆盖是否充分，应人工检查不同位置、距离和倾角。
-
-报告已有同名文件、accepted 已有图片或隔离目录存在同名原图时，脚本会拒绝覆盖。
-新批次用独立目录，不要把未复查照片直接添加到已选集。例如：
-
-```bash
-python3 scripts/review_calibration.py --apply \
-  --images calibration/captures-next \
-  --accepted calibration/accepted-next \
-  --quarantine calibration/quarantine-next \
-  --report calibration/review-next.json
 python3 scripts/calibrate_camera.py \
-  --images calibration/accepted-next \
+  --images calibration/session-new/accepted \
   --columns 9 --rows 6 --square-mm 19 \
-  --output config/pose_camera.measured-next.yml
+  --output config/pose_camera.measured-session-new.yml
 ```
 
-该例要求先把新批次采集到 captures-next；启动时在电脑设置
-`ARMOR_CAPTURE_DIR=calibration/captures-next`。
-重新使用旧批次时，应准备其全部原图的副本，再用新目录重新筛选。
+筛选默认要求完整54个内角点、估计棋盘边界完整、相同分辨率、对比度≥60、内角点凸包覆盖≥3%、横纵边缘过渡宽度≤6px。6px只是初版宽松筛选线，更清晰照片优先；可用`--max-edge-px 3`收紧。自动筛选不判断所有姿态覆盖，应检查分布。
 
-### 当前设备的开发记录
+`--apply`复制入选图到accepted，移动不合格原图到quarantine，保留原因和哈希。报告和目标同名文件不会覆盖。标定默认至少15张有效照片；输出K/D、真实分辨率、逐图误差和`.report.json`，保持`calibration_verified: 0`及零装甲尺寸。拟合RMS小不代表实际测距准确。
 
-当前已复查原编号 1–37，按用户要求将不适合初版的原图隔离：
+## 4. 尺寸对应检测角点
 
-- 初版入选 **19 张**，独立目录 `calibration/accepted/`。
-- 隔离 **18 张**（含早先移出的第 1 张），目录 `calibration/quarantine-20261027-200714/`。
-- 入选清单及哈希在 `calibration/accepted/selection.json`，隔离原因在隔离目录的 `reasons.json`。
-- 全部原图及本轮报告已另行备份到开发电脑；实拍照片不随源码仓库发布。
+四角点取左右灯条长轴的上/下端点，顺序为左上、右上、右下、左下。
 
-后续标定默认只读取 `calibration/accepted/`。浏览器新拍照片先进入 `calibration/captures/`，
-必须复查后才能加入入选集，避免混入未检查素材。
-上述筛选规则用于这次初版；更高精度仍需更清晰、覆盖充分的照片与实测核验。
+- W：两根有效发光灯条中心线之间的间距。
+- H：单根有效发光灯条沿长轴的长度，左右分别确认。
 
-已用这 19 张和实测 19 mm 计算 `config/pose_camera.measured.yml`。
-拟合 RMS 为 **0.393 px**，逐张误差 **0.108–0.674 px**；报告是
-`config/pose_camera.measured.report.json`。程序归一化不同 OpenCV 版本的角点形状，
-并核对逐张误差与总体 RMS 一致。当前配置保持未验证，仍需实测灯条尺寸和独立距离核验。
+量发光区域，不用外壳宽高代替。模型假定等长、平行、共面灯条，明显过曝会影响端点。当前初版W约130mm、H实测约58–60mm，运行取59mm；这是近似尺寸，不用已知距离反向调尺寸凑数。其他装甲应填自己的实测值，毫米除以1000写入米单位配置。
 
-### 用合格照片计算内参
+## 5. 先启用显式未核验调试
 
-在 RDK 终端执行（9×6 个内角点，当前打印板实测格子边长 19 mm）：
+在RDK从自己的结果复制：
 
 ```bash
-cd /home/sunrise/rdk_blue_vision
-python3 scripts/calibrate_camera.py \
-  --images calibration/accepted \
-  --columns 9 --rows 6 --square-mm 19 \
-  --output config/pose_camera.measured.yml
+cp config/pose_camera.measured-session-new.yml config/pose_camera.yml
+# 编辑pose_camera.yml：填写自己的armor_width_m、armor_height_m；
+# 保留calibration_verified: 0，添加allow_unverified_pnp: 1。
 ```
 
-更换或重新打印棋盘后，重新实测并通过 `--square-mm` 填写实际边长。
-`--columns`、`--rows` 数的是内角点。
-本轮结果已经生成；重算时更换输出文件名以保存旧结果。补拍后先复查并更新入选集。
-需要 RDK 已有的 Python OpenCV 与 NumPy，不要求电脑安装 MVS SDK。
-
-程序会排除未找到完整棋盘格的照片，默认至少需要 15 张有效照片，
-输出内参、畸变、真实原始分辨率和 `.report.json` 中的逐张重投影误差。
-已有结果不会覆盖；重做时换一个输出文件名。
-检查整体与逐张误差、照片清晰程度、姿态覆盖，以及去畸变后的直线效果。
-可先把 RMS 小于约 0.5–1 px 当作初步检查目标，最终仍以独立距离核验为准。
-较小的拟合误差不能证明参数一定准确。
-
-## 4. 实测灯条几何尺寸
-
-检测器的四角点位于左右灯条各自长轴的上下端点，按左上、右上、右下、左下排列。
-因此需要测量：
-
-- 宽 W：两根灯条**中心线之间**的实际间距。
-- 高 H：单根有效发光灯条沿长轴的**上端到下端**长度；左右分别测量确认一致。
-
-量发光区域，不量装甲外壳宽高，不量两灯条的外沿间距。
-尺寸必须与图像实际拟合到的发光区域对应；明显过曝会改变这个对应关系。
-本模型假定两灯条等长、平行、共面。不同尺寸装甲不能混用一套 W/H。
-
-将毫米除以 1000 填入配置。例：仅当实测为 135 mm 和 56 mm 时，才填
-`armor_width_m: 0.135`、`armor_height_m: 0.056`，不要直接套用例子。
-
-## 5. 接入并核验三维定位
-
-生成结果始终保留 `calibration_verified: 0`、尺寸为零。
-确认相机参数来源、报告和实测灯条尺寸后：
+结束旧会话后，在电脑启动：
 
 ```bash
-cp config/pose_camera.measured.yml config/pose_camera.yml
-# 编辑 pose_camera.yml：填实测 armor_width_m / armor_height_m，确认后将 calibration_verified 改为 1。
-```
-
-关闭旧启动会话，再在电脑启动：
-
-```bash
-cd ~/RDK
 POSE_CALIBRATION=config/pose_camera.yml bash scripts/run-blue-vision-browser.sh
 ```
 
-先固定相机、静止装甲，在多个已知距离和画面位置记录 XYZ 与误差。
-测量基准应尽量对应相机光心到装甲中心；相机外壳基准带来的偏移需要记录。
-注意 `Z` 是相机向前深度，面板“距离”是 `sqrt(X²+Y²+Z²)`，离轴时二者不同。
-完成静态核验后再测试运动、短时遮挡和预测误差。
+只有内参、畸变、正数尺寸及分辨率合法，才会输出三维结果。`geometry.reason=debug_unverified`，验证标志仍为0，浏览器简洁模式也保留“PnP调试·距离未核验”。未显式允许调试时保持`calibration_unverified`，只输出二维结果。
 
-将本次原始照片、配置和误差报告另备份到电脑。源码仓库提供通用脚本和未验证示例；
-实际照片与生成的本机标定文件由 `.gitignore` 排除，应自行保存并用于自己的相机。
+同一原开发相机、镜头状态未变时，可直接在电脑选择当前设备快照：
 
-依据：[OpenCV 相机标定教程](https://docs.opencv.org/4.5.4/d4/d94/tutorial_camera_calibration.html)、
-[OpenCV 棋盘格角点与标定示例](https://docs.opencv.org/4.4.0/dc/dbb/tutorial_py_calibration.html)。
+```bash
+POSE_CALIBRATION=config/pose_camera.rdk-hikrobot-debug.yml \
+  bash scripts/run-blue-vision-browser.sh
+```
+
+快照来自16张筛选照片、19mm棋盘、1440×1080，RMS约0.189px，W130/H59。它是该设备的未核验候选，不用于其他相机或改变镜头状态后的设备。`pose_camera.example.yml`模板则保持调试禁用、尺寸为零。
+
+## 6. 独立距离核验
+
+固定相机、固定点亮的装甲，完整入画。卷尺一端在镜头前端，另一端在两根灯条之间、灯条高度中间的中心点，直接连接两端拉直。记录实际距离及参考偏差；镜头前端与光心的偏移尚未知。量到装甲侧面、地面投影或板平面垂距不能直接当作中心R参考。
+
+相机光学系X向右、Y向下、Z向前。浏览器R=`sqrt(X²+Y²+Z²)`是直线距离，Z是前向深度，离轴时两者不同；目标偏轴或板有倾角本身不要求重新标定。画面或镜头运动后，应重新记录摆放参考；转动对焦/变焦环需要重新评估内参。
+
+在电脑固定摆放、等待检测稳定后采集：
+
+```bash
+python3 scripts/collect_static_pnp.py \
+  --output "$HOME/rdk-pnp-checks/session-2m" \
+  --reference-m 2.00 --uncertainty-m 0.01 \
+  --calibration config/pose_camera.rdk-hikrobot-debug.yml
+```
+
+`--calibration`用于保存电脑上的同一配置副本，应与RDK正在使用的配置一致，不会切换现场参数。只知道约数时用`--approximate-reference`替代`--uncertainty-m`，不编造±1cm。`--url`可覆盖浏览器地址，`--reference-origin`可记录不同端点。
+
+采样默认10秒50次，输出CSV、完整状态JSON、汇总和可用的配置快照。它要求持续可读服务和单个装甲，但不自动判断物理静止；请在`summary.json`核对角点中心变化及原始状态，移动或遮挡的窗口单独留档，重新摆放的卷尺数值不能套到旧组。HTTP抽样不是逐帧检出率。
+
+多距离、多位置对比均值、波动和名义误差；不单凭一处距离、低重投影误差或不变读数认定精度通过。当前1.5m/2.5m仍有约2cm名义负偏差，3m参考端点不同，故全距离核验未通过。[已保存记录](docs/measurements/2026-11-static/README.md)可复核。
+
+## 7. 核验后及下一阶段
+
+只有完成本机参数来源、尺寸和独立距离核验，才将自己的`calibration_verified`设为1；关闭调试许可并保存验收依据。当前发布快照继续保留0，已有结果不代表全场景验收。
+
+现阶段用户无法进一步精量尺寸，先固定近似W/H进行动态跟踪测试。约2米左右缓慢平移30–50cm、停2秒、重复3次，先无遮挡，再测遮挡和预测；动态精度尚未实测。原始照片和本机生成文件自行备份，仓库保存通用流程、未核验快照和数值记录。

@@ -1,0 +1,37 @@
+{
+  "started_local": "2026-11-01T19:27:12.898516",
+  "duration_s": 10.0,
+  "reference_distance_m": 1.0,
+  "reference_uncertainty_m": 0.01,
+  "reference_origin": "lens front to armor center",
+  "camera_optical_center_offset_m": null,
+  "user_confirmed_new_fixed_placement": true,
+  "metric_accuracy_verified": false,
+  "sample_count": 50,
+  "valid_pose_samples": 50,
+  "poll_interval_s": 0.2,
+  "sampling_note": "HTTP polls, not all camera frames; reference and optical-center offset limits apply",
+  "mean_distance_m": 1.0019883356200001,
+  "median_distance_m": 1.001539256,
+  "std_distance_m": 0.00097551193656464,
+  "min_distance_m": 1.00140367,
+  "max_distance_m": 1.005477218,
+  "mean_z_m": 0.999576623886,
+  "median_reprojection_px": 2.003468083,
+  "signed_difference_to_nominal_m": 0.0019883356200001145,
+  "signed_difference_to_reference_interval_m": [
+    -0.008011664379999886,
+    0.011988335620000115
+  ],
+  "center_x_span_px": 3.9227600000000393,
+  "center_y_span_px": 0.7575988749999851,
+  "runtime_H_m": 0.059,
+  "H_range_m": [
+    0.058,
+    0.06
+  ],
+  "W_m": 0.13,
+  "single_point_mean_within_stated_reference_interval": true,
+  "samples_within_stated_reference_interval": 50,
+  "is_new_live_measurement": true
+}

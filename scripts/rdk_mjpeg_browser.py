@@ -32,6 +32,7 @@ body[data-view="simple"] .debug-only{display:none!important}#legend{position:fix
 img{display:block;max-width:100%;max-height:100%;object-fit:contain}</style>
 <body data-view="simple">
 <header><strong>RDK 蓝色装甲 · 定位与预测</strong><span id="state" class="lost">等待画面</span>
+<span id="pnp-warning" class="badge warn" hidden>PnP 调试 · 距离未核验</span>
 <div class="view-switch" role="group" aria-label="显示模式"><button id="view-simple" type="button" aria-pressed="true">简洁模式</button><button id="view-debug" type="button" aria-pressed="false">调试模式</button></div>
 <span id="details" class="debug-only"></span><span id="corners" class="debug-only"></span></header>
 <main><img src="/stream" alt="实时检测画面"></main>
@@ -42,6 +43,12 @@ img{display:block;max-width:100%;max-height:100%;object-fit:contain}</style>
 <div class="metric"><span id="prediction-label">100 ms 后 · px</span><b id="track-prediction" class="prediction">—</b></div>
 <p id="tracking-note">等待目标进入画面</p>
 <p id="pose-note">三维定位：等待数据</p>
+<section id="pose-metrics" hidden>
+<div class="metric"><span>直线距离 R · m</span><b id="pose-distance">—</b></div>
+<div class="metric"><span>前向深度 Z · m</span><b id="pose-depth">—</b></div>
+<div class="metric"><span>XYZ · m</span><b id="pose-xyz">—</b></div>
+<div class="metric"><span>重投影误差 · px</span><b id="pose-rms">—</b></div>
+</section>
 <details><summary>坐标与诊断详情</summary><pre id="track-details"></pre></details>
 <div class="capture"><button id="capture-button" type="button">保存标定照片</button><span id="capture-note">保存相机原始画面，不含检测标记</span></div>
 </aside><script>
@@ -112,10 +119,20 @@ function renderGeometry(g, image) {
   const reasons = {
     calibration_missing: '三维定位：待相机标定 · 当前显示像素坐标',
     calibration_unverified: '三维定位：标定参数待确认 · 当前显示像素坐标',
+    debug_unverified: 'PnP 调试：参数未核验 · 单位 m',
     image_aspect_mismatch: '三维定位：暂停 · 画面比例与标定不符',
     stream_stale: '三维定位：等待视频恢复'
   };
   put('pose-note', g?.reason === 'ready' ? '三维定位：已启用 · 单位 m' : reasons[g?.reason] || '三维定位：等待数据');
+  const metricReady = ['ready', 'debug_unverified'].includes(g?.reason);
+  document.getElementById('pnp-warning').hidden = g?.reason !== 'debug_unverified';
+  document.getElementById('pose-metrics').hidden = !metricReady;
+  const poses = metricReady ? (g?.poses || []) : [];
+  const pose = poses.find(p => p.detection_index === t?.detection_index) || poses[0];
+  put('pose-distance', pose ? pose.distance_m.toFixed(3) : '—');
+  put('pose-depth', pose ? pose.position_m[2].toFixed(3) : '—');
+  put('pose-xyz', pose ? vec(pose.position_m, 3) : '—');
+  put('pose-rms', pose ? pose.reprojection_error_px.toFixed(2) : '—');
   const lines = ['图像坐标：原点在左上，X 向右，Y 向下'];
   for (const track of tracks) {
     lines.push(`ID ${track.id} · ${track.observed ? '当前观测' : '短时外推'}`);
@@ -123,7 +140,7 @@ function renderGeometry(g, image) {
     lines.push(`速度 (${vec(track.velocity_px_s)}) px/s`);
     lines.push(track.predicted_center_px ? `预测 (${vec(track.predicted_center_px)}) px` : '预测：积累观测中');
   }
-  if (g?.reason === 'ready') {
+  if (metricReady) {
     lines.push('相机坐标：X 向右，Y 向下，Z 向前');
     for (const p of g.poses || []) {
       lines.push(`检测 #${p.detection_index} · XYZ (${vec(p.position_m, 3)}) m`);

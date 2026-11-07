@@ -1,0 +1,6143 @@
+{
+  "metadata": {
+    "started_local": "2026-11-01T19:27:12.898516",
+    "duration_s": 10.0,
+    "reference_distance_m": 1.0,
+    "reference_uncertainty_m": 0.01,
+    "reference_origin": "lens front to armor center",
+    "camera_optical_center_offset_m": null,
+    "user_confirmed_new_fixed_placement": true,
+    "metric_accuracy_verified": false,
+    "sample_count": 50,
+    "valid_pose_samples": 50,
+    "poll_interval_s": 0.2,
+    "sampling_note": "HTTP polls, not all camera frames; reference and optical-center offset limits apply",
+    "mean_distance_m": 1.0019883356200001,
+    "median_distance_m": 1.001539256,
+    "std_distance_m": 0.00097551193656464,
+    "min_distance_m": 1.00140367,
+    "max_distance_m": 1.005477218,
+    "mean_z_m": 0.999576623886,
+    "median_reprojection_px": 2.003468083,
+    "signed_difference_to_nominal_m": 0.0019883356200001145,
+    "signed_difference_to_reference_interval_m": [
+      -0.008011664379999886,
+      0.011988335620000115
+    ],
+    "center_x_span_px": 3.9227600000000393,
+    "center_y_span_px": 0.7575988749999851,
+    "runtime_H_m": 0.059,
+    "H_range_m": [
+      0.058,
+      0.06
+    ],
+    "W_m": 0.13,
+    "single_point_mean_within_stated_reference_interval": true,
+    "samples_within_stated_reference_interval": 50,
+    "is_new_live_measurement": true
+  },
+  "samples": [
+    {
+      "sample": 1,
+      "elapsed_s": 1e-05,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.00140367,
+      "z_m": 0.9989863804,
+      "reprojection_error_px": 2.003468083,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.25
+    },
+    {
+      "sample": 2,
+      "elapsed_s": 0.20021,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.001539256,
+      "z_m": 0.9991324341,
+      "reprojection_error_px": 2.008409551,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 3,
+      "elapsed_s": 0.40008,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.001539256,
+      "z_m": 0.9991324341,
+      "reprojection_error_px": 2.008409551,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 4,
+      "elapsed_s": 0.60012,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.001539256,
+      "z_m": 0.9991324341,
+      "reprojection_error_px": 2.008409551,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 5,
+      "elapsed_s": 0.80008,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.001539256,
+      "z_m": 0.9991324341,
+      "reprojection_error_px": 2.008409551,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 6,
+      "elapsed_s": 1.00013,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.00140367,
+      "z_m": 0.9989863804,
+      "reprojection_error_px": 2.003468083,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.25
+    },
+    {
+      "sample": 7,
+      "elapsed_s": 1.20074,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.001539256,
+      "z_m": 0.9991324341,
+      "reprojection_error_px": 2.008409551,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 8,
+      "elapsed_s": 1.40011,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.00140367,
+      "z_m": 0.9989863804,
+      "reprojection_error_px": 2.003468083,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.25
+    },
+    {
+      "sample": 9,
+      "elapsed_s": 1.6001,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.001539256,
+      "z_m": 0.9991324341,
+      "reprojection_error_px": 2.008409551,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 10,
+      "elapsed_s": 1.80007,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.001539256,
+      "z_m": 0.9991324341,
+      "reprojection_error_px": 2.008409551,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 11,
+      "elapsed_s": 2.00012,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.00140367,
+      "z_m": 0.9989863804,
+      "reprojection_error_px": 2.003468083,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.25
+    },
+    {
+      "sample": 12,
+      "elapsed_s": 2.20012,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.00140367,
+      "z_m": 0.9989863804,
+      "reprojection_error_px": 2.003468083,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.25
+    },
+    {
+      "sample": 13,
+      "elapsed_s": 2.40013,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.001539256,
+      "z_m": 0.9991324341,
+      "reprojection_error_px": 2.008409551,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 14,
+      "elapsed_s": 2.60148,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.00140367,
+      "z_m": 0.9989863804,
+      "reprojection_error_px": 2.003468083,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.25
+    },
+    {
+      "sample": 15,
+      "elapsed_s": 2.80022,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.001539256,
+      "z_m": 0.9991324341,
+      "reprojection_error_px": 2.008409551,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 16,
+      "elapsed_s": 3.0002,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.00140367,
+      "z_m": 0.9989863804,
+      "reprojection_error_px": 2.003468083,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.25
+    },
+    {
+      "sample": 17,
+      "elapsed_s": 3.2001,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.001539256,
+      "z_m": 0.9991324341,
+      "reprojection_error_px": 2.008409551,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 18,
+      "elapsed_s": 3.40013,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.001539256,
+      "z_m": 0.9991324341,
+      "reprojection_error_px": 2.008409551,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 19,
+      "elapsed_s": 3.60011,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.00140367,
+      "z_m": 0.9989863804,
+      "reprojection_error_px": 2.003468083,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.25
+    },
+    {
+      "sample": 20,
+      "elapsed_s": 3.80013,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.00140367,
+      "z_m": 0.9989863804,
+      "reprojection_error_px": 2.003468083,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.25
+    },
+    {
+      "sample": 21,
+      "elapsed_s": 4.00013,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.00140367,
+      "z_m": 0.9989863804,
+      "reprojection_error_px": 2.003468083,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.25
+    },
+    {
+      "sample": 22,
+      "elapsed_s": 4.2002,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.003973066,
+      "z_m": 1.001561599,
+      "reprojection_error_px": 1.993081768,
+      "center_x_px": 487.25,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 23,
+      "elapsed_s": 4.40311,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.001876507,
+      "z_m": 0.9994707458,
+      "reprojection_error_px": 1.712922447,
+      "center_x_px": 488.0000305,
+      "center_y_px": 263.5000038
+    },
+    {
+      "sample": 24,
+      "elapsed_s": 4.60013,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.002518528,
+      "z_m": 1.000123175,
+      "reprojection_error_px": 1.701151264,
+      "center_x_px": 489.42276000000004,
+      "center_y_px": 263.7514038
+    },
+    {
+      "sample": 25,
+      "elapsed_s": 4.80012,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.005477218,
+      "z_m": 1.0030752,
+      "reprojection_error_px": 1.420282979,
+      "center_x_px": 488.9742737,
+      "center_y_px": 263.757598875
+    },
+    {
+      "sample": 26,
+      "elapsed_s": 5.00011,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.004302945,
+      "z_m": 1.001891733,
+      "reprojection_error_px": 1.697611607,
+      "center_x_px": 488.2500305,
+      "center_y_px": 263.5000038
+    },
+    {
+      "sample": 27,
+      "elapsed_s": 5.20011,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.003802902,
+      "z_m": 1.001378701,
+      "reprojection_error_px": 1.98832685,
+      "center_x_px": 485.75,
+      "center_y_px": 263.25
+    },
+    {
+      "sample": 28,
+      "elapsed_s": 5.40025,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.001517726,
+      "z_m": 0.999109219,
+      "reprojection_error_px": 2.008470724,
+      "center_x_px": 485.5,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 29,
+      "elapsed_s": 5.6031,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.003940564,
+      "z_m": 1.001526855,
+      "reprojection_error_px": 1.993170967,
+      "center_x_px": 485.75,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 30,
+      "elapsed_s": 5.80014,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.003936076,
+      "z_m": 1.001500689,
+      "reprojection_error_px": 1.957305345,
+      "center_x_px": 485.7499695,
+      "center_y_px": 263.0
+    },
+    {
+      "sample": 31,
+      "elapsed_s": 6.00013,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.001517726,
+      "z_m": 0.999109219,
+      "reprojection_error_px": 2.008470724,
+      "center_x_px": 485.5,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 32,
+      "elapsed_s": 6.20013,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.00140367,
+      "z_m": 0.9989863804,
+      "reprojection_error_px": 2.003468083,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.25
+    },
+    {
+      "sample": 33,
+      "elapsed_s": 6.40016,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.00140367,
+      "z_m": 0.9989863804,
+      "reprojection_error_px": 2.003468083,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.25
+    },
+    {
+      "sample": 34,
+      "elapsed_s": 6.60017,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.001539256,
+      "z_m": 0.9991324341,
+      "reprojection_error_px": 2.008409551,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 35,
+      "elapsed_s": 6.80018,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.00140367,
+      "z_m": 0.9989863804,
+      "reprojection_error_px": 2.003468083,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.25
+    },
+    {
+      "sample": 36,
+      "elapsed_s": 7.00011,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.001539256,
+      "z_m": 0.9991324341,
+      "reprojection_error_px": 2.008409551,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 37,
+      "elapsed_s": 7.20014,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.00140367,
+      "z_m": 0.9989863804,
+      "reprojection_error_px": 2.003468083,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.25
+    },
+    {
+      "sample": 38,
+      "elapsed_s": 7.4001,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.001539256,
+      "z_m": 0.9991324341,
+      "reprojection_error_px": 2.008409551,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 39,
+      "elapsed_s": 7.60018,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.002493603,
+      "z_m": 1.000084311,
+      "reprojection_error_px": 1.703641335,
+      "center_x_px": 486.4329834,
+      "center_y_px": 263.496738425
+    },
+    {
+      "sample": 40,
+      "elapsed_s": 7.80011,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.00140367,
+      "z_m": 0.9989863804,
+      "reprojection_error_px": 2.003468083,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.25
+    },
+    {
+      "sample": 41,
+      "elapsed_s": 8.00018,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.00395151,
+      "z_m": 1.001538645,
+      "reprojection_error_px": 1.993139753,
+      "center_x_px": 486.2499695,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 42,
+      "elapsed_s": 8.20012,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.001539256,
+      "z_m": 0.9991324341,
+      "reprojection_error_px": 2.008409551,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 43,
+      "elapsed_s": 8.40013,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.001539256,
+      "z_m": 0.9991324341,
+      "reprojection_error_px": 2.008409551,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.5
+    },
+    {
+      "sample": 44,
+      "elapsed_s": 8.6001,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.00140367,
+      "z_m": 0.9989863804,
+      "reprojection_error_px": 2.003468083,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.25
+    },
+    {
+      "sample": 45,
+      "elapsed_s": 8.80011,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.002519667,
+      "z_m": 1.000110314,
+      "reprojection_error_px": 1.708712434,
+      "center_x_px": 486.42980954999996,
+      "center_y_px": 263.496852875
+    },
+    {
+      "sample": 46,
+      "elapsed_s": 9.00061,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.00140367,
+      "z_m": 0.9989863804,
+      "reprojection_error_px": 2.003468083,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.25
+    },
+    {
+      "sample": 47,
+      "elapsed_s": 9.20018,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.002519667,
+      "z_m": 1.000110314,
+      "reprojection_error_px": 1.708712434,
+      "center_x_px": 486.42980954999996,
+      "center_y_px": 263.496852875
+    },
+    {
+      "sample": 48,
+      "elapsed_s": 9.40012,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.002519667,
+      "z_m": 1.000110314,
+      "reprojection_error_px": 1.708712434,
+      "center_x_px": 486.42980954999996,
+      "center_y_px": 263.496852875
+    },
+    {
+      "sample": 49,
+      "elapsed_s": 9.60012,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.002519667,
+      "z_m": 1.000110314,
+      "reprojection_error_px": 1.708712434,
+      "center_x_px": 486.42980954999996,
+      "center_y_px": 263.496852875
+    },
+    {
+      "sample": 50,
+      "elapsed_s": 9.80013,
+      "valid_pose": true,
+      "stream_alive": true,
+      "blue_armors": 1,
+      "distance_m": 1.001539256,
+      "z_m": 0.9991324341,
+      "reprojection_error_px": 2.008409551,
+      "center_x_px": 486.4999695,
+      "center_y_px": 263.5
+    }
+  ],
+  "raw_status": [
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          226
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99655138,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450193,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002420479313,
+              -0.06949578171,
+              0.9989863804
+            ],
+            "rotation_vector": [
+              -0.703288863,
+              0.03869189739,
+              -0.0167707871
+            ],
+            "distance_m": 1.00140367,
+            "reprojection_error_px": 2.003468083
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002416725762,
+              -0.06944478126,
+              0.9990375516
+            ],
+            "velocity_m_s": [
+              -2.543770642e-05,
+              -0.0003456360532,
+              -0.0003468030427
+            ],
+            "predicted_position_m": [
+              -0.002419269533,
+              -0.06947934486,
+              0.9990028713
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999695,
+              263.295261
+            ],
+            "velocity_px_s": [
+              -7.122136261e-08,
+              -1.481891856
+            ],
+            "predicted_center_px": [
+              486.4999695,
+              263.1470718
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.249975,
+      "detection_ms": 8.1576,
+      "web_fps": 29.998695573967655,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          227
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.9971432,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450193,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.00240976599,
+              -0.06935021638,
+              0.9991324341
+            ],
+            "rotation_vector": [
+              -0.710860095,
+              0.03549771122,
+              -0.0154219905
+            ],
+            "distance_m": 1.001539256,
+            "reprojection_error_px": 2.008409551
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002409414713,
+              -0.0693454436,
+              0.9991372227
+            ],
+            "velocity_m_s": [
+              1.817922253e-05,
+              0.0002470063971,
+              0.0002478345107
+            ],
+            "predicted_position_m": [
+              -0.002407596791,
+              -0.06932074296,
+              0.9991620062
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999695,
+              263.5171842
+            ],
+            "velocity_px_s": [
+              5.22922419e-09,
+              0.3852558038
+            ],
+            "predicted_center_px": [
+              486.4999695,
+              263.5557097
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.10995,
+      "detection_ms": 8.12515,
+      "web_fps": 30.000409402154936,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          227
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99710621,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450193,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.00240976599,
+              -0.06935021638,
+              0.9991324341
+            ],
+            "rotation_vector": [
+              -0.710860095,
+              0.03549771122,
+              -0.0154219905
+            ],
+            "distance_m": 1.001539256,
+            "reprojection_error_px": 2.008409551
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002410262231,
+              -0.06935695896,
+              0.9991256689
+            ],
+            "velocity_m_s": [
+              7.589654231e-06,
+              0.0001031233582,
+              0.0001034697359
+            ],
+            "predicted_position_m": [
+              -0.002409503265,
+              -0.06934664662,
+              0.9991360159
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999695,
+              263.4980008
+            ],
+            "velocity_px_s": [
+              3.190849256e-12,
+              0.4238606525
+            ],
+            "predicted_center_px": [
+              486.4999695,
+              263.5403868
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.13825,
+      "detection_ms": 8.12235,
+      "web_fps": 29.994266440857718,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          227
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99707662,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450194,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.00240976599,
+              -0.06935021638,
+              0.9991324341
+            ],
+            "rotation_vector": [
+              -0.710860095,
+              0.03549771122,
+              -0.0154219905
+            ],
+            "distance_m": 1.001539256,
+            "reprojection_error_px": 2.008409551
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002411010725,
+              -0.06936712898,
+              0.9991154648
+            ],
+            "velocity_m_s": [
+              4.177546772e-06,
+              5.676170903e-05,
+              5.695221359e-05
+            ],
+            "predicted_position_m": [
+              -0.00241059297,
+              -0.06936145281,
+              0.99912116
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999695,
+              263.4837969
+            ],
+            "velocity_px_s": [
+              -5.298942705e-11,
+              0.4343622485
+            ],
+            "predicted_center_px": [
+              486.4999695,
+              263.5272332
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.1862,
+      "detection_ms": 8.119425,
+      "web_fps": 29.998613339960208,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          227
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99741692,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450194,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.00240976599,
+              -0.06935021638,
+              0.9991324341
+            ],
+            "rotation_vector": [
+              -0.710860095,
+              0.03549771122,
+              -0.0154219905
+            ],
+            "distance_m": 1.001539256,
+            "reprojection_error_px": 2.008409551
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002409953424,
+              -0.0693527631,
+              0.9991298788
+            ],
+            "velocity_m_s": [
+              1.198458192e-05,
+              0.0001628383128,
+              0.0001633846271
+            ],
+            "predicted_position_m": [
+              -0.002408754966,
+              -0.06933647927,
+              0.9991462173
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999695,
+              263.5101792
+            ],
+            "velocity_px_s": [
+              7.696518526e-12,
+              0.3978371072
+            ],
+            "predicted_center_px": [
+              486.4999695,
+              263.5499629
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.09675,
+      "detection_ms": 8.106525,
+      "web_fps": 29.99886780131436,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          226
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.9982751,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450194,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002420479313,
+              -0.06949578171,
+              0.9989863804
+            ],
+            "rotation_vector": [
+              -0.703288863,
+              0.03869189739,
+              -0.0167707871
+            ],
+            "distance_m": 1.00140367,
+            "reprojection_error_px": 2.003468083
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002414955832,
+              -0.06942073241,
+              0.9990616815
+            ],
+            "velocity_m_s": [
+              -2.411123928e-05,
+              -0.0003276070832,
+              -0.0003287062308
+            ],
+            "predicted_position_m": [
+              -0.002417366956,
+              -0.06945349312,
+              0.9990288109
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999695,
+              263.3486473
+            ],
+            "velocity_px_s": [
+              -2.318529553e-13,
+              -1.10126126
+            ],
+            "predicted_center_px": [
+              486.4999695,
+              263.2385212
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.16585,
+      "detection_ms": 8.13145,
+      "web_fps": 29.99819286750152,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          227
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.9987486,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450194,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.00240976599,
+              -0.06935021638,
+              0.9991324341
+            ],
+            "rotation_vector": [
+              -0.710860095,
+              0.03549771122,
+              -0.0154219905
+            ],
+            "distance_m": 1.001539256,
+            "reprojection_error_px": 2.008409551
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002413899543,
+              -0.06940645224,
+              0.999075919
+            ],
+            "velocity_m_s": [
+              1.43300155e-05,
+              0.0001943546152,
+              0.0001945635518
+            ],
+            "predicted_position_m": [
+              -0.002412466542,
+              -0.06938701677,
+              0.9990953753
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999799,
+              263.4547678
+            ],
+            "velocity_px_s": [
+              4.86875949e-05,
+              1.306050926
+            ],
+            "predicted_center_px": [
+              486.4999848,
+              263.5853729
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.309875,
+      "detection_ms": 8.1815,
+      "web_fps": 29.990379810063956,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          226
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99817892,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450194,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002420479313,
+              -0.06949578171,
+              0.9989863804
+            ],
+            "rotation_vector": [
+              -0.703288863,
+              0.03869189739,
+              -0.0167707871
+            ],
+            "distance_m": 1.00140367,
+            "reprojection_error_px": 2.003468083
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002417399983,
+              -0.06945394063,
+              0.9990283634
+            ],
+            "velocity_m_s": [
+              -2.520037348e-05,
+              -0.0003422374621,
+              -0.0003431740749
+            ],
+            "predicted_position_m": [
+              -0.00241992002,
+              -0.06948816437,
+              0.998994046
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999685,
+              263.2733849
+            ],
+            "velocity_px_s": [
+              -1.914483922e-05,
+              -1.424463819
+            ],
+            "predicted_center_px": [
+              486.4999666,
+              263.1309385
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.261425,
+      "detection_ms": 8.164075,
+      "web_fps": 30.002385706937133,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          227
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99964386,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450195,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.00240976599,
+              -0.06935021638,
+              0.9991324341
+            ],
+            "rotation_vector": [
+              -0.710860095,
+              0.03549771122,
+              -0.0154219905
+            ],
+            "distance_m": 1.001539256,
+            "reprojection_error_px": 2.008409551
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.00241297713,
+              -0.06939384279,
+              0.9990886668
+            ],
+            "velocity_m_s": [
+              2.642471671e-05,
+              0.0003590744469,
+              0.0003603212456
+            ],
+            "predicted_position_m": [
+              -0.002410334658,
+              -0.06935793535,
+              0.9991246989
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999695,
+              263.478807
+            ],
+            "velocity_px_s": [
+              2.147085509e-06,
+              1.466138926
+            ],
+            "predicted_center_px": [
+              486.4999697,
+              263.6254209
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.74045,
+      "detection_ms": 8.530625,
+      "web_fps": 29.98298465624343,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          227
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99863762,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450195,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.00240976599,
+              -0.06935021638,
+              0.9991324341
+            ],
+            "rotation_vector": [
+              -0.710860095,
+              0.03549771122,
+              -0.0154219905
+            ],
+            "distance_m": 1.001539256,
+            "reprojection_error_px": 2.008409551
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002413197096,
+              -0.06939683565,
+              0.9990856587
+            ],
+            "velocity_m_s": [
+              2.519708965e-06,
+              3.422858326e-05,
+              3.433397172e-05
+            ],
+            "predicted_position_m": [
+              -0.002412945125,
+              -0.06939341279,
+              0.9990890921
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999695,
+              263.4047493
+            ],
+            "velocity_px_s": [
+              -1.018477664e-07,
+              0.04400241609
+            ],
+            "predicted_center_px": [
+              486.4999695,
+              263.4091496
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.72235,
+      "detection_ms": 8.56255,
+      "web_fps": 29.982058581097913,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          226
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99620371,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450195,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002420479313,
+              -0.06949578171,
+              0.9989863804
+            ],
+            "rotation_vector": [
+              -0.703288863,
+              0.03869189739,
+              -0.0167707871
+            ],
+            "distance_m": 1.00140367,
+            "reprojection_error_px": 2.003468083
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002416981471,
+              -0.06944825566,
+              0.9990340656
+            ],
+            "velocity_m_s": [
+              -2.078253009e-05,
+              -0.0002823813934,
+              -0.000283332006
+            ],
+            "predicted_position_m": [
+              -0.002419059724,
+              -0.0694764938,
+              0.9990057324
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999695,
+              263.3131594
+            ],
+            "velocity_px_s": [
+              -7.701434637e-09,
+              -0.7115760259
+            ],
+            "predicted_center_px": [
+              486.4999695,
+              263.2420018
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.464725,
+      "detection_ms": 8.113475,
+      "web_fps": 29.986901928018707,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          226
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99697305,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450195,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002420479313,
+              -0.06949578171,
+              0.9989863804
+            ],
+            "rotation_vector": [
+              -0.703288863,
+              0.03869189739,
+              -0.0167707871
+            ],
+            "distance_m": 1.00140367,
+            "reprojection_error_px": 2.003468083
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002421569139,
+              -0.06951058955,
+              0.9989715228
+            ],
+            "velocity_m_s": [
+              -1.668477627e-05,
+              -0.0002267011063,
+              -0.000227461379
+            ],
+            "predicted_position_m": [
+              -0.002423237617,
+              -0.06953325967,
+              0.9989487767
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999695,
+              263.2394755
+            ],
+            "velocity_px_s": [
+              2.094716336e-09,
+              -0.09429109141
+            ],
+            "predicted_center_px": [
+              486.4999695,
+              263.2300464
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.096,
+      "detection_ms": 8.094025,
+      "web_fps": 30.004164371129153,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          227
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99691387,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450195,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.00240976599,
+              -0.06935021638,
+              0.9991324341
+            ],
+            "rotation_vector": [
+              -0.710860095,
+              0.03549771122,
+              -0.0154219905
+            ],
+            "distance_m": 1.001539256,
+            "reprojection_error_px": 2.008409551
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002409871474,
+              -0.06935164961,
+              0.9991309961
+            ],
+            "velocity_m_s": [
+              4.826727293e-05,
+              0.0006558229638,
+              0.0006580235056
+            ],
+            "predicted_position_m": [
+              -0.002405044747,
+              -0.06928606731,
+              0.9991967984
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999695,
+              263.5345957
+            ],
+            "velocity_px_s": [
+              -2.112324442e-10,
+              1.293358936
+            ],
+            "predicted_center_px": [
+              486.4999695,
+              263.6639316
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.151575,
+      "detection_ms": 8.14215,
+      "web_fps": 29.998943830321736,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          226
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99691387,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450196,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002420479313,
+              -0.06949578171,
+              0.9989863804
+            ],
+            "rotation_vector": [
+              -0.703288863,
+              0.03869189739,
+              -0.0167707871
+            ],
+            "distance_m": 1.00140367,
+            "reprojection_error_px": 2.003468083
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002413402016,
+              -0.06939962022,
+              0.9990828645
+            ],
+            "velocity_m_s": [
+              -1.23341299e-05,
+              -0.0001675877497,
+              -0.0001681500204
+            ],
+            "predicted_position_m": [
+              -0.002414635429,
+              -0.069416379,
+              0.9990660495
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999695,
+              263.3661995
+            ],
+            "velocity_px_s": [
+              7.730527052e-12,
+              -1.141050472
+            ],
+            "predicted_center_px": [
+              486.4999695,
+              263.2520945
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.150275,
+      "detection_ms": 8.171875,
+      "web_fps": 29.994868291743693,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          227
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.98531879,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450196,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.00240976599,
+              -0.06935021638,
+              0.9991324341
+            ],
+            "rotation_vector": [
+              -0.710860095,
+              0.03549771122,
+              -0.0154219905
+            ],
+            "distance_m": 1.001539256,
+            "reprojection_error_px": 2.008409551
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002417847325,
+              -0.06946002005,
+              0.999022262
+            ],
+            "velocity_m_s": [
+              1.310903809e-06,
+              1.781165681e-05,
+              1.787140307e-05
+            ],
+            "predicted_position_m": [
+              -0.002417716235,
+              -0.06945823889,
+              0.9990240492
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999695,
+              263.3656667
+            ],
+            "velocity_px_s": [
+              1.176518601e-12,
+              1.347023067
+            ],
+            "predicted_center_px": [
+              486.4999695,
+              263.500369
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.162925,
+      "detection_ms": 8.13565,
+      "web_fps": 29.98276456286945,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          226
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 30.00909538,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450196,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002420479313,
+              -0.06949578171,
+              0.9989863804
+            ],
+            "rotation_vector": [
+              -0.703288863,
+              0.03869189739,
+              -0.0167707871
+            ],
+            "distance_m": 1.00140367,
+            "reprojection_error_px": 2.003468083
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.00241406314,
+              -0.06940860313,
+              0.9990738515
+            ],
+            "velocity_m_s": [
+              5.884526452e-07,
+              7.995492691e-06,
+              8.022317298e-06
+            ],
+            "predicted_position_m": [
+              -0.002414004295,
+              -0.06940780358,
+              0.9990746537
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999695,
+              263.3696604
+            ],
+            "velocity_px_s": [
+              -1.997279866e-13,
+              -0.8717469137
+            ],
+            "predicted_center_px": [
+              486.4999695,
+              263.2824857
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.11855,
+      "detection_ms": 8.160525,
+      "web_fps": 30.007694386777512,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          227
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99696565,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450196,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.00240976599,
+              -0.06935021638,
+              0.9991324341
+            ],
+            "rotation_vector": [
+              -0.710860095,
+              0.03549771122,
+              -0.0154219905
+            ],
+            "distance_m": 1.001539256,
+            "reprojection_error_px": 2.008409551
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002411564628,
+              -0.06937465505,
+              0.9991079134
+            ],
+            "velocity_m_s": [
+              2.042197552e-05,
+              0.0002774798791,
+              0.0002784108422
+            ],
+            "predicted_position_m": [
+              -0.002409522431,
+              -0.06934690706,
+              0.9991357545
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999695,
+              263.4914404
+            ],
+            "velocity_px_s": [
+              -1.997279866e-13,
+              1.149453389
+            ],
+            "predicted_center_px": [
+              486.4999695,
+              263.6063857
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.141025,
+      "detection_ms": 8.148925,
+      "web_fps": 29.998044696431542,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          227
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99818632,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450196,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.00240976599,
+              -0.06935021638,
+              0.9991324341
+            ],
+            "rotation_vector": [
+              -0.710860095,
+              0.03549771122,
+              -0.0154219905
+            ],
+            "distance_m": 1.001539256,
+            "reprojection_error_px": 2.008409551
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002415232937,
+              -0.06942450881,
+              0.9990578782
+            ],
+            "velocity_m_s": [
+              -5.378242826e-06,
+              -7.29185275e-05,
+              -7.296498465e-05
+            ],
+            "predicted_position_m": [
+              -0.002415770761,
+              -0.06943180066,
+              0.9990505817
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999687,
+              263.37251
+            ],
+            "velocity_px_s": [
+              -4.627142428e-05,
+              0.2542430686
+            ],
+            "predicted_center_px": [
+              486.4999641,
+              263.3979343
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.142275,
+      "detection_ms": 8.1719,
+      "web_fps": 30.042948466756446,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          226
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99839347,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450197,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002420479313,
+              -0.06949578171,
+              0.9989863804
+            ],
+            "rotation_vector": [
+              -0.703288863,
+              0.03869189739,
+              -0.0167707871
+            ],
+            "distance_m": 1.00140367,
+            "reprojection_error_px": 2.003468083
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002413599186,
+              -0.06940229328,
+              0.99908019
+            ],
+            "velocity_m_s": [
+              -3.897964717e-06,
+              -5.28888239e-05,
+              -5.297299508e-05
+            ],
+            "predicted_position_m": [
+              -0.002413988983,
+              -0.06940758216,
+              0.9990748927
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999694,
+              263.3886238
+            ],
+            "velocity_px_s": [
+              2.345797255e-06,
+              -0.9222300352
+            ],
+            "predicted_center_px": [
+              486.4999696,
+              263.2964008
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.08125,
+      "detection_ms": 8.111,
+      "web_fps": 29.99932630818693,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          226
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99685468,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450197,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002420479313,
+              -0.06949578171,
+              0.9989863804
+            ],
+            "rotation_vector": [
+              -0.703288863,
+              0.03869189739,
+              -0.0167707871
+            ],
+            "distance_m": 1.00140367,
+            "reprojection_error_px": 2.003468083
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002420189537,
+              -0.06949184331,
+              0.9989903334
+            ],
+            "velocity_m_s": [
+              -3.597842177e-05,
+              -0.0004888541296,
+              -0.0004904991356
+            ],
+            "predicted_position_m": [
+              -0.002423787379,
+              -0.06954072873,
+              0.9989412835
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999695,
+              263.2251734
+            ],
+            "velocity_px_s": [
+              1.473792995e-07,
+              -1.061979612
+            ],
+            "predicted_center_px": [
+              486.4999695,
+              263.1189755
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.172775,
+      "detection_ms": 8.143275,
+      "web_fps": 30.001002188607973,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          226
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99720978,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450197,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002420479313,
+              -0.06949578171,
+              0.9989863804
+            ],
+            "rotation_vector": [
+              -0.703288863,
+              0.03869189739,
+              -0.0167707871
+            ],
+            "distance_m": 1.00140367,
+            "reprojection_error_px": 2.003468083
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002418759454,
+              -0.0694724137,
+              0.9990098265
+            ],
+            "velocity_m_s": [
+              -1.017963252e-05,
+              -0.0001383185923,
+              -0.0001387885621
+            ],
+            "predicted_position_m": [
+              -0.002419777417,
+              -0.06948624556,
+              0.9989959476
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4999695,
+              263.2878952
+            ],
+            "velocity_px_s": [
+              -4.399531058e-08,
+              -0.5143359006
+            ],
+            "predicted_center_px": [
+              486.4999695,
+              263.2364616
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.218825,
+      "detection_ms": 8.15455,
+      "web_fps": 29.981237948045052,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          384,
+          233
+        ],
+        [
+          590.5,
+          227
+        ],
+        [
+          590.5,
+          294
+        ],
+        [
+          384,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.9987486,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450197,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.001945549906,
+              -0.06951615842,
+              1.001561599
+            ],
+            "rotation_vector": [
+              -0.7084094953,
+              0.03611028944,
+              -0.01525854994
+            ],
+            "distance_m": 1.003973066,
+            "reprojection_error_px": 1.993081768
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002239731141,
+              -0.06946857691,
+              0.9999875135
+            ],
+            "velocity_m_s": [
+              0.001258253269,
+              4.095225844e-05,
+              0.006879838509
+            ],
+            "predicted_position_m": [
+              -0.002113905814,
+              -0.06946448169,
+              1.000675497
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.9010162,
+              263.4626888
+            ],
+            "velocity_px_s": [
+              4.547451011,
+              1.860015714
+            ],
+            "predicted_center_px": [
+              487.3557613,
+              263.6486904
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.170225,
+      "detection_ms": 8.135925,
+      "web_fps": 30.042111270507704,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          384.5,
+          233
+        ],
+        [
+          590.9120483,
+          226.9839935
+        ],
+        [
+          592.0880737,
+          294.0160217
+        ],
+        [
+          384.5,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99818632,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450197,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.001438604732,
+              -0.0693735846,
+              0.9994707458
+            ],
+            "rotation_vector": [
+              -0.7102372297,
+              0.02805458136,
+              -0.01880102678
+            ],
+            "distance_m": 1.001876507,
+            "reprojection_error_px": 1.712922447
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.001655427257,
+              -0.06952849941,
+              1.000935922
+            ],
+            "velocity_m_s": [
+              0.002734532854,
+              7.419113733e-05,
+              -0.0008469658745
+            ],
+            "predicted_position_m": [
+              -0.001381973971,
+              -0.0695210803,
+              1.000851226
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              487.7482615,
+              263.3808827
+            ],
+            "velocity_px_s": [
+              5.181605689,
+              -0.1805179773
+            ],
+            "predicted_center_px": [
+              488.2664221,
+              263.3628309
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.13775,
+      "detection_ms": 8.14045,
+      "web_fps": 29.996934623625545,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          386,
+          233
+        ],
+        [
+          592.2363281,
+          226.995697
+        ],
+        [
+          593.4547119,
+          294.0099182
+        ],
+        [
+          386,
+          301
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99765365,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450198,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.0005616208124,
+              -0.06925834437,
+              1.000123175
+            ],
+            "rotation_vector": [
+              -0.7022324967,
+              0.03239895653,
+              -0.01962226579
+            ],
+            "distance_m": 1.002518528,
+            "reprojection_error_px": 1.701151264
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.0003922990873,
+              -0.06933495017,
+              0.9999004317
+            ],
+            "velocity_m_s": [
+              0.00504016647,
+              0.0007339142832,
+              -0.001828245414
+            ],
+            "predicted_position_m": [
+              0.0001117175597,
+              -0.06926155874,
+              0.9997176072
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              489.661189,
+              263.645616
+            ],
+            "velocity_px_s": [
+              5.883118113,
+              1.737615123
+            ],
+            "predicted_center_px": [
+              490.2495008,
+              263.8193775
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.2135,
+      "detection_ms": 8.159075,
+      "web_fps": 30.0041992946401,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          387.1004028,
+          233.0372925
+        ],
+        [
+          591.999939,
+          227
+        ],
+        [
+          591.999939,
+          294
+        ],
+        [
+          384.796814,
+          300.993103
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99846006,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450198,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.0009469638679,
+              -0.06945273488,
+              1.0030752
+            ],
+            "rotation_vector": [
+              -0.6999784463,
+              0.05755815321,
+              -0.008634768974
+            ],
+            "distance_m": 1.005477218,
+            "reprojection_error_px": 1.420282979
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.000801519042,
+              -0.06928404806,
+              1.002161567
+            ],
+            "velocity_m_s": [
+              -0.001065944694,
+              -0.0003902975055,
+              0.0114905662
+            ],
+            "predicted_position_m": [
+              -0.0009081135114,
+              -0.06932307781,
+              1.003310623
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              488.9476119,
+              263.8399557
+            ],
+            "velocity_px_s": [
+              -2.953154613,
+              -1.264150682
+            ],
+            "predicted_center_px": [
+              488.6522965,
+              263.7135407
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.27305,
+      "detection_ms": 8.159825,
+      "web_fps": 29.997566059595396,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          385,
+          233
+        ],
+        [
+          590.9120483,
+          226.9839935
+        ],
+        [
+          592.0880737,
+          294.0160217
+        ],
+        [
+          385,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99541961,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450198,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.001285296453,
+              -0.06953926513,
+              1.001891733
+            ],
+            "rotation_vector": [
+              -0.7077851402,
+              0.02834726205,
+              -0.01876827489
+            ],
+            "distance_m": 1.004302945,
+            "reprojection_error_px": 1.697611607
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.001011198312,
+              -0.06948459853,
+              1.000008082
+            ],
+            "velocity_m_s": [
+              -0.001900877273,
+              -0.001092798793,
+              0.0003599393734
+            ],
+            "predicted_position_m": [
+              -0.001201286039,
+              -0.06959387841,
+              1.000044076
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              488.5584299,
+              263.3691619
+            ],
+            "velocity_px_s": [
+              -6.886944057,
+              -0.952292766
+            ],
+            "predicted_center_px": [
+              487.8697355,
+              263.2739326
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.118425,
+      "detection_ms": 8.120325,
+      "web_fps": 29.99560978048145,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          382.5,
+          233
+        ],
+        [
+          589,
+          226
+        ],
+        [
+          589,
+          294
+        ],
+        [
+          382.5,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99683249,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450198,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002896217308,
+              -0.06966043037,
+              1.001378701
+            ],
+            "rotation_vector": [
+              -0.7008164151,
+              0.03849758241,
+              -0.01697164057
+            ],
+            "distance_m": 1.003802902,
+            "reprojection_error_px": 1.98832685
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002797749598,
+              -0.06953537217,
+              0.9999631079
+            ],
+            "velocity_m_s": [
+              -0.006928383689,
+              -0.0008187400768,
+              0.004367446604
+            ],
+            "predicted_position_m": [
+              -0.003490587967,
+              -0.06961724617,
+              1.000399853
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              485.7974068,
+              263.2992483
+            ],
+            "velocity_px_s": [
+              -9.878132564,
+              -1.305840239
+            ],
+            "predicted_center_px": [
+              484.8095935,
+              263.1686642
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.50285,
+      "detection_ms": 8.499125,
+      "web_fps": 29.98375810841393,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          382,
+          233
+        ],
+        [
+          589,
+          227
+        ],
+        [
+          589,
+          294
+        ],
+        [
+          382,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99794218,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450198,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.003034849863,
+              -0.06934921846,
+              0.999109219
+            ],
+            "rotation_vector": [
+              -0.7108690527,
+              0.03494472402,
+              -0.01566659199
+            ],
+            "distance_m": 1.001517726,
+            "reprojection_error_px": 2.008470724
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.003140790485,
+              -0.06954056182,
+              1.000873534
+            ],
+            "velocity_m_s": [
+              -0.00227762065,
+              0.0004023602576,
+              0.0002163181014
+            ],
+            "predicted_position_m": [
+              -0.00336855255,
+              -0.06950032579,
+              1.000895166
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              485.5677503,
+              263.4577984
+            ],
+            "velocity_px_s": [
+              -1.511228376,
+              1.850785159
+            ],
+            "predicted_center_px": [
+              485.4166274,
+              263.6428769
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.077225,
+      "detection_ms": 8.130225,
+      "web_fps": 29.994879925730235,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          382.5,
+          233
+        ],
+        [
+          589,
+          227
+        ],
+        [
+          589,
+          294
+        ],
+        [
+          382.5,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99757967,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450199,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002885497327,
+              -0.06951466713,
+              1.001526855
+            ],
+            "rotation_vector": [
+              -0.7084229111,
+              0.03528070046,
+              -0.01562428
+            ],
+            "distance_m": 1.003940564,
+            "reprojection_error_px": 1.993170967
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002995544894,
+              -0.06928711484,
+              1.000192283
+            ],
+            "velocity_m_s": [
+              0.0002509203185,
+              0.0005353300185,
+              0.0003630544344
+            ],
+            "predicted_position_m": [
+              -0.002970452862,
+              -0.06923358184,
+              1.000228588
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              485.6373961,
+              263.6648819
+            ],
+            "velocity_px_s": [
+              0.9908332005,
+              -0.6709315299
+            ],
+            "predicted_center_px": [
+              485.7364794,
+              263.5977888
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.1614,
+      "detection_ms": 8.142675,
+      "web_fps": 29.995897543819225,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          382.5,
+          232
+        ],
+        [
+          588.999939,
+          226
+        ],
+        [
+          588.999939,
+          294
+        ],
+        [
+          382.5,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99817892,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450199,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002889421843,
+              -0.0698259729,
+              1.001500689
+            ],
+            "rotation_vector": [
+              -0.692869104,
+              0.03592847143,
+              -0.01551532271
+            ],
+            "distance_m": 1.003936076,
+            "reprojection_error_px": 1.957305345
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002844054143,
+              -0.06983247503,
+              1.001575281
+            ],
+            "velocity_m_s": [
+              0.0004291507563,
+              -0.002007566163,
+              0.004564234432
+            ],
+            "predicted_position_m": [
+              -0.002801139067,
+              -0.07003323164,
+              1.002031705
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              485.7809958,
+              262.927932
+            ],
+            "velocity_px_s": [
+              -0.01244926751,
+              -2.802770299
+            ],
+            "predicted_center_px": [
+              485.7797509,
+              262.647655
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.1348,
+      "detection_ms": 8.123775,
+      "web_fps": 29.999341048967207,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          382,
+          233
+        ],
+        [
+          589,
+          227
+        ],
+        [
+          589,
+          294
+        ],
+        [
+          382,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99720978,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450199,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.003034849863,
+              -0.06934921846,
+              0.999109219
+            ],
+            "rotation_vector": [
+              -0.7108690527,
+              0.03494472402,
+              -0.01566659199
+            ],
+            "distance_m": 1.001517726,
+            "reprojection_error_px": 2.008470724
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.003027672249,
+              -0.06939884438,
+              0.9991219256
+            ],
+            "velocity_m_s": [
+              -0.000745863358,
+              0.001647761186,
+              -0.009803763587
+            ],
+            "predicted_position_m": [
+              -0.003102258585,
+              -0.06923406826,
+              0.9981415493
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              485.4630317,
+              263.546972
+            ],
+            "velocity_px_s": [
+              -1.452540703,
+              2.703484004
+            ],
+            "predicted_center_px": [
+              485.3177777,
+              263.8173204
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.084025,
+      "detection_ms": 8.11515,
+      "web_fps": 30.004727813904267,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          226
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99780901,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450199,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002420479313,
+              -0.06949578171,
+              0.9989863804
+            ],
+            "rotation_vector": [
+              -0.703288863,
+              0.03869189739,
+              -0.0167707871
+            ],
+            "distance_m": 1.00140367,
+            "reprojection_error_px": 2.003468083
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002476776359,
+              -0.06942185607,
+              0.9991637753
+            ],
+            "velocity_m_s": [
+              0.0025153761,
+              6.065532816e-05,
+              -0.004406074762
+            ],
+            "predicted_position_m": [
+              -0.002225238749,
+              -0.06941579053,
+              0.9987231678
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.5768905,
+              263.2873569
+            ],
+            "velocity_px_s": [
+              6.00197678,
+              -2.060131648
+            ],
+            "predicted_center_px": [
+              487.1770882,
+              263.0813437
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.24075,
+      "detection_ms": 8.15895,
+      "web_fps": 29.996286149471608,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          226
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99690647,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450199,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002420479313,
+              -0.06949578171,
+              0.9989863804
+            ],
+            "rotation_vector": [
+              -0.703288863,
+              0.03869189739,
+              -0.0167707871
+            ],
+            "distance_m": 1.00140367,
+            "reprojection_error_px": 2.003468083
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002343797205,
+              -0.06950522574,
+              0.9988402417
+            ],
+            "velocity_m_s": [
+              0.0007573860934,
+              -0.0002401300417,
+              -0.001597082068
+            ],
+            "predicted_position_m": [
+              -0.002268058596,
+              -0.06952923875,
+              0.9986805335
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.5175428,
+              263.2365527
+            ],
+            "velocity_px_s": [
+              -0.2620471404,
+              -0.02023653102
+            ],
+            "predicted_center_px": [
+              486.4913381,
+              263.234529
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.119925,
+      "detection_ms": 8.091325,
+      "web_fps": 29.998476025667806,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          227
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.98515617,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450200,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.00240976599,
+              -0.06935021638,
+              0.9991324341
+            ],
+            "rotation_vector": [
+              -0.710860095,
+              0.03549771122,
+              -0.0154219905
+            ],
+            "distance_m": 1.001539256,
+            "reprojection_error_px": 2.008409551
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002446128273,
+              -0.06938110394,
+              0.999829229
+            ],
+            "velocity_m_s": [
+              -0.0002851532119,
+              0.0002452718769,
+              0.004029711341
+            ],
+            "predicted_position_m": [
+              -0.002474643594,
+              -0.06935657675,
+              1.0002322
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4112169,
+              263.5305726
+            ],
+            "velocity_px_s": [
+              -0.4145981755,
+              0.4523541167
+            ],
+            "predicted_center_px": [
+              486.3697571,
+              263.575808
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.0474,
+      "detection_ms": 8.133575,
+      "web_fps": 29.988915993263586,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          226
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99801616,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450200,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002420479313,
+              -0.06949578171,
+              0.9989863804
+            ],
+            "rotation_vector": [
+              -0.703288863,
+              0.03869189739,
+              -0.0167707871
+            ],
+            "distance_m": 1.00140367,
+            "reprojection_error_px": 2.003468083
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002425670112,
+              -0.06950969726,
+              0.9991214074
+            ],
+            "velocity_m_s": [
+              1.780901774e-05,
+              -0.0004253520848,
+              -0.002149700485
+            ],
+            "predicted_position_m": [
+              -0.002423889211,
+              -0.06955223247,
+              0.9989064374
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.5032194,
+              263.2130904
+            ],
+            "velocity_px_s": [
+              0.2880954377,
+              -0.8767179161
+            ],
+            "predicted_center_px": [
+              486.5320289,
+              263.1254186
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.125975,
+      "detection_ms": 8.15845,
+      "web_fps": 29.99730231158012,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          227
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99633686,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450200,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.00240976599,
+              -0.06935021638,
+              0.9991324341
+            ],
+            "rotation_vector": [
+              -0.710860095,
+              0.03549771122,
+              -0.0154219905
+            ],
+            "distance_m": 1.001539256,
+            "reprojection_error_px": 2.008409551
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002410943275,
+              -0.06937190322,
+              0.9992619188
+            ],
+            "velocity_m_s": [
+              6.349200194e-05,
+              0.0005711945276,
+              0.0002286417784
+            ],
+            "predicted_position_m": [
+              -0.002404594075,
+              -0.06931478376,
+              0.9992847829
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4879406,
+              263.5336084
+            ],
+            "velocity_px_s": [
+              0.04478913232,
+              1.358030543
+            ],
+            "predicted_center_px": [
+              486.4924196,
+              263.6694114
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.114075,
+      "detection_ms": 8.116025,
+      "web_fps": 29.996066636493854,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          226
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99845266,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450200,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002420479313,
+              -0.06949578171,
+              0.9989863804
+            ],
+            "rotation_vector": [
+              -0.703288863,
+              0.03869189739,
+              -0.0167707871
+            ],
+            "distance_m": 1.00140367,
+            "reprojection_error_px": 2.003468083
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002419329817,
+              -0.06948269938,
+              0.9990151179
+            ],
+            "velocity_m_s": [
+              -2.208893508e-05,
+              -0.0004089416608,
+              -0.001669789805
+            ],
+            "predicted_position_m": [
+              -0.002421538711,
+              -0.06952359355,
+              0.9988481389
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.5033563,
+              263.2184209
+            ],
+            "velocity_px_s": [
+              0.126196475,
+              -1.355921303
+            ],
+            "predicted_center_px": [
+              486.5159759,
+              263.0828288
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.904825,
+      "detection_ms": 8.646325,
+      "web_fps": 29.978461767382633,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          227
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99729855,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450200,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.00240976599,
+              -0.06935021638,
+              0.9991324341
+            ],
+            "rotation_vector": [
+              -0.710860095,
+              0.03549771122,
+              -0.0154219905
+            ],
+            "distance_m": 1.001539256,
+            "reprojection_error_px": 2.008409551
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002412961588,
+              -0.06938764743,
+              0.9991536544
+            ],
+            "velocity_m_s": [
+              4.561009395e-05,
+              0.0005608608302,
+              -0.0002537318221
+            ],
+            "predicted_position_m": [
+              -0.002408400579,
+              -0.06933156134,
+              0.9991282812
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4996499,
+              263.5131683
+            ],
+            "velocity_px_s": [
+              0.1233748486,
+              1.794647414
+            ],
+            "predicted_center_px": [
+              486.5119874,
+              263.6926331
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.203975,
+      "detection_ms": 8.102375,
+      "web_fps": 30.01349805327219,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.2674561,
+          226.9773712
+        ],
+        [
+          590.4644775,
+          294.0095825
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99767585,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450201,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002419594665,
+              -0.06941859383,
+              1.000084311
+            ],
+            "rotation_vector": [
+              -0.7095866312,
+              0.02712452044,
+              -0.01927395423
+            ],
+            "distance_m": 1.002493603,
+            "reprojection_error_px": 1.703641335
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002437105001,
+              -0.06940911711,
+              0.9997911663
+            ],
+            "velocity_m_s": [
+              1.381509101e-06,
+              9.228368307e-06,
+              0.002126857839
+            ],
+            "predicted_position_m": [
+              -0.002436966851,
+              -0.06940819427,
+              1.000003852
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4464411,
+              263.4585845
+            ],
+            "velocity_px_s": [
+              0.03182093882,
+              0.1201455422
+            ],
+            "predicted_center_px": [
+              486.4496232,
+              263.4705991
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.16925,
+      "detection_ms": 8.1735,
+      "web_fps": 29.984595155756704,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          226
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99729855,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450201,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002420479313,
+              -0.06949578171,
+              0.9989863804
+            ],
+            "rotation_vector": [
+              -0.703288863,
+              0.03869189739,
+              -0.0167707871
+            ],
+            "distance_m": 1.00140367,
+            "reprojection_error_px": 2.003468083
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002419031669,
+              -0.06951468256,
+              0.999012505
+            ],
+            "velocity_m_s": [
+              6.284028343e-05,
+              -0.0002643887487,
+              -0.002734540418
+            ],
+            "predicted_position_m": [
+              -0.002412747641,
+              -0.06954112144,
+              0.9987390509
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.5058518,
+              263.2262812
+            ],
+            "velocity_px_s": [
+              0.2237961487,
+              -0.3655331187
+            ],
+            "predicted_center_px": [
+              486.5282314,
+              263.1897279
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.073225,
+      "detection_ms": 8.07005,
+      "web_fps": 30.002121874220176,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.499939,
+          227
+        ],
+        [
+          589.499939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99704702,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450201,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002572204917,
+              -0.06951517797,
+              1.001538645
+            ],
+            "rotation_vector": [
+              -0.7084182413,
+              0.0355572327,
+              -0.0155023758
+            ],
+            "distance_m": 1.00395151,
+            "reprojection_error_px": 1.993139753
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002485484127,
+              -0.06942933811,
+              1.000473068
+            ],
+            "velocity_m_s": [
+              -0.0003284555337,
+              4.426651866e-05,
+              0.00646563402
+            ],
+            "predicted_position_m": [
+              -0.002518329681,
+              -0.06942491146,
+              1.001119632
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.3407727,
+              263.5291978
+            ],
+            "velocity_px_s": [
+              -1.180239489,
+              0.4774874441
+            ],
+            "predicted_center_px": [
+              486.2227487,
+              263.5769465
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.102775,
+      "detection_ms": 8.0906,
+      "web_fps": 30.000220863686952,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          227
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99708401,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450201,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.00240976599,
+              -0.06935021638,
+              0.9991324341
+            ],
+            "rotation_vector": [
+              -0.710860095,
+              0.03549771122,
+              -0.0154219905
+            ],
+            "distance_m": 1.001539256,
+            "reprojection_error_px": 2.008409551
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002411914582,
+              -0.06938657077,
+              0.99920198
+            ],
+            "velocity_m_s": [
+              0.0002117972174,
+              0.0005237401137,
+              -0.004077980384
+            ],
+            "predicted_position_m": [
+              -0.00239073486,
+              -0.06933419676,
+              0.9987941819
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.5146132,
+              263.4850663
+            ],
+            "velocity_px_s": [
+              0.540728632,
+              1.215890528
+            ],
+            "predicted_center_px": [
+              486.5686861,
+              263.6066553
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.096475,
+      "detection_ms": 8.14795,
+      "web_fps": 30.017670315675996,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          227
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99760926,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450201,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.00240976599,
+              -0.06935021638,
+              0.9991324341
+            ],
+            "rotation_vector": [
+              -0.710860095,
+              0.03549771122,
+              -0.0154219905
+            ],
+            "distance_m": 1.001539256,
+            "reprojection_error_px": 2.008409551
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002431012541,
+              -0.0694022667,
+              0.9993971916
+            ],
+            "velocity_m_s": [
+              5.694973832e-05,
+              7.927590068e-05,
+              -0.001964733543
+            ],
+            "predicted_position_m": [
+              -0.002425317567,
+              -0.06939433911,
+              0.9992007182
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4818822,
+              263.421425
+            ],
+            "velocity_px_s": [
+              0.532925217,
+              -0.3927245679
+            ],
+            "predicted_center_px": [
+              486.5351747,
+              263.3821525
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.070425,
+      "detection_ms": 8.10245,
+      "web_fps": 29.98490906058043,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          226
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99715059,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450202,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002420479313,
+              -0.06949578171,
+              0.9989863804
+            ],
+            "rotation_vector": [
+              -0.703288863,
+              0.03869189739,
+              -0.0167707871
+            ],
+            "distance_m": 1.00140367,
+            "reprojection_error_px": 2.003468083
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002416687229,
+              -0.06945568549,
+              0.9993759029
+            ],
+            "velocity_m_s": [
+              3.513389661e-05,
+              -0.0003578671595,
+              -0.0004992518323
+            ],
+            "predicted_position_m": [
+              -0.002413173839,
+              -0.06949147221,
+              0.9993259777
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4752461,
+              263.3263931
+            ],
+            "velocity_px_s": [
+              0.03133614853,
+              -1.16947703
+            ],
+            "predicted_center_px": [
+              486.4783797,
+              263.2094454
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.034525,
+      "detection_ms": 8.1009,
+      "web_fps": 30.00591530405055,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.2716064,
+          226.9777069
+        ],
+        [
+          590.4476318,
+          294.0097046
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99811234,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450202,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002422243306,
+              -0.06942028623,
+              1.000110314
+            ],
+            "rotation_vector": [
+              -0.70956325,
+              0.02727109902,
+              -0.01920768726
+            ],
+            "distance_m": 1.002519667,
+            "reprojection_error_px": 1.708712434
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002437113182,
+              -0.06940656801,
+              0.9998695283
+            ],
+            "velocity_m_s": [
+              2.334873537e-05,
+              0.0002329941152,
+              0.001103615671
+            ],
+            "predicted_position_m": [
+              -0.002434778309,
+              -0.0693832686,
+              0.9999798899
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4468375,
+              263.5195759
+            ],
+            "velocity_px_s": [
+              0.1899140225,
+              0.690592376
+            ],
+            "predicted_center_px": [
+              486.4658289,
+              263.5886352
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.505475,
+      "detection_ms": 8.29545,
+      "web_fps": 29.987892646820487,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          226
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99900016,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450202,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002420479313,
+              -0.06949578171,
+              0.9989863804
+            ],
+            "rotation_vector": [
+              -0.703288863,
+              0.03869189739,
+              -0.0167707871
+            ],
+            "distance_m": 1.00140367,
+            "reprojection_error_px": 2.003468083
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002420053492,
+              -0.06941782608,
+              0.9993894993
+            ],
+            "velocity_m_s": [
+              0.0001559012064,
+              -0.0001325985533,
+              -0.002804662939
+            ],
+            "predicted_position_m": [
+              -0.002404463372,
+              -0.06943108594,
+              0.999109033
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4892968,
+              263.3660469
+            ],
+            "velocity_px_s": [
+              0.3547053571,
+              -1.56928493
+            ],
+            "predicted_center_px": [
+              486.5247674,
+              263.2091184
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.3133,
+      "detection_ms": 8.1568,
+      "web_fps": 29.984537025911177,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.2716064,
+          226.9777069
+        ],
+        [
+          590.4476318,
+          294.0097046
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99725416,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450202,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002422243306,
+              -0.06942028623,
+              1.000110314
+            ],
+            "rotation_vector": [
+              -0.70956325,
+              0.02727109902,
+              -0.01920768726
+            ],
+            "distance_m": 1.002519667,
+            "reprojection_error_px": 1.708712434
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002448511494,
+              -0.06944751367,
+              1.00020119
+            ],
+            "velocity_m_s": [
+              -4.46836321e-05,
+              3.363697915e-05,
+              0.003215022191
+            ],
+            "predicted_position_m": [
+              -0.002452979857,
+              -0.06944414997,
+              1.000522692
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.3971472,
+              263.5104269
+            ],
+            "velocity_px_s": [
+              -0.2104586327,
+              1.080577561
+            ],
+            "predicted_center_px": [
+              486.3761013,
+              263.6184847
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.538575,
+      "detection_ms": 8.47325,
+      "web_fps": 29.968946229588212,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.2716064,
+          226.9777069
+        ],
+        [
+          590.4476318,
+          294.0097046
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99815673,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450202,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002422243306,
+              -0.06942028623,
+              1.000110314
+            ],
+            "rotation_vector": [
+              -0.70956325,
+              0.02727109902,
+              -0.01920768726
+            ],
+            "distance_m": 1.002519667,
+            "reprojection_error_px": 1.708712434
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002437231814,
+              -0.06942014046,
+              0.9999543581
+            ],
+            "velocity_m_s": [
+              9.512647286e-05,
+              0.0001408627136,
+              -8.306193176e-06
+            ],
+            "predicted_position_m": [
+              -0.002427719166,
+              -0.06940605419,
+              0.9999535275
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4420481,
+              263.4827485
+            ],
+            "velocity_px_s": [
+              0.251976214,
+              0.3799907625
+            ],
+            "predicted_center_px": [
+              486.4672458,
+              263.5207476
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.092275,
+      "detection_ms": 8.1363,
+      "web_fps": 29.995954166403994,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.2716064,
+          226.9777069
+        ],
+        [
+          590.4476318,
+          294.0097046
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99740952,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450203,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.002422243306,
+              -0.06942028623,
+              1.000110314
+            ],
+            "rotation_vector": [
+              -0.70956325,
+              0.02727109902,
+              -0.01920768726
+            ],
+            "distance_m": 1.002519667,
+            "reprojection_error_px": 1.708712434
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002411924684,
+              -0.06938565137,
+              0.9997031397
+            ],
+            "velocity_m_s": [
+              7.300489914e-05,
+              3.225613421e-05,
+              0.000517418564
+            ],
+            "predicted_position_m": [
+              -0.002404624194,
+              -0.06938242575,
+              0.9997548816
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4480492,
+              263.5010044
+            ],
+            "velocity_px_s": [
+              -0.3361416325,
+              0.002337974554
+            ],
+            "predicted_center_px": [
+              486.414435,
+              263.5012382
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.1801,
+      "detection_ms": 8.192975,
+      "web_fps": 30.010157662285007,
+      "stream_alive": true
+    },
+    {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          383,
+          233
+        ],
+        [
+          589.999939,
+          227
+        ],
+        [
+          589.999939,
+          294
+        ],
+        [
+          383,
+          300
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 29.99671413,
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793450203,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.00240976599,
+              -0.06935021638,
+              0.9991324341
+            ],
+            "rotation_vector": [
+              -0.710860095,
+              0.03549771122,
+              -0.0154219905
+            ],
+            "distance_m": 1.001539256,
+            "reprojection_error_px": 2.008409551
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.002438025557,
+              -0.06943047187,
+              0.9996631776
+            ],
+            "velocity_m_s": [
+              -8.599023596e-07,
+              -0.0001670566416,
+              -0.0007463212027
+            ],
+            "predicted_position_m": [
+              -0.002438111547,
+              -0.06944717754,
+              0.9995885455
+            ]
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": true,
+            "observation_age_seconds": 0,
+            "center_px": [
+              486.4606852,
+              263.4146434
+            ],
+            "velocity_px_s": [
+              0.4183460673,
+              -0.398036059
+            ],
+            "predicted_center_px": [
+              486.5025199,
+              263.3748398
+            ]
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 33.09285,
+      "detection_ms": 8.136525,
+      "web_fps": 30.00252072902883,
+      "stream_alive": true
+    }
+  ]
+}

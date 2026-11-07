@@ -1,0 +1,42 @@
+{
+  "center_reference_groups": [
+    {
+      "directory": "1m",
+      "reference_m": 1.0,
+      "reference_uncertainty_m": 0.01,
+      "mean_R_m": 1.0019883356200001,
+      "nominal_difference_cm": 0.19883356200001145,
+      "valid_samples": 50,
+      "total_samples": 50
+    },
+    {
+      "directory": "1p5m",
+      "reference_m": 1.5,
+      "reference_uncertainty_m": 0.01,
+      "mean_R_m": 1.4801376206999999,
+      "nominal_difference_cm": -1.9862379300000121,
+      "valid_samples": 50,
+      "total_samples": 50
+    },
+    {
+      "directory": "2m",
+      "reference_m": 2.0,
+      "reference_uncertainty_m": 0.01,
+      "mean_R_m": 1.993074268,
+      "nominal_difference_cm": -0.6925732000000018,
+      "valid_samples": 50,
+      "total_samples": 50
+    },
+    {
+      "directory": "2p5m",
+      "reference_m": 2.5,
+      "reference_uncertainty_m": 0.01,
+      "mean_R_m": 2.47879454652,
+      "nominal_difference_cm": -2.1205453479999914,
+      "valid_samples": 50,
+      "total_samples": 50
+    }
+  ],
+  "three_meter_group": "side reference only; excluded from center error comparison",
+  "global_accuracy_verified": false
+}

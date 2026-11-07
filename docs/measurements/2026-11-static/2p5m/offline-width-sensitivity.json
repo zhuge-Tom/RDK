@@ -1,0 +1,24 @@
+{
+  "type": "hypothetical_local_width_sensitivity_on_saved_corners",
+  "not_a_physical_measurement": true,
+  "not_an_uncertainty_interval": true,
+  "live_parameters_changed": false,
+  "height_m": 0.059,
+  "variants": [
+    {
+      "width_m": 0.129,
+      "valid": 50,
+      "mean_distance_m": 2.459737714515816
+    },
+    {
+      "width_m": 0.13,
+      "valid": 50,
+      "mean_distance_m": 2.478794546455563
+    },
+    {
+      "width_m": 0.131,
+      "valid": 50,
+      "mean_distance_m": 2.497850815536039
+    }
+  ]
+}

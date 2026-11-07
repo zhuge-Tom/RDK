@@ -16,8 +16,8 @@
     saturation_min: 50
     value_min: 50
     gray_min: 110
-    close_kernel_height: 7
-    min_light_area: 150.0
-    min_light_height: 35
+    close_kernel_height: 15
+    min_light_area: 70.0
+    min_light_height: 20
     min_light_width: 5
     min_blue_red_ratio: 1.05

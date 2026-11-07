@@ -1,0 +1,413 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>棋盘格标定拍照指南</title><style>
+body{font:16px/1.8 system-ui,"Noto Sans CJK SC",sans-serif;color:#243344;background:#f0f4f8;margin:0;padding:24px}main{max-width:1000px;margin:auto;background:white;padding:32px 40px;box-shadow:0 2px 18px #20344718}h1{font-size:30px}h2{font-size:23px;margin-top:32px;color:#1d5e7e;border-bottom:1px solid #dce5ee;padding-bottom:8px}table{width:100%;border-collapse:collapse;margin:18px 0;font-size:14px}th,td{border:1px solid #cbd7e1;padding:8px 10px;text-align:left;vertical-align:top}th{background:#eaf2f8}tr:nth-child(even){background:#f8fafc}pre{padding:16px;overflow:auto;background:#f1f5f8;border-radius:6px;line-height:1.5}code{font:14px/1.6 ui-monospace,monospace;overflow-wrap:anywhere}a{color:#14678d}figure{margin:20px 0}figure svg{width:100%;height:auto}figcaption{font-size:13px;color:#607386}.toolbar{max-width:1000px;margin:0 auto 14px;display:flex;justify-content:space-between;gap:15px}.toolbar button{font:inherit;padding:8px 18px;color:white;background:#186482;border:0;border-radius:6px;cursor:pointer}@media print{body{padding:0;background:white;font-size:11pt}main{padding:0;max-width:none;box-shadow:none}.toolbar{display:none}h2{break-after:avoid}tr,figure{break-inside:avoid}thead{display:table-header-group}table{font-size:9pt}pre{white-space:pre-wrap;overflow:visible}@page{size:A4;margin:15mm}}
+</style></head><body><div class="toolbar"><span>本地拍照指南 · 可打印或另存为 PDF</span><button onclick="window.print()">打印 / 保存 PDF</button></div><main><h1>棋盘格标定拍照指南</h1>
+<p>适用流程：海康相机接 RDK S100，在电脑浏览器保存原始照片。更新日期：2026-10-31。</p>
+<p><strong>先确定镜头设置并固定，再移动棋盘拍摄。不同位置、距离和角度是需要的；不同对焦状态不能混成同一组。</strong></p>
+<h2>1. 先分清：对焦检查、拍标定照、测距核验</h2>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>做什么</th>
+<th>距离是否必须量准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>对焦检查</td>
+<td>镜头不动，检查近处和主要工作距离是否都清楚</td>
+<td>大约即可；约 2 米只是本次检查点，并非比赛规定</td>
+</tr>
+<tr>
+<td>拍标定照片</td>
+<td>同一镜头状态下，采集不同位置、距离、倾角的棋盘照片</td>
+<td>不必精确量每张的拍摄距离；<strong>格子边长必须实测准确</strong></td>
+</tr>
+<tr>
+<td>PnP 测距核验</td>
+<td>内参算出后，把目标放在已知距离，对比程序读数</td>
+<td>需要量准距离，并记录从哪里量起</td>
+</tr>
+</tbody>
+</table>
+<p>当前棋盘是 <strong>9 列 × 6 行内角点，共 54 个角点</strong>，对应 10 列 × 7 行方格。
+这张打印板横纵方格已实测为 <strong>19 mm</strong>。文件名中的 <code>20mm</code> 是设计尺寸，计算使用实测 19 mm。
+更换或重新打印后须重新测量，不能默认仍是 19 mm。</p>
+<h2>2. 拍第一张之前</h2>
+<ol>
+<li>相机安装稳固；优先固定相机，移动棋盘。拍摄时不要手持晃动相机。</li>
+<li>棋盘平整贴在硬板上，无鼓包、折痕；胶带尽量放在边缘，避免覆盖格子产生反光。</li>
+<li>使用均匀环境光或补光。关闭或移开正对镜头的蓝色灯条，避免强光和反射干扰。</li>
+<li><strong>先完成对焦、焦距和光圈选择，再固定镜头环。</strong> 检查近处及主要工作距离的清晰度。</li>
+<li>本批次固定镜头、光圈、ROI 裁剪和采样配置。曝光、增益必要时可以调整，但每张都要清晰、不过曝。</li>
+<li>如果采集中又调了对焦或变焦：停止这一批，记录分界，另开新批次；不要把两个状态混算。</li>
+</ol>
+<p>只改变亮度不能直接证明内参失效。光圈影响亮度和景深，固定光圈是为了本批条件一致；它不等同于改变焦距。
+对焦是否影响有效内参与镜头有关，因此本流程采用“先确定、后固定”的方式减少不确定性。</p>
+<p><strong>如果镜头已经固定，但近处棋盘模糊，不要为了这张照片再拧对焦环。</strong>
+应在清晰范围内选择拍摄距离；必要时改善照明、在正式采集前重新确定光圈，或换更大的标定板。
+换用方格边长不同的大板时，另开一批、重新实测，不能与 19 mm 的照片直接混用。</p>
+<h2>3. 距离和画面大小怎么选</h2>
+<p>没有“所有照片必须在 2 米拍”的要求。以<strong>棋盘完整、清晰，而且在画面里足够大</strong>为准。</p>
+<ul>
+<li>当前 A4 棋盘可先从约 <strong>0.8–1 米</strong>试起；这只是起点，不是强制距离，也不保证都在当前镜头景深内。</li>
+<li>黑白格区域的宽度，通常可先争取约占画面宽度的 <strong>1/3～1/2</strong>。近处可以更大，但不能裁掉边缘。</li>
+<li>棋盘靠近画面四角时，可以适当放小，优先保证整块黑白格及周围白边仍在画面内。</li>
+<li>同一镜头设置下，选近、中、稍远几个<strong>仍然清楚</strong>的位置；不是要求固定拍 1、2、3 米。</li>
+<li>远处棋盘太小，可以保留作工作距离对焦参考，不必硬塞进内参标定集。</li>
+</ul>
+<p>本次约 2 米的试拍虽然找到 54 个角点，但内角点覆盖区域只有画面的约 <strong>1.27%</strong>，边缘也偏软。
+它适合作对焦参考，暂不作为正式标定素材。当前筛选脚本的内角点凸包覆盖要求是至少 <strong>3%</strong>；
+这是本项目的初版筛选条件，不是通用标定标准，也不是“整张纸占比”。</p>
+<h2>4. 位置与角度怎么摆</h2>
+<figure><svg xmlns="http://www.w3.org/2000/svg" width="1080" height="650" viewBox="0 0 1080 650" role="img" aria-labelledby="title desc">
+  <title id="title">棋盘格位置覆盖与倾斜方式</title>
+  <desc id="desc">左图是画面九个摆放区域，中央为一号；右图分别示意左右倾斜、上下倾斜和平面旋转。棋盘须始终完整入画。</desc>
+  <defs>
+    <style>
+      text { font-family: "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #203447; }
+      .heading { font-size: 22px; font-weight: 700; }
+      .label { font-size: 17px; }
+      .small { font-size: 15px; fill: #52667b; }
+      .number { font-size: 22px; font-weight: 700; fill: #fff; text-anchor: middle; dominant-baseline: central; }
+      .panel { fill: #f4f8fc; stroke: #b9cadb; stroke-width: 2; }
+      .board { stroke: #207c66; stroke-width: 7; stroke-linecap: round; }
+      .guide { stroke: #b9cadb; stroke-width: 2; stroke-dasharray: 7 7; }
+    </style>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#467ba2"/></marker>
+  </defs>
+  <rect width="1080" height="650" fill="#fff"/>
+  <text x="28" y="38" class="heading">位置覆盖：把棋盘移到不同区域</text>
+  <text x="28" y="66" class="small">每次只放一块完整棋盘；编号对应拍照清单 01–09</text>
+  <rect x="28" y="88" width="548" height="440" rx="14" class="panel"/>
+  <path d="M210,88 V528 M393,88 V528 M28,235 H576 M28,382 H576" class="guide"/>
+  <g><circle cx="120" cy="147" r="23" fill="#3679aa"/><text x="120" y="147" class="number">6</text><text x="94" y="190" class="label">左上</text></g>
+  <g><circle cx="302" cy="147" r="23" fill="#3679aa"/><text x="302" y="147" class="number">4</text><text x="285" y="190" class="label">上</text></g>
+  <g><circle cx="484" cy="147" r="23" fill="#3679aa"/><text x="484" y="147" class="number">7</text><text x="458" y="190" class="label">右上</text></g>
+  <g><circle cx="120" cy="294" r="23" fill="#3679aa"/><text x="120" y="294" class="number">2</text><text x="103" y="337" class="label">左</text></g>
+  <g><circle cx="302" cy="294" r="23" fill="#207c66"/><text x="302" y="294" class="number">1</text><text x="276" y="337" class="label">中央</text></g>
+  <g><circle cx="484" cy="294" r="23" fill="#3679aa"/><text x="484" y="294" class="number">3</text><text x="467" y="337" class="label">右</text></g>
+  <g><circle cx="120" cy="441" r="23" fill="#3679aa"/><text x="120" y="441" class="number">8</text><text x="94" y="484" class="label">左下</text></g>
+  <g><circle cx="302" cy="441" r="23" fill="#3679aa"/><text x="302" y="441" class="number">5</text><text x="285" y="484" class="label">下</text></g>
+  <g><circle cx="484" cy="441" r="23" fill="#3679aa"/><text x="484" y="441" class="number">9</text><text x="458" y="484" class="label">右下</text></g>
+  <text x="616" y="38" class="heading">倾斜：改变棋盘朝向</text>
+  <rect x="610" y="88" width="442" height="140" rx="12" class="panel"/>
+  <text x="630" y="117" class="label">左右倾斜 · 从上方看</text>
+  <path d="M645,175 L669,161 L669,189 Z" fill="#467ba2"/>
+  <text x="626" y="215" class="small">相机</text>
+  <line x1="703" y1="175" x2="877" y2="175" stroke="#467ba2" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="922" y1="138" x2="922" y2="208" class="guide"/>
+  <line x1="897" y1="143" x2="947" y2="203" class="board"/>
+  <text x="744" y="214" class="small">一边近，一边远</text>
+  <rect x="610" y="245" width="442" height="140" rx="12" class="panel"/>
+  <text x="630" y="274" class="label">上下倾斜 · 从侧面看</text>
+  <path d="M645,332 L669,318 L669,346 Z" fill="#467ba2"/>
+  <text x="626" y="372" class="small">相机</text>
+  <line x1="703" y1="332" x2="877" y2="332" stroke="#467ba2" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="922" y1="295" x2="922" y2="365" class="guide"/>
+  <line x1="897" y1="300" x2="947" y2="360" class="board"/>
+  <text x="739" y="371" class="small">上边近、下边远，或相反</text>
+  <rect x="610" y="402" width="442" height="126" rx="12" class="panel"/>
+  <text x="630" y="432" class="label">平面内旋转 · 像转方向盘</text>
+  <g transform="translate(914 476) rotate(-20)"><rect x="-45" y="-28" width="90" height="56" fill="#e0f0eb" stroke="#207c66" stroke-width="4"/><path d="M-20,-28 V28 M20,-28 V28 M-45,0 H45" stroke="#207c66" stroke-width="2"/></g>
+  <text x="630" y="485" class="small">可补充姿态变化，</text><text x="630" y="510" class="small">不能代替前后倾斜。</text>
+  <text x="28" y="572" class="heading">每张都要：完整入画 → 停稳 → 保存成功 → 再移动</text>
+  <text x="28" y="608" class="label">同一批固定镜头设置；边缘位置不要裁板；示意图不是实际棋盘打印模板。</text>
+</svg>
+<figcaption>九区位置和倾斜示意；不是打印模板。</figcaption></figure>
+<p><strong>覆盖四角</strong>的意思是让棋盘分别出现在画面左上、右上、左下、右下。
+不是让棋盘自己的四个角去顶住画面四个角，更不是裁掉一部分棋盘。
+图示仅表达位置；不要为了让中心正好落在某点而把棋盘移出画面。</p>
+<table>
+<thead>
+<tr>
+<th>摆法</th>
+<th>具体动作</th>
+<th>注意</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>平移位置</td>
+<td>把整块棋盘移动到中央、左、右、上、下和四角</td>
+<td>整块棋盘都能看见</td>
+</tr>
+<tr>
+<td>改变距离</td>
+<td>整块棋盘靠近或远离相机</td>
+<td>镜头不动，棋盘仍在清晰范围内</td>
+</tr>
+<tr>
+<td>左右倾斜</td>
+<td>一侧边缘靠近相机，另一侧远离</td>
+<td>大约 15–30°可作为起点，不要斜成一条窄线</td>
+</tr>
+<tr>
+<td>上下倾斜</td>
+<td>上边缘靠近相机、下边缘远离，或反过来</td>
+<td>同样保持完整格子可见</td>
+</tr>
+<tr>
+<td>平面内旋转</td>
+<td>像转方向盘一样把棋盘顺时针或逆时针转一点</td>
+<td>这种旋转不能代替左右、上下倾斜</td>
+</tr>
+</tbody>
+</table>
+<p>角度用肉眼估计即可，不必拿量角器。清晰、完整、有不同姿态，比凑准某个角度更重要。
+不要只拍“正对相机的一张板在画面中平移”；必须包含真正的前后倾斜。</p>
+<h2>5. 推荐拍摄顺序：先拍 3 张检查，再完成约 30 张</h2>
+<p>下表是<strong>本项目建议的采集清单</strong>，不是赛事规定。每张都要与上一张有明显差别，
+不需要为了凑够数量保存模糊照片。先完成 <strong>01、02、03</strong> 后暂停，检查原图质量和大小，再继续。</p>
+<table>
+<thead>
+<tr>
+<th>勾选</th>
+<th>编号</th>
+<th>棋盘位置和姿态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>□</td>
+<td>01</td>
+<td>中央，中等距离，大致正对相机</td>
+</tr>
+<tr>
+<td>□</td>
+<td>02</td>
+<td>左侧中部，同一清晰距离</td>
+</tr>
+<tr>
+<td>□</td>
+<td>03</td>
+<td>右侧中部，同一清晰距离；拍完先检查这三张</td>
+</tr>
+<tr>
+<td>□</td>
+<td>04</td>
+<td>上方中部，完整入画</td>
+</tr>
+<tr>
+<td>□</td>
+<td>05</td>
+<td>下方中部，完整入画</td>
+</tr>
+<tr>
+<td>□</td>
+<td>06</td>
+<td>左上区域，保持白边和整块格子可见</td>
+</tr>
+<tr>
+<td>□</td>
+<td>07</td>
+<td>右上区域，完整入画</td>
+</tr>
+<tr>
+<td>□</td>
+<td>08</td>
+<td>左下区域，完整入画</td>
+</tr>
+<tr>
+<td>□</td>
+<td>09</td>
+<td>右下区域，完整入画</td>
+</tr>
+<tr>
+<td>□</td>
+<td>10</td>
+<td>中央，较近，棋盘较大但完整清楚</td>
+</tr>
+<tr>
+<td>□</td>
+<td>11</td>
+<td>中央，中等距离，增加一点倾斜，避免与 01 完全重复</td>
+</tr>
+<tr>
+<td>□</td>
+<td>12</td>
+<td>中央，稍远，棋盘仍足够大且清楚</td>
+</tr>
+<tr>
+<td>□</td>
+<td>13</td>
+<td>中央，左边缘向相机靠近，轻度倾斜</td>
+</tr>
+<tr>
+<td>□</td>
+<td>14</td>
+<td>中央，同一方向增加一点倾斜</td>
+</tr>
+<tr>
+<td>□</td>
+<td>15</td>
+<td>中央，右边缘向相机靠近，轻度倾斜</td>
+</tr>
+<tr>
+<td>□</td>
+<td>16</td>
+<td>中央，同一方向增加一点倾斜</td>
+</tr>
+<tr>
+<td>□</td>
+<td>17</td>
+<td>中央，上边缘向相机靠近，轻度倾斜</td>
+</tr>
+<tr>
+<td>□</td>
+<td>18</td>
+<td>中央，同一方向增加一点倾斜</td>
+</tr>
+<tr>
+<td>□</td>
+<td>19</td>
+<td>中央，下边缘向相机靠近，轻度倾斜</td>
+</tr>
+<tr>
+<td>□</td>
+<td>20</td>
+<td>中央，同一方向增加一点倾斜</td>
+</tr>
+<tr>
+<td>□</td>
+<td>21</td>
+<td>中央，平面内顺时针转约 10°</td>
+</tr>
+<tr>
+<td>□</td>
+<td>22</td>
+<td>中央，平面内顺时针转约 25°</td>
+</tr>
+<tr>
+<td>□</td>
+<td>23</td>
+<td>中央，平面内逆时针转约 10°</td>
+</tr>
+<tr>
+<td>□</td>
+<td>24</td>
+<td>中央，平面内逆时针转约 25°</td>
+</tr>
+<tr>
+<td>□</td>
+<td>25</td>
+<td>左上区域，加轻度左右倾斜</td>
+</tr>
+<tr>
+<td>□</td>
+<td>26</td>
+<td>右上区域，加反方向左右倾斜</td>
+</tr>
+<tr>
+<td>□</td>
+<td>27</td>
+<td>左下区域，加轻度上下倾斜</td>
+</tr>
+<tr>
+<td>□</td>
+<td>28</td>
+<td>右下区域，加反方向上下倾斜</td>
+</tr>
+<tr>
+<td>□</td>
+<td>29</td>
+<td>左侧，换一个清晰距离，加一点倾斜</td>
+</tr>
+<tr>
+<td>□</td>
+<td>30</td>
+<td>右侧，换一个清晰距离，加一点倾斜</td>
+</tr>
+</tbody>
+</table>
+<p>目标是得到约 <strong>20–30 张质量和覆盖都合适的照片</strong>。拍到 30 张不等于 30 张都会入选；
+补拍应针对缺失的位置、角度或清晰度，不是原地连拍补数量。</p>
+<h2>6. 浏览器里怎样保存</h2>
+<ol>
+<li>打开电脑上的 <strong><a href="http://127.0.0.1:8876/#debug">http://127.0.0.1:8876/#debug</a></strong>，确认实时画面在线。</li>
+<li>摆好棋盘，把相机和棋盘停稳。建议停稳 <strong>1–2 秒</strong>后再点击。</li>
+<li>点击一次 <strong>“保存标定照片”</strong>。</li>
+<li>等页面明确提示保存成功、数量增加，再移动棋盘拍下一张。</li>
+<li>如果提示超时，先检查保存数量，避免连续点击形成重复照片。</li>
+</ol>
+<p>保存的是 RDK 上 <strong>1440×1080、未缩放、无检测标记的原始 PNG</strong>。
+浏览器 960×720 的显示画面不是原图，不要用截图代替保存按钮。</p>
+<p>“未识别到装甲板”不表示棋盘格保存失败。当前网页的识别提示面向装甲，
+保存按钮本身也不保证棋盘质量合格；完整角点和清晰度需要后续检查。</p>
+<p>当前保存位置在 <strong>RDK</strong>：</p>
+<pre><code class="language-text">/home/sunrise/rdk_blue_vision/calibration/captures/
+</code></pre>
+<p>电脑工作目录为 <code>/home/zhuge/auto/RDK</code>。旧照片已隔离到：</p>
+<pre><code class="language-text">电脑：/home/zhuge/auto/rdk_calibration_quarantine/20261030-184623/calibration/
+RDK ：/home/sunrise/rdk_calibration_quarantine/20261030-184623/calibration/
+</code></pre>
+<p>相机检查时额外保存的测试图在 <code>rdk_camera_checks</code> 下，不算正式标定照片。
+需要重启时，先结束旧相机会话，再在电脑工作目录执行：</p>
+<pre><code class="language-bash">cd /home/zhuge/auto/RDK
+EXPOSURE_US=60000 CAMERA_GAIN=16 CAMERA_FPS=15 \
+ARMOR_CAPTURE_DIR=/home/sunrise/rdk_blue_vision/calibration/captures \
+  bash scripts/run-blue-vision-browser.sh
+</code></pre>
+<p>当前 <strong>60000 μs = 60 ms、增益 16、15 FPS</strong> 是室内静态棋盘采集设置。
+长曝光容易拖影；优先增加照明，必要时再缩短曝光。不同场地不能直接照搬这组亮度参数。
+更改曝光或增益通常不等于改变几何内参，但过曝、噪声和拖影都会影响角点质量。</p>
+<h2>7. 哪些照片需要重拍</h2>
+<table>
+<thead>
+<tr>
+<th>看到的问题</th>
+<th>怎么处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>少了格子、棋盘边缘被画面切掉</td>
+<td>把棋盘移回画面，或稍微远一点；重新保存</td>
+</tr>
+<tr>
+<td>黑白边缘有拖尾、重影</td>
+<td>相机与棋盘放稳、补光，必要时缩短曝光</td>
+</tr>
+<tr>
+<td>静止时仍不清楚</td>
+<td>暂停采集，检查是否在景深内；正式采集期间不要临时拧对焦环</td>
+</tr>
+<tr>
+<td>白格反光发白、黑格也泛白</td>
+<td>改灯的位置或避开反射，避免透明胶覆盖棋盘</td>
+</tr>
+<tr>
+<td>棋盘很小、只能勉强看见格子</td>
+<td>靠近到仍清楚的位置，或在另一个新批次使用更大且实测过的标定板</td>
+</tr>
+<tr>
+<td>同一位置、同一姿态连拍很多张</td>
+<td>保留代表照片，补拍缺失的位置和倾角</td>
+</tr>
+<tr>
+<td>中途调了对焦/变焦</td>
+<td>停止并另分批次；最终只使用与当前镜头状态一致的一组</td>
+</tr>
+</tbody>
+</table>
+<p>能找到 54 个角点，只说明“检出了”，不等于“足够清晰”。OpenCV 的棋盘清晰度接口
+建议边缘过渡宽度尽量低于约 <strong>3 px</strong>；本项目现有 <strong>6 px</strong> 只是初版宽松筛选线。
+当前拍摄应尽量争取更好的质量，不要把通过宽松筛选理解为精度已经验证。</p>
+<h2>8. 拍完以后</h2>
+<p>告诉我“本批已拍完，期间没有再调镜头”，我会按本批新照片执行：</p>
+<ol>
+<li>检查角点、清晰度、亮度、分辨率及画面覆盖，隔离不合格照片，保留原图和原因。</li>
+<li>仅用合格目录计算相机内参、畸变和逐张重投影误差，保存新的候选配置与报告。</li>
+<li>检查是否仍缺少某些位置、倾角，必要时针对性补拍。</li>
+<li>再用实测灯条尺寸和独立已知距离核验 PnP；通过前不把候选配置当成测距已验证。</li>
+</ol>
+<p><strong>照片拍好、内参算出、实际测距核验通过，是三个不同的完成点。</strong>
+更详细的筛选命令和 PnP 配置说明见 <a href="../CALIBRATION.md">CALIBRATION.md</a>。</p>
+<h2>依据</h2>
+<ul>
+<li><a href="https://docs.opencv.org/4.11.0/dc/dbb/tutorial_py_calibration.html">OpenCV 标定教程</a>：使用不同位置、方向的棋盘照片计算相机参数。</li>
+<li><a href="https://docs.opencv.org/4.5.1/d9/d0c/group__calib3d.html">OpenCV 棋盘清晰度接口</a>：边缘过渡宽度与清晰度检查。</li>
+<li><a href="https://docs.baslerweb.com/optimizing-image-quality">Basler 图像质量说明</a>：光圈、亮度、景深和曝光拖影的关系。</li>
+</ul>
+<p>本文的距离起点、画面占比和 30 张清单是结合当前设备提出的操作建议，不是赛事规定或通用精度保证。</p>
+</main></body></html>

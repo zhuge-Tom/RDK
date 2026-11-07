@@ -1,0 +1,29 @@
+{
+  "started_local": "2026-11-01T19:42:11.113361",
+  "duration_s": 10.0,
+  "reference_distance_m": 1.5,
+  "reference_uncertainty_m": 0.01,
+  "reference_is_approximate": false,
+  "reference_origin": "lens front to armor center",
+  "camera_optical_center_offset_m": null,
+  "user_confirmed_new_fixed_placement": true,
+  "metric_accuracy_verified": false,
+  "sample_count": 50,
+  "valid_pose_samples": 50,
+  "poll_interval_s": 0.2,
+  "sampling_note": "HTTP polls, not all camera frames; reference and optical-center offset limits apply",
+  "mean_distance_m": 1.4801376206999999,
+  "median_distance_m": 1.480125089,
+  "std_distance_m": 0.00021810138509713417,
+  "min_distance_m": 1.47974399,
+  "max_distance_m": 1.481572186,
+  "mean_z_m": 1.45675101522,
+  "median_reprojection_px": 0.6856048416,
+  "signed_difference_to_nominal_m": -0.01986237930000012,
+  "signed_difference_to_reference_interval_m": [
+    -0.029862379300000123,
+    -0.009862379300000121
+  ],
+  "center_x_span_px": 0.13452147499992861,
+  "center_y_span_px": 0.25347897500000727
+}

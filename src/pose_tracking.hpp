@@ -11,6 +11,7 @@ namespace rmcs::vision {
 // OpenCV optical frame, in meters: X right, Y down, Z forward.
 struct Calibration {
     bool verified = false;
+    bool debug_unverified = false;
     int width = 0;
     int height = 0;
     cv::Matx33d matrix = cv::Matx33d::eye();
@@ -20,14 +21,19 @@ struct Calibration {
     double max_reprojection_error_px = 4.0;
     std::string reason = "calibration_missing";
 
+    auto enabled() const -> bool { return verified || debug_unverified; }
+
     static auto load(const std::string& path) -> Calibration {
         auto config = Calibration {};
         if (path.empty()) return config;
         auto file = cv::FileStorage(path, cv::FileStorage::READ);
         if (!file.isOpened()) throw std::invalid_argument("cannot read calibration: " + path);
         int verified = 0;
+        int allow_unverified_pnp = 0;
         file["calibration_verified"] >> verified;
-        if (verified != 1) {
+        if (!file["allow_unverified_pnp"].empty())
+            file["allow_unverified_pnp"] >> allow_unverified_pnp;
+        if (verified != 1 && allow_unverified_pnp != 1) {
             config.reason = "calibration_unverified";
             return config;
         }
@@ -64,13 +70,14 @@ struct Calibration {
         }
         config.distortion = config.distortion.reshape(1, 1);
         config.distortion.convertTo(config.distortion, CV_64F);
-        config.verified = true;
-        config.reason = "ready";
+        config.verified = verified == 1;
+        config.debug_unverified = !config.verified && allow_unverified_pnp == 1;
+        config.reason = config.debug_unverified ? "debug_unverified" : "ready";
         return config;
     }
 
     auto scaled_matrix(cv::Size image_size) const -> std::optional<cv::Matx33d> {
-        if (!verified || width <= 0 || height <= 0
+        if (!enabled() || width <= 0 || height <= 0
             || image_size.width <= 0 || image_size.height <= 0) return std::nullopt;
         const auto sx = image_size.width / static_cast<double>(width);
         const auto sy = image_size.height / static_cast<double>(height);
@@ -314,7 +321,7 @@ public:
         -> GeometryResult {
         auto result = GeometryResult {};
         result.reason = calibration_.reason;
-        if (!calibration_.verified) return result;
+        if (!calibration_.enabled()) return result;
         if (!calibration_.scaled_matrix(size)) {
             tracker_.reset();
             result.reason = "image_aspect_mismatch";

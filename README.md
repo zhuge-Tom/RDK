@@ -19,9 +19,11 @@ main 对应“相机接 RDK，电脑看浏览器”。电脑直连海康相机�
 | 浏览器简洁 / 调试模式 | 支持角点、轨迹、帧率和状态显示 |
 | 保存标定照片 | 通过 ROS 服务保存全分辨率、无绘图的 PNG |
 | 照片筛选、隔离、相机内参计算 | 提供脚本；标定默认只使用 accepted 目录 |
-| 装甲 PnP、相机坐标系三维跟踪与预测 | 已实现；需本机标定、实测灯条尺寸后启用 |
+| 装甲 PnP、相机坐标系三维跟踪与预测 | 已实现；显式未核验调试模式已用于静态测距 |
 
-当前开发机已用 19 张筛选照片计算候选内参，拟合 RMS 约 0.393 px。灯条尺寸和实际距离核验尚未完成，当前实际运行仍以二维检测及像素预测为准。拟合误差不等于实际测距误差。
+当前开发机已用微调光圈后入选的 16 张照片重算候选内参，拟合 RMS 约 0.189 px。用户已更正拍摄顺序：这 16 张对应当前固定的对焦和光圈设置，仓库新增的 10 张是微调前的旧照片，未通过初版清晰度筛选，没有参与拟合。灯条尺寸 W 仍约 0.13 m；用户后来将 H 更正为 58–60 mm，运行取中间值 0.059 m，取代最初约 0.04 m。当前可用未核验 PnP 调试模式做实际距离对比，测距精度仍待核验；拟合误差不等于实际测距误差。
+
+截至 2026-11-07，已保存 1.00、1.50、2.00、2.50 米四组中心参考，每组 10 秒、50 次状态抽样；均值分别约为 1.002、1.480、1.993、2.479 米。3 米附近那组量到装甲侧面，单独暂存，不用于中心误差比较。当前阶段是静态 PnP 初测完成、动态跟踪与预测实测待进行。见[进度和误差记录](docs/blue-armor-progress.md)及[原始数值记录](docs/measurements/2026-11-static/README.md)。
 
 核心算法为 C++；Python 负责 ROS / HTTP 桥接与离线标定。坐标采用 OpenCV 相机光学系：X 向右、Y 向下、Z 向前。输出四角点顺序为左上、右上、右下、左下；只提供视觉数据及可视化。
 
@@ -143,6 +145,8 @@ bash scripts/run-blue-vision-browser.sh
 
 参数文件是 [config/blue_vision_ros.yaml](config/blue_vision_ros.yaml)。相机参数、检测阈值在启动时读取，修改后重新启动。
 
+当前蓝色门槛为 `gray_min=110`、`close_kernel_height=15`、灯条面积下限 70、最小高度 20、最小宽度 5。这些值根据当前多 LED 灯条与约 3 米画面调整，其他相机或灯条应结合实际画面检查。
+
 | 环境变量 | 默认值 | 含义 |
 |---|---:|---|
 | EXPOSURE_US | 3500 | 曝光，微秒 |
@@ -174,21 +178,34 @@ curl --noproxy '*' http://127.0.0.1:8876/status
 
 ## 7. 标定、筛选和启用 PnP
 
-详细步骤见 [CALIBRATION.md](CALIBRATION.md)，包括打印棋盘、测量实际格子边长、拍摄、隔离照片及实测灯条尺寸。
+摆放和保存照片可先看 [棋盘格标定拍照指南](docs/棋盘格标定拍照指南.md)，含位置示意和 30 张拍摄清单。
+详细计算步骤见 [CALIBRATION.md](CALIBRATION.md)，包括打印棋盘、测量实际格子边长、拍摄、隔离照片及实测灯条尺寸。
 
 在 RDK 先查看筛选报告，再将选中的照片复制到 accepted、未选中的原图移到 quarantine：
+
+Git 历史中已有的 `calibration/` 照片是开发历史素材，不是当前新批次。采新照片时请用独立目录，避免混入旧镜头状态。下面所有输入和输出目录都以同一新批次命名。
 
 ~~~bash
 cd /home/sunrise/rdk_blue_vision
 
-# 只检查，生成报告
-python3 scripts/review_calibration.py --report calibration/review-preview.json
+# 采集前，在电脑启动相机时设置独立目录：
+# ARMOR_CAPTURE_DIR=calibration/session-new/captures bash scripts/run-blue-vision-browser.sh
 
-# 检查报告后应用；目标目录应是本批次的新目录
-python3 scripts/review_calibration.py --apply --report calibration/review-applied.json
+# 在 RDK：只检查，生成报告
+python3 scripts/review_calibration.py \
+  --images calibration/session-new/captures \
+  --report calibration/session-new/review-preview.json
 
-# 默认只读取 calibration/accepted
+# 检查报告后应用；输入、accepted、quarantine 为三个独立目录
+python3 scripts/review_calibration.py --apply \
+  --images calibration/session-new/captures \
+  --accepted calibration/session-new/accepted \
+  --quarantine calibration/session-new/quarantine \
+  --report calibration/session-new/review-applied.json
+
+# 只读取本批入选图
 python3 scripts/calibrate_camera.py \
+  --images calibration/session-new/accepted \
   --columns 9 --rows 6 --square-mm 19 \
   --output config/pose_camera.measured.yml
 ~~~
@@ -201,13 +218,37 @@ PnP 所需物理尺寸是两灯条中心线间距和单根灯条有效发光长�
 # 在 RDK：从自己的标定结果创建运行配置
 cp config/pose_camera.measured.yml config/pose_camera.yml
 # 编辑 pose_camera.yml，填写 armor_width_m、armor_height_m；
-# 核对来源及尺寸后，将 calibration_verified 改为 1。
+# 填好实测尺寸、核对本机内参后，保留 calibration_verified: 0，
+# 添加 allow_unverified_pnp: 1，进入显式未核验调试。
 
 # 在电脑：结束旧会话后启动
 POSE_CALIBRATION=config/pose_camera.yml bash scripts/run-blue-vision-browser.sh
 ~~~
 
-[pose_camera.example.yml](config/pose_camera.example.yml) 是带未验证标记的设备示例，不会自动启用三维结果。距离和速度是相机相对量；目前未接 IMU / 里程计补偿、整车旋转模型或控制输出。
+[pose_camera.example.yml](config/pose_camera.example.yml) 是保持禁用状态的模板。只有完成独立实测核验后，才考虑将自己的 `calibration_verified` 标记设为 1。
+
+复现**原开发相机与固定镜头状态**的当前初版，可在电脑部署后显式选择随仓库保存的[未核验设备快照](config/pose_camera.rdk-hikrobot-debug.yml)：
+
+~~~bash
+POSE_CALIBRATION=config/pose_camera.rdk-hikrobot-debug.yml \
+  bash scripts/run-blue-vision-browser.sh
+~~~
+
+打开 `http://127.0.0.1:8876/#debug`，应显示“PnP 调试 · 距离未核验”，`/status` 的 `geometry.reason` 为 `debug_unverified`，检测成功时包含 `geometry.poses`。界面区分直线距离 R、前向深度 Z、XYZ 和重投影误差；简洁模式也保留未核验提示。该快照不是其他相机的通用标定，更换镜头状态后应重新标定。
+
+在电脑保存一组静态数值：
+
+~~~bash
+# 先用卷尺量镜头前端到两灯条之间、灯条高度中间的中心点，并保持静止无遮挡。
+python3 scripts/collect_static_pnp.py \
+  --output "$HOME/rdk-pnp-checks/session-2m" \
+  --reference-m 2.00 --uncertainty-m 0.01 \
+  --calibration config/pose_camera.rdk-hikrobot-debug.yml
+~~~
+
+输出目录必须是新的，默认采样 10 秒、50 次；这是 HTTP 状态抽样，不能当作逐帧检出率。`--calibration` 保存电脑上的同名配置副本，需与 RDK 实际启用文件一致；它不会改变运行参数。详细测量基准和数值限制见 [CALIBRATION.md](CALIBRATION.md)。
+
+距离和速度是相机相对量；目前未接 IMU / 里程计补偿、整车旋转模型或控制输出。
 
 ## 8. RDK 本机直接构建与运行
 
@@ -233,6 +274,8 @@ ssh -N -L 8876:127.0.0.1:8876 sunrise@192.168.1.50
 
 应有六组 CTest 通过；ROS 测试使用独立域 91 和合成图像，不打开真实相机。类型化消息、话题和诊断命令见 [ROS2.md](ROS2.md)。
 
+2026-11-07 发布检查：核对板端核心源码及检测参数与待发布版本哈希一致，复跑板端现有构建的六组 CTest，全部通过。另在 x86_64 / ROS 2 Jazzy / OpenCV 4.6 容器中以 `BUILD_MVS_DIRECT=OFF` 独立构建，三组 C++ 回归通过；用本次发布的设备配置复算 250 组保存角点，距离与原记录最大差约 4.8e-10 m。浏览器调试提示、R/Z 显示、目标丢失/断流清空和便携采样脚本的 HTTP 记录流程也已检查。容器检查不代替 RDK 的 ARM64 MVS 取流，合成/回放检查不代替动态实测。
+
 2026-10-28 在上述 RDK 环境中，从独立源码目录重新构建、安装，并通过全部六组测试；部署脚本和安装后的 ROS 2 启动入口也完成验证。另用 37 张原图的副本复测筛选流程，得到 19 张入选、18 张隔离，重算 RMS 约 0.393 px。合成输入测试与拟合误差不替代真实相机的距离、运动和预测精度核验。
 
 ## 9. 常见问题
@@ -246,7 +289,7 @@ ssh -N -L 8876:127.0.0.1:8876 sunrise@192.168.1.50
 | 浏览器无法打开 | 使用 HTTP；核对 SSH 转发；curl 加 --noproxy '*'；检查本机代理 |
 | 画面暗 | 拍棋盘时使用补光或较长曝光；蓝灯条检测与棋盘拍摄的曝光需求不同 |
 | 保存照片失败 | 看页面具体错误：服务发现、响应超时、相机断流或写入错误；检查 RDK 磁盘空间 |
-| 只有二维结果 | 尚未配置 verified 标定、真实灯条尺寸，或路径不正确 |
+| 只有二维结果 | 检查配置路径、真实灯条尺寸，以及是否显式启用未核验调试或使用已核验标定 |
 | CLI 看不到 ROS 节点 | source ROS 环境，匹配 ROS 域与本机设置，使用 --no-daemon --spin-time 5 |
 
 MVS 的 XOpenDisplay Fail 在当前无桌面取流测试中未影响视频；仍应以相机是否实际出图为准。
@@ -266,7 +309,9 @@ scripts/rdk_ros_browser.py       ROS 订阅、采集服务客户端
 scripts/rdk_mjpeg_browser.py     HTTP 与双模式页面
 scripts/review_calibration.py    照片筛选、清单与隔离
 scripts/calibrate_camera.py      相机内参计算
+scripts/collect_static_pnp.py    静态 PnP 数值采样
 config/blue_vision_ros.yaml      当前节点配置
+config/pose_camera.rdk-hikrobot-debug.yml  原开发设备的未核验 PnP 快照
 ~~~
 
-相机 SDK、实际照片和每台相机生成的标定文件由本机独立安装或生成，Git 维护源码、启动工具和配置模板。原始直采版本保留作对照，停止 ROS 2 会话后可用 VISION_BACKEND=direct 启动同一个蓝色浏览器入口。
+相机 SDK 由本机独立安装，新的照片与生成的标定文件默认不纳入 Git。本次发布保存源码、启动工具、设备调试快照和数值测量记录；历史提交中的照片仅作开发档案。原始直采版本保留作对照，停止 ROS 2 会话后可用 VISION_BACKEND=direct 启动同一个蓝色浏览器入口；当前灯条门槛调参针对默认 ROS 2 路径。

@@ -1,0 +1,39 @@
+%YAML:1.0
+---
+# Published device snapshot: only for the original fixed-focus MV-CS016-10UC setup.
+# Explicitly UNVERIFIED PnP debug; do not treat these intrinsics as universal.
+# Static center-distance tests and remaining limits: docs/blue-armor-progress.md.
+# User updated H to measured range 58-60 mm; runtime midpoint 59 mm. Intrinsics unchanged.
+# 16 screened images captured AFTER the aperture adjustment; current fixed lens setting.
+# New 10 images were excluded: blur; some also too small.
+# User chronology correction: newly uploaded 10 are older, before aperture adjustment.
+# Target dimensions are approximate user measurements, not field-verified.
+calibration_verified: 0
+image_width: 1440
+image_height: 1080
+camera_matrix: !!opencv-matrix
+   rows: 3
+   cols: 3
+   dt: d
+   data: [ 2389.4603394468927, 0., 734.98012771436709, 0.,
+       2390.7966417252251, 560.11437414383636, 0., 0., 1. ]
+distortion_coefficients: !!opencv-matrix
+   rows: 1
+   cols: 5
+   dt: d
+   data: [ -0.02189931744941212, 0.074709629207973791,
+       0.0017491929870357414, 0.0059473992161544424, -1.1450471133152058 ]
+armor_width_m: 0.13
+armor_height_m: 0.059
+max_reprojection_error_px: 4.
+calibration_rms_px: 0.18940770646553479
+calibration_views: 16
+lightbar_dimensions_approximate: 1
+aperture_changed_since_capture: 0
+current_aperture_validation_pending: 0
+distance_validation_verified: 0
+
+# Explicit debug opt-in for first real distance comparison; not accuracy certification.
+allow_unverified_pnp: 1
+armor_height_min_m: 0.058
+armor_height_max_m: 0.060

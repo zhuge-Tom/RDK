@@ -411,7 +411,8 @@ class ArmorVisualizationNode final : public rclcpp::Node {
             tracks.push_back(out);
         }
         armor::draw(frame, {}, armors, false);
-        if (geometry.reason == "ready" && !geometry.poses.empty())
+        if ((geometry.reason == "ready" || geometry.reason == "debug_unverified")
+            && !geometry.poses.empty())
             output::draw_geometry(frame, geometry, *geometry_);
         else
             output::draw_image_tracking(frame, tracks);

@@ -91,8 +91,11 @@ def run(binary):
         image = root / "blue-pose.ppm"
         make_scene(image, [(200, (0, 160, 255)), (440, (0, 160, 255))])
         config = root / "calibration.yml"
-        for verified in [0, 1]:
+        for verified, debug in [(0, False), (1, False), (0, True)]:
             write_test_calibration(config, verified)
+            if debug:
+                with config.open("a") as output:
+                    output.write("allow_unverified_pnp: 1\n")
             status = root / "blue-pose.json"
             env = dict(os.environ, ARMOR_STATUS_FILE=str(status))
             subprocess.run(
@@ -104,11 +107,12 @@ def run(binary):
             geometry = value["geometry"]
             assert geometry["frame"] == "camera_optical"
             assert geometry["prediction_horizon_ms"] == 80
-            if not verified:
+            if not verified and not debug:
                 assert geometry["reason"] == "calibration_unverified", value
                 assert not geometry["poses"] and not geometry["tracks"], value
             else:
-                assert geometry["reason"] == "ready" and len(geometry["poses"]) == 1, value
+                assert geometry["reason"] == ("debug_unverified" if debug else "ready"), value
+                assert len(geometry["poses"]) == 1, value
                 pose = geometry["poses"][0]
                 assert 0.5 < pose["position_m"][2] < 0.7, value
                 assert pose["reprojection_error_px"] < 4, value

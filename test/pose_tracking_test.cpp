@@ -74,9 +74,10 @@ void calibration_and_pose_tests() {
 
     const auto temp = std::filesystem::temp_directory_path()
         / ("rdk-pose-config-test-" + std::to_string(cv::getTickCount()) + ".yml");
-    auto write = [&](int verified, double width) {
+    auto write = [&](int verified, double width, int allow_debug = 0) {
         auto file = cv::FileStorage(temp.string(), cv::FileStorage::WRITE);
         file << "calibration_verified" << verified;
+        file << "allow_unverified_pnp" << allow_debug;
         file << "image_width" << config.width << "image_height" << config.height;
         file << "camera_matrix" << cv::Mat(config.matrix);
         file << "distortion_coefficients" << config.distortion;
@@ -85,6 +86,21 @@ void calibration_and_pose_tests() {
     write(0, config.armor_width_m);
     require(Calibration::load(temp.string()).reason == "calibration_unverified",
         "unverified calibration accepted");
+    write(0, config.armor_width_m, 1);
+    const auto debug = Calibration::load(temp.string());
+    require(debug.enabled() && !debug.verified && debug.reason == "debug_unverified",
+        "explicit debug calibration must stay unverified");
+    const auto debug_armor = projected_armor(debug, {960, 720}, {0.1, -0.05, 2.5});
+    auto debug_pipeline = GeometryPipeline { debug, {} };
+    const auto debug_result = debug_pipeline.process({debug_armor}, {960, 720}, 0.0);
+    require(debug_result.reason == "debug_unverified" && debug_result.poses.size() == 1
+        && cv::norm(debug_result.poses[0].position_m - cv::Vec3d{0.1, -0.05, 2.5}) < .001,
+        "debug PnP failed or lost the unverified marker");
+    write(0, 0.0, 1);
+    auto debug_rejected = false;
+    try { (void)Calibration::load(temp.string()); }
+    catch (const std::invalid_argument&) { debug_rejected = true; }
+    require(debug_rejected, "debug mode bypassed physical dimension validation");
     write(1, config.armor_width_m);
     require(Calibration::load(temp.string()).verified, "valid calibration rejected");
     write(1, 0.0);
