@@ -1,0 +1,26 @@
+{
+  "id": "2m-after-sampling-view",
+  "image": "images/2m-after-sampling-view.jpg",
+  "kind": "annotated_preview",
+  "sha256": "dcfe16c5371675122230114cc627eb67fc682d218a7ea6f189e918c5731105eb",
+  "raw_image_size": null,
+  "source_location": "RDK:/home/sunrise/rdk_pnp_checks/2m-20261102-184551/view-after-sampling.jpg",
+  "related_measurement_group": "2m",
+  "approximate_scene_distance_m": 2.0,
+  "same_frame_historical_status_available": false,
+  "provenance_note": "2.00米组采样后读取的可视化画面；不是逐次采样对应原图。",
+  "offline_replay": null,
+  "measurement_group_context": {
+    "group": "2m",
+    "reference_distance_m": 2.0,
+    "reference_uncertainty_m": 0.01,
+    "mean_distance_m": 1.993074268,
+    "sample_count": 50,
+    "valid_pose_samples": 50,
+    "note": "Group context only; not a synchronized value for this photo."
+  },
+  "historical_per_photo_pose": null,
+  "calibration_file": "../replay/pose_camera.yml",
+  "detector_parameters_file": "../replay/blue_vision_ros.yaml",
+  "coordinate_convention": "OpenCV optical frame: X right, Y down, Z forward; m. Corners TL,TR,BR,BL at processing resolution."
+}

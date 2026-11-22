@@ -13,6 +13,8 @@ main 对应“相机接 RDK，电脑看浏览器”。电脑直连海康相机�
 
 启动见[红色识别与切换](docs/red-armor.md)，实现与验证见[灯条几何优化](docs/armor-geometry.md)，测距阶段见[项目进度](docs/blue-armor-progress.md)。
 
+2026-11-22补充：[13张蓝色装甲板照片与逐张数值](docs/measurements/2026-11-static/photos/README.md)，含10张原图的当前C++ ROS 2离线PnP及3张可视化截图的关联测量组统计；[RDK同步核对记录](docs/rdk-sync-20261122.md)说明板端源码与发布版本的对应。此次未添加棋盘照片。
+
 ## 1. 当前能做什么
 
 | 功能 | 状态 |

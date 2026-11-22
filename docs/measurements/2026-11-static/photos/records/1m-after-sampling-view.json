@@ -1,0 +1,26 @@
+{
+  "id": "1m-after-sampling-view",
+  "image": "images/1m-after-sampling-view.jpg",
+  "kind": "annotated_preview",
+  "sha256": "d28774011e01bfd87eabbdab5f182e5464e9f5321068c721295d10737f485013",
+  "raw_image_size": null,
+  "source_location": "RDK:/home/sunrise/rdk_pnp_checks/first-group-20261101/live-H59-ref100cm/view.jpg",
+  "related_measurement_group": "1m",
+  "approximate_scene_distance_m": 1.0,
+  "same_frame_historical_status_available": false,
+  "provenance_note": "最终H59、1.00米组采样后可视化画面；带绘图，不作为原始检测或PnP输入。",
+  "offline_replay": null,
+  "measurement_group_context": {
+    "group": "1m",
+    "reference_distance_m": 1.0,
+    "reference_uncertainty_m": 0.01,
+    "mean_distance_m": 1.0019883356200001,
+    "sample_count": 50,
+    "valid_pose_samples": 50,
+    "note": "Group context only; not a synchronized value for this photo."
+  },
+  "historical_per_photo_pose": null,
+  "calibration_file": "../replay/pose_camera.yml",
+  "detector_parameters_file": "../replay/blue_vision_ros.yaml",
+  "coordinate_convention": "OpenCV optical frame: X right, Y down, Z forward; m. Corners TL,TR,BR,BL at processing resolution."
+}

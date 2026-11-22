@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "color": "blue",
+  "photos": [
+    {
+      "id": "near-1m-diagnostic-01",
+      "image": "images/near-1m-diagnostic-01.png",
+      "kind": "raw",
+      "sha256": "e304bf6c31edebc6e8d46a9bf856f3bd9164033410c6abf1f91398b631b78f43",
+      "raw_image_size": [
+        1440,
+        1080
+      ],
+      "source_location": "RDK:/home/sunrise/rdk_pnp_checks/stationary-20261101-181849/raw-1.png",
+      "related_measurement_group": null,
+      "approximate_scene_distance_m": 1.0,
+      "same_frame_historical_status_available": false,
+      "provenance_note": "约1米附近早期静止诊断原图；在最终1.00米H59测量组之前，不套用最终组参考或均值。"
+    },
+    {
+      "id": "near-1m-diagnostic-02",
+      "image": "images/near-1m-diagnostic-02.png",
+      "kind": "raw",
+      "sha256": "a44225e7de1fefc1aed78383fa7dc69c56e63b0272fd2fd6c8e038eb228c91a4",
+      "raw_image_size": [
+        1440,
+        1080
+      ],
+      "source_location": "RDK:/home/sunrise/rdk_pnp_checks/stationary-20261101-181849/raw-2.png",
+      "related_measurement_group": null,
+      "approximate_scene_distance_m": 1.0,
+      "same_frame_historical_status_available": false,
+      "provenance_note": "约1米附近早期静止诊断原图；在最终1.00米H59测量组之前，不套用最终组参考或均值。"
+    },
+    {
+      "id": "near-1m-diagnostic-03",
+      "image": "images/near-1m-diagnostic-03.png",
+      "kind": "raw",
+      "sha256": "ebfe3be8f998c22fa02478c85c156af9bf89917ec7a3f7c3e56a56d5a196e1d5",
+      "raw_image_size": [
+        1440,
+        1080
+      ],
+      "source_location": "RDK:/home/sunrise/rdk_pnp_checks/stationary-20261101-181849/raw-3.png",
+      "related_measurement_group": null,
+      "approximate_scene_distance_m": 1.0,
+      "same_frame_historical_status_available": false,
+      "provenance_note": "约1米附近早期静止诊断原图；在最终1.00米H59测量组之前，不套用最终组参考或均值。"
+    },
+    {
+      "id": "near-1m-diagnostic-04",
+      "image": "images/near-1m-diagnostic-04.png",
+      "kind": "raw",
+      "sha256": "b3017e1e1c6fc1e384ca63c6f835ccd702f635e2ec7c903f151d1344252826ee",
+      "raw_image_size": [
+        1440,
+        1080
+      ],
+      "source_location": "RDK:/home/sunrise/rdk_pnp_checks/stationary-20261101-181849/raw-4.png",
+      "related_measurement_group": null,
+      "approximate_scene_distance_m": 1.0,
+      "same_frame_historical_status_available": false,
+      "provenance_note": "约1米附近早期静止诊断原图；在最终1.00米H59测量组之前，不套用最终组参考或均值。"
+    },
+    {
+      "id": "near-1m-diagnostic-05",
+      "image": "images/near-1m-diagnostic-05.png",
+      "kind": "raw",
+      "sha256": "91936d9ec378c1563763e3a28da94313c2027e0cb8e4a541a45d2cda39cba44c",
+      "raw_image_size": [
+        1440,
+        1080
+      ],
+      "source_location": "RDK:/home/sunrise/rdk_pnp_checks/stationary-20261101-181849/raw-5.png",
+      "related_measurement_group": null,
+      "approximate_scene_distance_m": 1.0,
+      "same_frame_historical_status_available": false,
+      "provenance_note": "约1米附近早期静止诊断原图；在最终1.00米H59测量组之前，不套用最终组参考或均值。"
+    },
+    {
+      "id": "near-1p5m-diagnostic",
+      "image": "images/near-1p5m-diagnostic.png",
+      "kind": "raw",
+      "sha256": "20f7c8d1ec91aaa7658cd024ffc3a998d72f54f15149178c78267a085f182721",
+      "raw_image_size": [
+        1440,
+        1080
+      ],
+      "source_location": "RDK:/home/sunrise/rdk_pnp_checks/second-group-20261101/raw-150cm.png",
+      "related_measurement_group": "1p5m",
+      "approximate_scene_distance_m": 1.5,
+      "same_frame_historical_status_available": false,
+      "provenance_note": "1.5米场景的像素过滤诊断原图；关联组仅作背景，未保留该帧同步状态。"
+    },
+    {
+      "id": "near-3m-diagnostic-00",
+      "image": "images/near-3m-diagnostic-00.png",
+      "kind": "raw",
+      "sha256": "4ee78a298732e050f1b4d069faef118dddc00ada802e014ac6b77d433711e21f",
+      "raw_image_size": [
+        1440,
+        1080
+      ],
+      "source_location": "RDK:/home/sunrise/rdk_pnp_checks/20261102-172308-3m-diagnosis/raw-0.png",
+      "related_measurement_group": null,
+      "approximate_scene_distance_m": 3.0,
+      "same_frame_historical_status_available": false,
+      "provenance_note": "约3米检测排查原图，拍摄过程中位置曾变化；不是后续3.10米侧面参考组的同步原图。"
+    },
+    {
+      "id": "near-3m-diagnostic-01",
+      "image": "images/near-3m-diagnostic-01.png",
+      "kind": "raw",
+      "sha256": "a07d736bb18e7edb1794be481ba981eb89160721123b075091879a81e77083d1",
+      "raw_image_size": [
+        1440,
+        1080
+      ],
+      "source_location": "RDK:/home/sunrise/rdk_pnp_checks/20261102-172308-3m-diagnosis/raw-1.png",
+      "related_measurement_group": null,
+      "approximate_scene_distance_m": 3.0,
+      "same_frame_historical_status_available": false,
+      "provenance_note": "约3米检测排查原图，拍摄过程中位置曾变化；不是后续3.10米侧面参考组的同步原图。"
+    },
+    {
+      "id": "near-3m-diagnostic-02",
+      "image": "images/near-3m-diagnostic-02.png",
+      "kind": "raw",
+      "sha256": "82a050aa687b8912eba6c22ea867f9d26a64ab0b5727f9cc4e7b98393d6c5c57",
+      "raw_image_size": [
+        1440,
+        1080
+      ],
+      "source_location": "RDK:/home/sunrise/rdk_pnp_checks/20261102-172308-3m-diagnosis/raw-2.png",
+      "related_measurement_group": null,
+      "approximate_scene_distance_m": 3.0,
+      "same_frame_historical_status_available": false,
+      "provenance_note": "约3米检测排查原图，拍摄过程中位置曾变化；不是后续3.10米侧面参考组的同步原图。"
+    },
+    {
+      "id": "2p5m-after-sampling-raw",
+      "image": "images/2p5m-after-sampling-raw.png",
+      "kind": "raw",
+      "sha256": "9b7ae575e71a6220576596ccaf8c9f052679d84645074c8f80216ee0bbcb58eb",
+      "raw_image_size": [
+        1440,
+        1080
+      ],
+      "source_location": "RDK:/home/sunrise/rdk_pnp_checks/2p5m-20261102-185215/raw-after-sampling.png",
+      "related_measurement_group": "2p5m",
+      "approximate_scene_distance_m": 2.5,
+      "same_frame_historical_status_available": false,
+      "provenance_note": "50次采样窗口结束后单独保存的原图；不是50次读数各自的输入帧。"
+    },
+    {
+      "id": "1m-after-sampling-view",
+      "image": "images/1m-after-sampling-view.jpg",
+      "kind": "annotated_preview",
+      "sha256": "d28774011e01bfd87eabbdab5f182e5464e9f5321068c721295d10737f485013",
+      "raw_image_size": null,
+      "source_location": "RDK:/home/sunrise/rdk_pnp_checks/first-group-20261101/live-H59-ref100cm/view.jpg",
+      "related_measurement_group": "1m",
+      "approximate_scene_distance_m": 1.0,
+      "same_frame_historical_status_available": false,
+      "provenance_note": "最终H59、1.00米组采样后可视化画面；带绘图，不作为原始检测或PnP输入。"
+    },
+    {
+      "id": "2m-after-sampling-view",
+      "image": "images/2m-after-sampling-view.jpg",
+      "kind": "annotated_preview",
+      "sha256": "dcfe16c5371675122230114cc627eb67fc682d218a7ea6f189e918c5731105eb",
+      "raw_image_size": null,
+      "source_location": "RDK:/home/sunrise/rdk_pnp_checks/2m-20261102-184551/view-after-sampling.jpg",
+      "related_measurement_group": "2m",
+      "approximate_scene_distance_m": 2.0,
+      "same_frame_historical_status_available": false,
+      "provenance_note": "2.00米组采样后读取的可视化画面；不是逐次采样对应原图。"
+    },
+    {
+      "id": "2p5m-after-sampling-view",
+      "image": "images/2p5m-after-sampling-view.jpg",
+      "kind": "annotated_preview",
+      "sha256": "e6668517d2769e8e51d3b048cb2d50066b336edffc0a8a41fc09d485a452ac6f",
+      "raw_image_size": null,
+      "source_location": "RDK:/home/sunrise/rdk_pnp_checks/2p5m-20261102-185215/view-after-sampling.jpg",
+      "related_measurement_group": "2p5m",
+      "approximate_scene_distance_m": 2.5,
+      "same_frame_historical_status_available": false,
+      "provenance_note": "2.50米组采样后可视化画面；带绘图，不作为原始检测或PnP输入。"
+    }
+  ],
+  "same_frame_status_policy": "No retained photo is asserted to be synchronized with a historical HTTP sample; per-raw-image outputs are new offline replays."
+}

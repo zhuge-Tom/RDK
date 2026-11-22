@@ -19,3 +19,7 @@ config/pose_camera.yml
 config/pose_camera.measured*.yml
 config/pose_camera.measured*.report.json
 calibration/
+
+# Reviewed blue-armor static photos, explicitly published with provenance
+!docs/measurements/2026-11-static/photos/images/*.png
+!docs/measurements/2026-11-static/photos/images/*.jpg

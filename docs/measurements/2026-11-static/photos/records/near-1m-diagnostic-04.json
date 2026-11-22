@@ -1,0 +1,143 @@
+{
+  "id": "near-1m-diagnostic-04",
+  "image": "images/near-1m-diagnostic-04.png",
+  "kind": "raw",
+  "sha256": "b3017e1e1c6fc1e384ca63c6f835ccd702f635e2ec7c903f151d1344252826ee",
+  "raw_image_size": [
+    1440,
+    1080
+  ],
+  "source_location": "RDK:/home/sunrise/rdk_pnp_checks/stationary-20261101-181849/raw-4.png",
+  "related_measurement_group": null,
+  "approximate_scene_distance_m": 1.0,
+  "same_frame_historical_status_available": false,
+  "provenance_note": "约1米附近早期静止诊断原图；在最终1.00米H59测量组之前，不套用最终组参考或均值。",
+  "offline_replay": {
+    "photo_id": "near-1m-diagnostic-04",
+    "image_sha256": "b3017e1e1c6fc1e384ca63c6f835ccd702f635e2ec7c903f151d1344252826ee",
+    "result_type": "new_offline_cpp_ros_replay",
+    "historical_synchronized_measurement": false,
+    "status": {
+      "mode": "blue",
+      "red_armors": 0,
+      "blue_armors": 1,
+      "width": 960,
+      "height": 720,
+      "detected": true,
+      "armors": 1,
+      "corners": [
+        [
+          375,
+          224
+        ],
+        [
+          579.8370361,
+          223.0209656
+        ],
+        [
+          578.1380615,
+          290.9784851
+        ],
+        [
+          375,
+          292
+        ]
+      ],
+      "colors": [
+        "blue"
+      ],
+      "detect_fps": 0,
+      "detection_diagnostics": {
+        "contours": 2,
+        "fragment_merges": 0,
+        "fragment_limit_dropped": 0,
+        "lightbars": 2,
+        "rejected_small": 0,
+        "rejected_large": 0,
+        "rejected_shape": 0,
+        "rejected_tilt": 0,
+        "rejected_color": 0,
+        "rejected_border": 0,
+        "rejected_pair_angle": 0,
+        "rejected_pair_alignment": 0,
+        "rejected_pair_geometry": 0,
+        "armors": 1
+      },
+      "geometry": {
+        "frame": "camera_optical",
+        "units": "meters",
+        "reason": "debug_unverified",
+        "timestamp_seconds": 1793441953,
+        "prediction_horizon_ms": 100,
+        "poses": [
+          {
+            "detection_index": 0,
+            "position_m": [
+              -0.008290090498,
+              -0.07337460421,
+              1.014451525
+            ],
+            "rotation_vector": [
+              0.821765001,
+              -0.02616864891,
+              0.004873781329
+            ],
+            "distance_m": 1.017135416,
+            "reprojection_error_px": 1.73360041
+          }
+        ],
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": false,
+            "observation_age_seconds": 0,
+            "position_m": [
+              -0.008290090498,
+              -0.07337460421,
+              1.014451525
+            ],
+            "velocity_m_s": [
+              0,
+              0,
+              0
+            ],
+            "predicted_position_m": null
+          }
+        ]
+      },
+      "image_tracking": {
+        "frame": "image",
+        "units": "pixels",
+        "prediction_horizon_ms": 100,
+        "tracks": [
+          {
+            "id": 1,
+            "detection_index": 0,
+            "observed": true,
+            "confirmed": false,
+            "observation_age_seconds": 0,
+            "center_px": [
+              476.9937744,
+              257.4998627
+            ],
+            "velocity_px_s": [
+              0,
+              0
+            ],
+            "predicted_center_px": null
+          }
+        ]
+      },
+      "runtime": "ros2",
+      "capture_to_encode_ms": 35.00275,
+      "detection_ms": 8.9661
+    }
+  },
+  "measurement_group_context": null,
+  "historical_per_photo_pose": null,
+  "calibration_file": "../replay/pose_camera.yml",
+  "detector_parameters_file": "../replay/blue_vision_ros.yaml",
+  "coordinate_convention": "OpenCV optical frame: X right, Y down, Z forward; m. Corners TL,TR,BR,BL at processing resolution."
+}

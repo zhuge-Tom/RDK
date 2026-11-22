@@ -17,6 +17,6 @@
 
 每组`blue_vision_ros.yaml`是当时检测配置；早期与后期像素门槛有调整。相机内参与W130/H59保持同一候选，见[设备快照](../../../config/pose_camera.rdk-hikrobot-debug.yml)。`samples.json`中的metadata是按用户最终澄清更正过的参考信息，`samples`与`raw_status`中的实测PnP数值保持原样。
 
-`2p5m/offline-height-replay.json`只重算保存角点；`offline-width-sensitivity.json`是假设参数扰动，不是新实时采样、实测尺寸或不确定度区间。原始场景照片、SDK、编译产物未放入本次数值记录。
+`2p5m/offline-height-replay.json`只重算保存角点；`offline-width-sensitivity.json`是假设参数扰动，不是新实时采样、实测尺寸或不确定度区间。2026-11-22补充了[蓝色装甲板照片与逐张数值](photos/README.md)：10张原图、3张采样后截图，分别标明离线重算值和相关整组统计；不补造照片与历史采样的同步对应关系。SDK和编译产物仍由设备本地安装。
 
 更多解释见[当前进度](../../blue-armor-progress.md)。
